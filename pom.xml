@@ -9,7 +9,7 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <name>jpa-sample-tmall</name>
+  <name>jpa-sample-tmall-kotlin</name>
   <url>https://dayatang.github.io/jpa-sample-tmall</url>
   <modules>
     <module>tmall-domain</module>
