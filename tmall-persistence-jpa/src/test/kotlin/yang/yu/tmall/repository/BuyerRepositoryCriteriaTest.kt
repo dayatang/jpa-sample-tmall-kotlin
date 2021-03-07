@@ -20,61 +20,61 @@ internal class BuyerRepositoryCriteriaTest : BaseIntegrationTest() {
 
     @AfterEach
     fun afterEach() {
-        buyers!!.findAll()!!.forEach(Consumer { buyer: Buyer? -> buyers!!.delete(buyer) })
+        buyers.findAll().forEach(Consumer { buyers.delete(it) })
     }
 
     @Test
     fun findById() {
-        assertThat(buyers!!.getById(buyer1!!.id)).containsSame(buyer1)
-        assertThat(buyers!!.getById(buyer2!!.id)).containsSame(buyer2)
+        assertThat(buyers.getById(buyer1.id)).containsSame(buyer1)
+        assertThat(buyers.getById(buyer2.id)).containsSame(buyer2)
     }
 
     @Test
     fun findByName() {
-        assertThat(buyers!!.getByName(buyer1Name)).containsSame(buyer1)
-        assertThat(buyers!!.getByName(buyer2Name)).containsSame(buyer2)
+        assertThat(buyers.getByName(buyer1Name)).containsSame(buyer1)
+        assertThat(buyers.getByName(buyer2Name)).containsSame(buyer2)
     }
 
     @Test
     fun findByNameStartsWith() {
-        assertThat(buyers!!.findByNameStartsWith("华"))
+        assertThat(buyers.findByNameStartsWith("华"))
             .contains(buyer2)
             .doesNotContain(buyer1)
-        assertThat(buyers!!.findByNameStartsWith("三"))
+        assertThat(buyers.findByNameStartsWith("三"))
             .isEmpty()
     }
 
     @Test
     fun findByNameContains() {
-        assertThat(buyers!!.findByNameContains("三"))
+        assertThat(buyers.findByNameContains("三"))
             .contains(buyer1)
             .doesNotContain(buyer2)
     }
 
     @Test
     fun findAll() {
-        assertThat(buyers!!.findAll()).contains(buyer1, buyer2)
+        assertThat(buyers.findAll()).contains(buyer1, buyer2)
     }
 
     @Test
     fun delete() {
-        buyers!!.delete(buyer1)
-        assertThat(buyers!!.findAll()).contains(buyer2).doesNotContain(buyer1)
+        buyers.delete(buyer1)
+        assertThat(buyers.findAll()).contains(buyer2).doesNotContain(buyer1)
     }
 
     @Test
     fun update() {
-        buyer1!!.name = "李四"
-        buyers!!.save(buyer1)
-        assertThat(buyers!!.getById(buyer1!!.id)!!.map<String>(Buyer::name)).containsSame("李四")
-        assertThat(buyers!!.getById(buyer2!!.id)!!.map<String>(Buyer::name)).containsSame(buyer2Name)
+        buyer1.name = "李四"
+        buyers.save(buyer1)
+        assertThat(buyers.getById(buyer1.id).map<String>(Buyer::name)).containsSame("李四")
+        assertThat(buyers.getById(buyer2.id).map<String>(Buyer::name)).containsSame(buyer2Name)
     }
 
     @Test
     fun findPersonalBuyerByQQ() {
-        buyer1!!.setImInfo(ImType.QQ, "34567")
-        buyers!!.save(buyer1)
-        assertThat(buyers!!.findPersonalBuyerByQQ("34567")).containsSame(buyer1)
+        buyer1.setImInfo(ImType.QQ, "34567")
+        buyers.save(buyer1)
+        assertThat(buyers.findPersonalBuyerByQQ("34567")).containsSame(buyer1)
     }
 
     companion object {

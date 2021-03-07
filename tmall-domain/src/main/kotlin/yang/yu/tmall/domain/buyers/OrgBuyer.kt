@@ -4,7 +4,7 @@ import javax.persistence.*
 
 @Entity
 @DiscriminatorValue("O")
-class OrgBuyer : Buyer {
+open class OrgBuyer : Buyer {
     @Column(name = "business_license_no")
     var businessLicenseNo: String? = null
     var taxNo: String? = null

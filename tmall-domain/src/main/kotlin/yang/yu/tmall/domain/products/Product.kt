@@ -8,7 +8,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "products")
-class Product : BaseEntity {
+open class Product : BaseEntity {
     var name: String? = null
 
     @ManyToOne

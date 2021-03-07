@@ -9,7 +9,7 @@ import javax.persistence.Embeddable
  * 金额值对象。只保留两位小数
  */
 @Embeddable
-class Money {
+open class Money {
     /**
      * 获取金额值，以BigDecimal形式表示
      * @return 金额值

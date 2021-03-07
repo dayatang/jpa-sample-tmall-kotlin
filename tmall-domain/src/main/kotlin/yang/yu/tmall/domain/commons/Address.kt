@@ -8,7 +8,7 @@ import javax.persistence.Embeddable
  * 地址值对象
  */
 @Embeddable
-class Address {
+open class Address {
     var province: String? = null
     var city: String? = null
     var detail: String? = null

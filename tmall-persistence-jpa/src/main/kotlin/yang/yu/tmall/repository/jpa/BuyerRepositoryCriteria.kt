@@ -15,21 +15,21 @@ class BuyerRepositoryCriteria(private val entityManager: EntityManager) : Buyers
         return entityManager.merge(buyer)
     }
 
-    override fun delete(buyer: Buyer?) {
+    override fun delete(buyer: Buyer) {
         entityManager.remove(buyer)
     }
 
-    override fun findAll(): List<Buyer?>? {
-        val query = createCriteriaQuery<Buyer?>(Buyer::class.java)
+    override fun findAll(): List<Buyer> {
+        val query = createCriteriaQuery(Buyer::class.java)
         return entityManager.createQuery(query.select(query.from(Buyer::class.java))).resultList
     }
 
-    override fun getById(id: Int): Optional<Buyer?>? {
+    override fun getById(id: Int): Optional<Buyer> {
         return Optional.ofNullable(entityManager.find(Buyer::class.java, id))
     }
 
-    override fun getByName(name: String?): Optional<Buyer?>? {
-        val query = createCriteriaQuery<Buyer?>(Buyer::class.java)
+    override fun getByName(name: String): Optional<Buyer> {
+        val query = createCriteriaQuery(Buyer::class.java)
         val root = query.from(Buyer::class.java)
         val predicate = criteriaBuilder.equal(root.get<Any>("name"), name)
         return entityManager
@@ -38,8 +38,8 @@ class BuyerRepositoryCriteria(private val entityManager: EntityManager) : Buyers
             .findAny()
     }
 
-    override fun findByNameStartsWith(nameFragment: String?): Stream<Buyer?>? {
-        val query = createCriteriaQuery<Buyer?>(Buyer::class.java)
+    override fun findByNameStartsWith(nameFragment: String): Stream<Buyer> {
+        val query = createCriteriaQuery(Buyer::class.java)
         val root = query.from(Buyer::class.java)
         val predicate = criteriaBuilder.like(root.get("name"), "$nameFragment%")
         return entityManager
@@ -47,8 +47,8 @@ class BuyerRepositoryCriteria(private val entityManager: EntityManager) : Buyers
             .resultStream
     }
 
-    override fun findByNameContains(nameFragment: String?): Stream<Buyer?>? {
-        val query = createCriteriaQuery<Buyer?>(Buyer::class.java)
+    override fun findByNameContains(nameFragment: String): Stream<Buyer> {
+        val query = createCriteriaQuery(Buyer::class.java)
         val root = query.from(Buyer::class.java)
         val predicate = criteriaBuilder.like(root.get("name"), "%$nameFragment%")
         return entityManager
@@ -56,7 +56,7 @@ class BuyerRepositoryCriteria(private val entityManager: EntityManager) : Buyers
             .resultStream
     }
 
-    override fun findPersonalBuyerByQQ(qq: String?): Optional<PersonalBuyer?>? {
+    override fun findPersonalBuyerByQQ(qq: String): Optional<PersonalBuyer> {
         val jpql = "select o from PersonalBuyer o join o.imInfos i where KEY(i) = :key and VALUE(i) = :value"
         return entityManager.createQuery(jpql, PersonalBuyer::class.java)
             .setParameter("key", ImType.QQ)

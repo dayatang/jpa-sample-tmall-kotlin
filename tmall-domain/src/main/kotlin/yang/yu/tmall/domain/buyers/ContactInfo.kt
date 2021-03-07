@@ -5,7 +5,7 @@ import javax.persistence.EnumType
 import javax.persistence.Enumerated
 
 @Embeddable
-class ContactInfo {
+open class ContactInfo {
     var name: String? = null
 
     @Enumerated(EnumType.STRING)

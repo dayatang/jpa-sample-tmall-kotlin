@@ -11,8 +11,8 @@ import javax.persistence.EntityTransaction
 import javax.persistence.Persistence
 
 abstract class BaseIntegrationTest : WithAssertions {
-    protected var entityManager: EntityManager? = null
-    private var transaction: EntityTransaction? = null
+    protected lateinit var entityManager: EntityManager
+    private lateinit var transaction: EntityTransaction
     @BeforeEach
     fun BeforeEachTest() {
         entityManager = emf!!.createEntityManager()
@@ -23,20 +23,17 @@ abstract class BaseIntegrationTest : WithAssertions {
 
     @AfterEach
     fun afterEachTest() {
-        transaction!!.rollback()
-        entityManager!!.clear()
+        transaction.rollback()
+        entityManager.clear()
     }
 
     companion object {
-        private var emf: EntityManagerFactory? = null
-        @BeforeAll
-        fun beforeAllTest() {
-            emf = Persistence.createEntityManagerFactory("default")
+        private var emf = Persistence.createEntityManagerFactory("default")
         }
 
         @AfterAll
         fun afterAllTest() {
-            emf!!.close()
+            emf.close()
         }
     }
 }

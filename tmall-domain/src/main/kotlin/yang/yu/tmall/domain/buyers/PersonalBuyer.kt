@@ -5,7 +5,7 @@ import javax.persistence.*
 
 @Entity
 @DiscriminatorValue("P")
-class PersonalBuyer : Buyer {
+open class PersonalBuyer : Buyer {
     @Enumerated(EnumType.STRING)
     var gender: Gender? = null
 

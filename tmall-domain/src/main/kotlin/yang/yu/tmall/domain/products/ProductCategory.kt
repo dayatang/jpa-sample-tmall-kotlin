@@ -9,7 +9,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "product_categories")
-class ProductCategory : BaseEntity {
+open class ProductCategory : BaseEntity {
     var name: String? = null
 
     @ManyToOne

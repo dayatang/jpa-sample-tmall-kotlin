@@ -9,23 +9,23 @@ import java.util.stream.Stream
 import javax.persistence.EntityManager
 
 class BuyerRepositoryJpql(private val entityManager: EntityManager) : Buyers {
-    override fun <T : Buyer?> save(buyer: T): T {
+    override fun <T : Buyer> save(buyer: T): T {
         return entityManager.merge(buyer)
     }
 
-    override fun delete(buyer: Buyer?) {
+    override fun delete(buyer: Buyer) {
         entityManager.remove(buyer)
     }
 
-    override fun findAll(): List<Buyer?>? {
-        return entityManager.createQuery("select o from Buyer o").resultList
+    override fun findAll(): List<Buyer> {
+        return entityManager.createQuery("select o from Buyer o", Buyer::class.java).resultList
     }
 
-    override fun getById(id: Int): Optional<Buyer?>? {
+    override fun getById(id: Int): Optional<Buyer> {
         return Optional.ofNullable(entityManager.find(Buyer::class.java, id))
     }
 
-    override fun getByName(name: String?): Optional<Buyer?>? {
+    override fun getByName(name: String): Optional<Buyer> {
         return entityManager
             .createQuery("select o from Buyer o where o.name = :name", Buyer::class.java)
             .setParameter("name", name)
@@ -33,21 +33,21 @@ class BuyerRepositoryJpql(private val entityManager: EntityManager) : Buyers {
             .findAny()
     }
 
-    override fun findByNameStartsWith(nameFragment: String?): Stream<Buyer?>? {
+    override fun findByNameStartsWith(nameFragment: String): Stream<Buyer> {
         return entityManager
             .createQuery("select o from Buyer o where o.name Like :name", Buyer::class.java)
             .setParameter("name", "$nameFragment%")
             .resultStream
     }
 
-    override fun findByNameContains(nameFragment: String?): Stream<Buyer?>? {
+    override fun findByNameContains(nameFragment: String): Stream<Buyer> {
         return entityManager
             .createQuery("select o from Buyer o where o.name Like :name", Buyer::class.java)
             .setParameter("name", "%$nameFragment%")
             .resultStream
     }
 
-    override fun findPersonalBuyerByQQ(qq: String?): Optional<PersonalBuyer?>? {
+    override fun findPersonalBuyerByQQ(qq: String): Optional<PersonalBuyer> {
         val jpql = "select o from PersonalBuyer o join o.imInfos i where KEY(i) = :key and VALUE(i) = :value"
         return entityManager.createQuery(jpql, PersonalBuyer::class.java)
             .setParameter("key", ImType.QQ)

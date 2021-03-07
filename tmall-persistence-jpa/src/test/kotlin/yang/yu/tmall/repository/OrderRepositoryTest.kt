@@ -17,29 +17,29 @@ import javax.transaction.Transactional
 
 @Transactional
 class OrderRepositoryTest : BaseIntegrationTest() {
-    private var orders: Orders? = null
-    private var order1: Order? = null
-    private var order2: Order? = null
-    private var order3: Order? = null
-    private var lineItem1: OrderLine? = null
-    private var lineItem2: OrderLine? = null
-    private var lineItem3: OrderLine? = null
-    private var lineItem4: OrderLine? = null
-    private var product1: Product? = null
-    private var product2: Product? = null
-    private var buyer1: PersonalBuyer? = null
-    private var buyer2: OrgBuyer? = null
+    private lateinit var orders: Orders
+    private lateinit var order1: Order
+    private lateinit var order2: Order
+    private lateinit var order3: Order
+    private lateinit var lineItem1: OrderLine
+    private lateinit var lineItem2: OrderLine
+    private lateinit var lineItem3: OrderLine
+    private lateinit var lineItem4: OrderLine
+    private lateinit var product1: Product
+    private lateinit var product2: Product
+    private lateinit var buyer1: PersonalBuyer
+    private lateinit var buyer2: OrgBuyer
     @BeforeEach
     fun beforeEach() {
         orders = OrderRepository(entityManager!!)
-        product1 = entityManager!!.merge(Product("电冰箱", null))
-        product2 = entityManager!!.merge(Product("电视机", null))
-        buyer1 = entityManager!!.merge(PersonalBuyer("张三"))
-        buyer2 = entityManager!!.merge(OrgBuyer("华为公司"))
-        lineItem1 = OrderLine(product1, 3, valueOf(3500))
-        lineItem2 = OrderLine(product1, 5, valueOf(3500))
-        lineItem3 = OrderLine(product2, 3, valueOf(8500))
-        lineItem4 = OrderLine(product2, 2, valueOf(8500))
+        product1 = entityManager.merge(Product("电冰箱", null))
+        product2 = entityManager.merge(Product("电视机", null))
+        buyer1 = entityManager.merge(PersonalBuyer("张三"))
+        buyer2 = entityManager.merge(OrgBuyer("华为公司"))
+        lineItem1 = OrderLine(product1, 3.0, valueOf(3500))
+        lineItem2 = OrderLine(product1, 5.0, valueOf(3500))
+        lineItem3 = OrderLine(product2, 3.0, valueOf(8500))
+        lineItem4 = OrderLine(product2, 2.0, valueOf(8500))
         order1 = createOrder("order1", buyer1, lineItem1!!, lineItem3!!)
         order2 = createOrder("order2", buyer1, lineItem2!!)
         order3 = createOrder("order3", buyer2, lineItem2!!, lineItem3!!)
@@ -50,15 +50,15 @@ class OrderRepositoryTest : BaseIntegrationTest() {
         order.orderNo = orderNo
         order.buyer = buyer
         Arrays.stream(orderLines).forEach { lineItem: OrderLine? -> order.addLineItem(lineItem) }
-        return entityManager!!.merge(order)
+        return entityManager.merge(order)
     }
 
     @AfterEach
     fun afterEach() {
         Arrays.asList(order1, order2, order3)
-            .forEach(Consumer { order: Order? -> orders!!.delete(order) })
+            .forEach(Consumer { orders.delete(it) })
         Arrays.asList(product1, product2, buyer1, buyer2)
-            .forEach(Consumer { o: BaseEntity? -> entityManager!!.remove(o) })
+            .forEach(Consumer { o: BaseEntity? -> entityManager.remove(o) })
     }
 
     @get:Test
@@ -66,7 +66,7 @@ class OrderRepositoryTest : BaseIntegrationTest() {
         get() {
             Arrays.asList(order1, order2).forEach(Consumer { order: Order ->
                 assertThat(
-                    orders!!.getById(order.id)
+                    orders.getById(order.id)
                 ).containsSame(order)
             })
         }
@@ -76,26 +76,26 @@ class OrderRepositoryTest : BaseIntegrationTest() {
         get() {
             Arrays.asList(order1, order2).forEach(Consumer { order: Order ->
                 assertThat(
-                    orders!!.getByOrderNo(order.orderNo)
+                    orders.getByOrderNo(order.orderNo!!)
                 ).containsSame(order)
             })
         }
 
     @Test
     fun findByBuyer() {
-        assertThat(orders!!.findByBuyer(buyer1)).hasSize(2).allMatch { order: Order -> order.buyer!!.equals(buyer1) }
+        assertThat(orders.findByBuyer(buyer1)).hasSize(2).allMatch { it.buyer!!.equals(buyer1) }
     }
 
     @Test
     fun findByProduct() {
-        assertThat(orders!!.findByProduct(product2))
+        assertThat(orders.findByProduct(product2))
             .contains(order1)
             .doesNotContain(order2)
     }
 
     @Test
     fun findByOrgBuyers() {
-        assertThat(orders!!.findByOrgBuyers())
+        assertThat(orders.findByOrgBuyers())
             .contains(order3)
             .doesNotContain(order1, order2)
     }
