@@ -5,7 +5,7 @@ package yang.yu.tmall.domain.commons
  */
 object IoC {
     private var provider: InstanceProvider? = null
-    fun setProvider(provider: InstanceProvider?) {
+    fun setProvider(provider: InstanceProvider) {
         IoC.provider = provider
     }
 
@@ -16,7 +16,7 @@ object IoC {
      * @param beanType 实例的类型
      * @return 指定类型的实例。
     </T> */
-    fun <T> getInstance(beanType: Class<T>?): T? {
+    fun <T> getInstance(beanType: Class<T>): T? {
         return provider!!.getInstance(beanType)
     }
 
@@ -30,7 +30,7 @@ object IoC {
      * @param beanType 实例的类型
      * @return 指定类型的实例。
     </T> */
-    fun <T> getInstance(beanType: Class<T>?, beanName: String?): T? {
+    fun <T> getInstance(beanType: Class<T>, beanName: String): T? {
         return provider!!.getInstance(beanType, beanName)
     }
 
@@ -44,7 +44,7 @@ object IoC {
      * @param annotationType 实现类的annotation类型
      * @return 指定类型的实例。
     </T> */
-    fun <T> getInstance(beanType: Class<T>?, annotationType: Class<out Annotation?>?): T? {
+    fun <T> getInstance(beanType: Class<T>, annotationType: Class<out Annotation?>): T? {
         return provider!!.getInstance(beanType, annotationType)
     }
 
@@ -55,7 +55,7 @@ object IoC {
      * @param <T>      类型参数
      * @return 指定类型的实例的集合
     </T> */
-    fun <T> getInstances(beanType: Class<T>?): Set<T?>? {
+    fun <T> getInstances(beanType: Class<T>): Set<T> {
         return provider!!.getInstances(beanType)
     }
 }

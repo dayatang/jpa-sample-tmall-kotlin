@@ -73,7 +73,7 @@ abstract class BaseEntity : Serializable {
      * 生命周期回调方法。在实体每次保存到数据库中前调用
      */
     @PreUpdate
-    fun afterSave() {
+    fun beforeSave() {
         isNew = false
         lastUpdated = LocalDateTime.now()
     }
