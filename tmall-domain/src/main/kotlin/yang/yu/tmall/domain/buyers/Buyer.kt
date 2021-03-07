@@ -1,12 +1,7 @@
 package yang.yu.tmall.domain.buyers
 
-import yang.yu.tmall.domain.commons.BaseEntity
-import yang.yu.tmall.domain.buyers.Buyer
-import yang.yu.tmall.domain.buyers.PersonalBuyer
-import yang.yu.tmall.domain.buyers.ContactInfo
-import yang.yu.tmall.domain.buyers.Gender
-import yang.yu.tmall.domain.buyers.ImType
 import yang.yu.tmall.domain.commons.Address
+import yang.yu.tmall.domain.commons.BaseEntity
 import java.util.*
 import javax.persistence.*
 

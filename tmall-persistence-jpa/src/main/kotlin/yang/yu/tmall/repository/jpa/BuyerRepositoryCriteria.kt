@@ -1,20 +1,17 @@
 package yang.yu.tmall.repository.jpa
 
-import javax.persistence.EntityManager
-import yang.yu.tmall.domain.sales.Orders
 import yang.yu.tmall.domain.buyers.Buyer
-import yang.yu.tmall.domain.products.Product
-import java.time.LocalDateTime
 import yang.yu.tmall.domain.buyers.Buyers
-import yang.yu.tmall.domain.buyers.PersonalBuyer
 import yang.yu.tmall.domain.buyers.ImType
+import yang.yu.tmall.domain.buyers.PersonalBuyer
 import java.util.*
 import java.util.stream.Stream
+import javax.persistence.EntityManager
 import javax.persistence.criteria.CriteriaBuilder
 import javax.persistence.criteria.CriteriaQuery
 
 class BuyerRepositoryCriteria(private val entityManager: EntityManager) : Buyers {
-    override fun <T : Buyer?> save(buyer: T): T {
+    override fun <T : Buyer> save(buyer: T): T {
         return entityManager.merge(buyer)
     }
 

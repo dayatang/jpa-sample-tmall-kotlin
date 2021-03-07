@@ -9,7 +9,7 @@ import javax.persistence.*
  */
 @Entity
 @Table(name = "order_status_transitions")
-class OrderStatusTransition : BaseEntity() {
+open class OrderStatusTransition : BaseEntity() {
     @ManyToOne
     var order: Order? = null
 

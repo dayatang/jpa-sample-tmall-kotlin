@@ -1,16 +1,9 @@
 package yang.yu.tmall.domain.pricing
 
-import yang.yu.tmall.domain.commons.Money.multiply
-import yang.yu.tmall.domain.commons.Money.divide
 import yang.yu.tmall.domain.commons.BaseEntity
-import yang.yu.tmall.domain.products.Product
 import yang.yu.tmall.domain.commons.Money
+import yang.yu.tmall.domain.products.Product
 import java.time.LocalDateTime
-import kotlin.jvm.JvmOverloads
-import yang.yu.tmall.domain.pricing.Pricing
-import yang.yu.tmall.domain.pricing.Pricings
-import yang.yu.tmall.domain.pricing.PricingException
-import java.lang.RuntimeException
 import java.util.*
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -19,7 +12,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "pricings")
-class Pricing : BaseEntity {
+open class Pricing : BaseEntity {
     @ManyToOne
     var product //商品
             : Product? = null

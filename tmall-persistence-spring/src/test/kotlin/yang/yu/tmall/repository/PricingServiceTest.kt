@@ -9,7 +9,6 @@ import yang.yu.tmall.domain.commons.Money
 import java.util.*
 import java.util.function.Consumer
 import javax.transaction.Transactional
-import kotlin.collections.LinkedHashSet
 
 @SpringJUnitConfig(classes = [JpaSpringConfig::class])
 @Transactional

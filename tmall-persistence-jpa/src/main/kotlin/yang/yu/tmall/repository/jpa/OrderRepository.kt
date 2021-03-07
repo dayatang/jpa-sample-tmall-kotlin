@@ -1,17 +1,13 @@
 package yang.yu.tmall.repository.jpa
 
-import javax.persistence.EntityManager
-import yang.yu.tmall.domain.sales.Orders
 import yang.yu.tmall.domain.buyers.Buyer
 import yang.yu.tmall.domain.products.Product
-import java.time.LocalDateTime
-import yang.yu.tmall.domain.buyers.Buyers
-import yang.yu.tmall.domain.buyers.PersonalBuyer
-import yang.yu.tmall.domain.buyers.ImType
 import yang.yu.tmall.domain.sales.Order
+import yang.yu.tmall.domain.sales.Orders
+import java.time.LocalDateTime
 import java.util.*
 import java.util.stream.Stream
-import javax.persistence.criteria.CriteriaBuilder
+import javax.persistence.EntityManager
 
 class OrderRepository(private val entityManager: EntityManager) : Orders {
     override fun getById(id: Int): Optional<Order?>? {

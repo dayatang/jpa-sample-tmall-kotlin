@@ -13,7 +13,7 @@ interface InstanceProvider {
      * @param beanType 实例的类型
      * @return 指定类型的实例。
     </T> */
-    fun <T> getInstance(beanType: Class<T>?): T
+    fun <T> getInstance(beanType: Class<T>): T
 
     /**
      * 根据类型和名称获取对象实例。返回的对象实例所属的类是T或它的实现类或子类。不同的IoC容器用不同的方式解释beanName。
@@ -25,7 +25,7 @@ interface InstanceProvider {
      * @param beanType 实例的类型
      * @return 指定类型的实例。
     </T> */
-    fun <T> getInstance(beanType: Class<T>?, beanName: String?): T
+    fun <T> getInstance(beanType: Class<T>, beanName: String): T
 
     /**
      * 根据类型和Annotation获取对象实例。返回的对象实例所属的类是T或它的实现类或子类。不同的IoC容器用不同的方式解释annotation。
@@ -37,7 +37,7 @@ interface InstanceProvider {
      * @param annotationType 实现类的annotation类型
      * @return 指定类型的实例。
     </T> */
-    fun <T> getInstance(beanType: Class<T>?, annotationType: Class<out Annotation?>?): T
+    fun <T> getInstance(beanType: Class<T>, annotationType: Class<out Annotation?>): T
 
     /**
      * 获取指定类型的实例的集合
@@ -46,5 +46,5 @@ interface InstanceProvider {
      * @param <T>      类型参数
      * @return 指定类型的实例的集合
     </T> */
-    fun <T> getInstances(beanType: Class<T>?): Set<T>?
+    fun <T> getInstances(beanType: Class<T>): Set<T>
 }

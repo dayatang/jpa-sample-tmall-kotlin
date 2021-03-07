@@ -14,7 +14,7 @@ interface Pricings {
      * @param pricing 要保存的定价信息
      * @return 持久化后的定价信息
      */
-    fun save(pricing: Pricing?): Pricing?
+    fun save(pricing: Pricing): Pricing
 
     /**
      * 获得指定商品在指定时间的定价信息
@@ -22,12 +22,12 @@ interface Pricings {
      * @param time 时间
      * @return 当时的商品价格
      */
-    fun getPricingAt(product: Product?, time: LocalDateTime?): Optional<Pricing?>
+    fun getPricingAt(product: Product, time: LocalDateTime): Optional<Pricing>
 
     /**
      * 查找指定商品的定价历史，按生效时间排序。
      * @param product 商品
      * @return 指定商品按时间排序的定价历史列表
      */
-    fun findPricingHistoryOfProduct(product: Product?): Stream<Pricing?>?
+    fun findPricingHistoryOfProduct(product: Product): Stream<Pricing>
 }

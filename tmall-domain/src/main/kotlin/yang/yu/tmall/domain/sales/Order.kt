@@ -27,7 +27,7 @@ open class Order : BaseEntity() {
 
     @Embedded
     @AttributeOverride(name = "value", column = Column(name = "total_price"))
-    var totalPrice: Money? = null
+    var totalPrice: Money = Money.ZERO
     fun getLineItems(): List<OrderLine> {
         return ArrayList(lineItems)
     }
@@ -56,11 +56,11 @@ open class Order : BaseEntity() {
         calculateTotalPrice()
     }
 
-    private fun calculateTotalPrice(): Money? {
+    private fun calculateTotalPrice(): Money {
         totalPrice = lineItems.stream()
-            .map { obj: OrderLine -> obj.subTotal }
-            .peek { x: Money? -> println(x) }
-            .reduce(Money.ZERO) { obj: Money, amount: Money -> obj.add(amount) } as ((Money?, Money?) -> Money?)?
+            .map { it.subTotal }
+            .peek { println(it) }
+            .reduce(Money.ZERO) { subTotal: Money, each: Money -> subTotal.add(each) }
         return totalPrice
     }
 
