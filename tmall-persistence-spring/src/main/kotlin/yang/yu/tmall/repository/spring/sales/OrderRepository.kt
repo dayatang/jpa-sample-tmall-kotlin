@@ -1,57 +1,45 @@
-package yang.yu.tmall.repository.spring.sales;
+package yang.yu.tmall.repository.spring.sales
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-import yang.yu.tmall.domain.buyers.Buyer;
-import yang.yu.tmall.domain.products.Product;
-import yang.yu.tmall.domain.sales.Order;
-import yang.yu.tmall.domain.sales.Orders;
-
-import javax.inject.Named;
-import java.time.LocalDateTime;
-import java.util.Optional;
-import java.util.stream.Stream;
+import org.springframework.data.jpa.repository.Query
+import org.springframework.data.repository.query.Param
+import yang.yu.tmall.domain.buyers.Buyer
+import java.util.*
+import java.util.stream.Stream
+import javax.inject.Named
 
 /**
  * 订单仓储的实现
  */
 @Named
-public interface OrderRepository extends Orders, JpaRepository<Order, Integer> {
-
+interface OrderRepository : Orders, JpaRepository<Order?, Int?> {
     /**
      * 根据ID获取订单
      * @param id 订单ID
      * @return 订单
      */
-    Optional<Order> getById(int id);
+    fun getById(id: Int): Optional<Order?>?
 
     /**
      * 根据订单编号获取订单
      * @param orderNo 订单编号
      * @return 订单
      */
-    Optional<Order> getByOrderNo(String orderNo);
-
-    default Stream<Order> findByBuyer(Buyer buyer) {
-        return findByBuyerOrderByCreatedDesc(buyer);
+    fun getByOrderNo(orderNo: String?): Optional<Order?>?
+    fun findByBuyer(buyer: Buyer?): Stream<Order?>? {
+        return findByBuyerOrderByCreatedDesc(buyer)
     }
 
-    Stream<Order> findByBuyerOrderByCreatedDesc(Buyer buyer);
+    fun findByBuyerOrderByCreatedDesc(buyer: Buyer?): Stream<Order?>?
 
-    @Override
     @Query("select o.order from OrderLine o where o.product = :product order by o.order.created desc")
-    Stream<Order> findByProduct(@Param("product") Product product);
+    fun findByProduct(@Param("product") product: Product?): Stream<Order?>?
 
     @Query("select o.order from OrderLine o where o.product = :product and o.created >= :fromTime" +
             " and o.created < :untilTime order by o.order.created desc")
-    Stream<Order> findByProduct(@Param("product") Product product,
-                                @Param("fromTime") LocalDateTime from,
-                                @Param("untilTime") LocalDateTime until);
+    fun findByProduct(@Param("product") product: Product?,
+                      @Param("fromTime") from: LocalDateTime?,
+                      @Param("untilTime") until: LocalDateTime?): Stream<Order?>?
 
-    @Override
     @Query("select o from Order o join o.buyer b where TYPE(b) = OrgBuyer order by o.created desc")
-    Stream<Order> findByOrgBuyers();
-
-
+    fun findByOrgBuyers(): Stream<Order?>?
 }

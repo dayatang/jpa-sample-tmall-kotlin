@@ -1,4 +1,7 @@
 /**
  * 实体仓储接口的Spring data jpa实现
  */
-package yang.yu.tmall.repository.spring;
+package yang.yu.tmall.repository.spring
+
+import org.springframework.data.jpa.repository.JpaRepository
+import java.time.LocalDateTime
