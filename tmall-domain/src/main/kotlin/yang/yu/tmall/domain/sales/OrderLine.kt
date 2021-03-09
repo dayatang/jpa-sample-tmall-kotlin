@@ -10,25 +10,40 @@ import javax.persistence.*
 @Entity
 @Table(name = "order_lines")
 open class OrderLine : BaseEntity {
+
     @ManyToOne(optional = false)
-    var order: Order? = null
+    lateinit var order: Order
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "prod_id")
-    var product: Product? = null
-    private var quantity = BigDecimal.ZERO
+    lateinit var product: Product
+
+    var quantity = BigDecimal.ZERO
+        set(value) {
+            field = value
+            this.subTotal = calculateSubTotal()
+        }
 
     @AttributeOverride(name = "value", column = Column(name = "unit_price"))
-    private var unitPrice: Money? = null
+    var unitPrice: Money = Money.ZERO
+        set(value) {
+            field = value
+            this.subTotal = calculateSubTotal()
+        }
 
     @Column(name = "discount_rate")
-    private var discountRate = BigDecimal.ZERO
+    var discountRate = BigDecimal.ZERO
+        set(value) {
+            field = value
+            this.subTotal = calculateSubTotal()
+        }
 
     @AttributeOverride(name = "value", column = Column(name = "sub_total"))
     var subTotal: Money = Money.ZERO
 
     constructor() {}
-    constructor(product: Product?, quantity: BigDecimal, unitPrice: Money?) {
+
+    constructor(product: Product, quantity: BigDecimal, unitPrice: Money) {
         this.product = product
         this.quantity = quantity
         this.unitPrice = unitPrice
@@ -36,41 +51,14 @@ open class OrderLine : BaseEntity {
     }
 
     @JvmOverloads
-    constructor(product: Product?, quantity: Double, unitPrice: Money? = Money.ZERO) : this(
+    constructor(product: Product, quantity: Double, unitPrice: Money = Money.ZERO) : this(
         product,
         BigDecimal.valueOf(quantity),
         unitPrice
     ) {
     }
 
-    fun getQuantity(): BigDecimal {
-        return quantity
-    }
-
-    fun setQuantity(quantity: BigDecimal) {
-        this.quantity = quantity
-        calculateSubTotal()
-    }
-
-    fun getUnitPrice(): Money? {
-        return unitPrice
-    }
-
-    fun setUnitPrice(unitPrice: Money?) {
-        this.unitPrice = unitPrice
-        calculateSubTotal()
-    }
-
-    fun getDiscountRate(): BigDecimal {
-        return discountRate
-    }
-
-    fun setDiscountRate(discountRate: BigDecimal) {
-        this.discountRate = discountRate
-        calculateSubTotal()
-    }
-
-    private fun calculateSubTotal(): Money? {
+    private fun calculateSubTotal(): Money {
         val base = unitPrice!!.multiply(quantity)
         val discountMoney = base.multiply(discountRate).divide(100)
         subTotal = base.subtract(discountMoney)

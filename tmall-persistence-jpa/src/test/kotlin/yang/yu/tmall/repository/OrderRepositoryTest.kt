@@ -31,7 +31,7 @@ class OrderRepositoryTest : BaseIntegrationTest() {
     private lateinit var buyer2: OrgBuyer
     @BeforeEach
     fun beforeEach() {
-        orders = OrderRepository(entityManager!!)
+        orders = OrderRepository(entityManager)
         product1 = entityManager.merge(Product("电冰箱", null))
         product2 = entityManager.merge(Product("电视机", null))
         buyer1 = entityManager.merge(PersonalBuyer("张三"))
@@ -40,16 +40,16 @@ class OrderRepositoryTest : BaseIntegrationTest() {
         lineItem2 = OrderLine(product1, 5.0, valueOf(3500))
         lineItem3 = OrderLine(product2, 3.0, valueOf(8500))
         lineItem4 = OrderLine(product2, 2.0, valueOf(8500))
-        order1 = createOrder("order1", buyer1, lineItem1!!, lineItem3!!)
-        order2 = createOrder("order2", buyer1, lineItem2!!)
-        order3 = createOrder("order3", buyer2, lineItem2!!, lineItem3!!)
+        order1 = createOrder("order1", buyer1, lineItem1, lineItem3)
+        order2 = createOrder("order2", buyer1, lineItem2)
+        order3 = createOrder("order3", buyer2, lineItem2, lineItem3)
     }
 
-    private fun createOrder(orderNo: String, buyer: Buyer?, vararg orderLines: OrderLine): Order {
+    private fun createOrder(orderNo: String, buyer: Buyer, vararg orderLines: OrderLine): Order {
         val order = Order()
         order.orderNo = orderNo
         order.buyer = buyer
-        Arrays.stream(orderLines).forEach { lineItem: OrderLine? -> order.addLineItem(lineItem) }
+        Arrays.stream(orderLines).forEach {order::addLineItem }
         return entityManager.merge(order)
     }
 
@@ -76,14 +76,14 @@ class OrderRepositoryTest : BaseIntegrationTest() {
         get() {
             Arrays.asList(order1, order2).forEach(Consumer { order: Order ->
                 assertThat(
-                    orders.getByOrderNo(order.orderNo!!)
+                    orders.getByOrderNo(order.orderNo)
                 ).containsSame(order)
             })
         }
 
     @Test
     fun findByBuyer() {
-        assertThat(orders.findByBuyer(buyer1)).hasSize(2).allMatch { it.buyer!!.equals(buyer1) }
+        assertThat(orders.findByBuyer(buyer1)).hasSize(2).allMatch { it.buyer.equals(buyer1) }
     }
 
     @Test

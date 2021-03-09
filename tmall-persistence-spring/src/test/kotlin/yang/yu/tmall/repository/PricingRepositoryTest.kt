@@ -3,25 +3,38 @@ package yang.yu.tmall.repository
 import org.assertj.core.api.WithAssertions
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig
 import yang.yu.tmall.domain.commons.Money
+import yang.yu.tmall.domain.pricing.Pricing
+import yang.yu.tmall.domain.pricing.Pricings
+import yang.yu.tmall.domain.products.Product
+import yang.yu.tmall.spring.JpaSpringConfig
+import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.*
 import java.util.function.Consumer
+import javax.inject.Inject
+import javax.persistence.EntityManager
 import javax.transaction.Transactional
 
 @SpringJUnitConfig(classes = [JpaSpringConfig::class])
 @Transactional
-class PricingRepositoryTest : WithAssertions {
+open class PricingRepositoryTest : WithAssertions {
+    
     @Inject
-    private val pricings: Pricings? = null
+    private lateinit var pricings: Pricings
 
     @Inject
-    private val entityManager: EntityManager? = null
-    private var product1: Product? = null
-    private var product2: Product? = null
-    private var pricing1: Pricing? = null
-    private var pricing2: Pricing? = null
-    private var pricing3: Pricing? = null
-    private var pricing4: Pricing? = null
+    private lateinit var entityManager: EntityManager
+
+    private lateinit var product1: Product
+    private lateinit var product2: Product
+    private lateinit var pricing1: Pricing
+    private lateinit var pricing2: Pricing
+    private lateinit var pricing3: Pricing
+    private lateinit var pricing4: Pricing
+
     @BeforeEach
     fun beforeEach() {
         product1 = entityManager.merge(Product("电冰箱", null))
@@ -34,8 +47,8 @@ class PricingRepositoryTest : WithAssertions {
 
     @AfterEach
     fun afterEach() {
-        Arrays.asList<Any?>(product1, product2, pricing1, pricing2, pricing3, pricing4)
-                .forEach(Consumer { o: Any? -> entityManager.remove(o) })
+        Arrays.asList(product1, product2, pricing1, pricing2, pricing3, pricing4)
+                .forEach(Consumer { entityManager::remove})
     }
 
     @get:Test
@@ -45,13 +58,13 @@ class PricingRepositoryTest : WithAssertions {
             val time2002_02_16: LocalDateTime = LocalDate.of(2020, 2, 16).atStartOfDay()
             val time2002_10_01: LocalDateTime = LocalDate.of(2020, 10, 1).atStartOfDay()
             assertThat(pricings.getPricingAt(product1, time2002_02_15))
-                    .map(Pricing::getUnitPrice)
+                    .map(Pricing::unitPrice)
                     .contains(Money.valueOf(600))
             assertThat(pricings.getPricingAt(product1, time2002_02_16))
-                    .map(Pricing::getUnitPrice)
+                    .map(Pricing::unitPrice)
                     .contains(Money.valueOf(600))
             assertThat(pricings.getPricingAt(product1, time2002_10_01))
-                    .map(Pricing::getUnitPrice)
+                    .map(Pricing::unitPrice)
                     .contains(Money.valueOf(500))
         }
 }

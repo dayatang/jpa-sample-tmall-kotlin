@@ -12,11 +12,12 @@ import javax.transaction.Transactional
 
 @SpringJUnitConfig(classes = [JpaSpringConfig::class])
 @Transactional
-class BuyerRepositoryTest : WithAssertions {
+open class BuyerRepositoryTest : WithAssertions {
     @Inject
-    private val buyers: Buyers? = null
-    private var buyer1: PersonalBuyer? = null
-    private var buyer2: OrgBuyer? = null
+    private lateinit var buyers: Buyers
+    private lateinit var buyer1: PersonalBuyer
+    private lateinit var buyer2: OrgBuyer
+
     @BeforeEach
     fun beforeEach() {
         buyer1 = buyers.save(PersonalBuyer(buyer1Name))
@@ -31,7 +32,7 @@ class BuyerRepositoryTest : WithAssertions {
     @Test
     fun findById() {
         assertThat(buyers.getById(buyer1.id)).containsSame(buyer1)
-        assertThat(buyers.getById(buyer2.getId())).containsSame(buyer2)
+        assertThat(buyers.getById(buyer2.id)).containsSame(buyer2)
     }
 
     @Test
@@ -76,10 +77,10 @@ class BuyerRepositoryTest : WithAssertions {
 
     @Test
     fun update() {
-        buyer1.setName("李四")
+        buyer1.name = "李四"
         buyers.save(buyer1)
-        assertThat(buyers.getById(buyer1.getId()).map(Buyer::getName)).containsSame("李四")
-        assertThat(buyers.getById(buyer2.getId()).map(Buyer::getName)).containsSame(buyer2Name)
+        assertThat(buyers.getById(buyer1.id).map(Buyer::name)).containsSame("李四")
+        assertThat(buyers.getById(buyer2.id).map(Buyer::name)).containsSame(buyer2Name)
     }
 
     companion object {

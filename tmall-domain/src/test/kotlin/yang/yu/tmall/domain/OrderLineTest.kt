@@ -9,9 +9,9 @@ internal class OrderLineTest : BaseUnitTest() {
     @Test
     fun calculateSubTotal() {
         val orderLine = OrderLine()
-        orderLine.setUnitPrice(valueOf(150))
-        orderLine.setQuantity(BigDecimal(3))
-        orderLine.setDiscountRate(BigDecimal(30))
+        orderLine.unitPrice = valueOf(150)
+        orderLine.quantity = BigDecimal(3)
+        orderLine.discountRate = BigDecimal(30)
         assertThat(orderLine.subTotal).isEqualTo(valueOf(150 * 3 * (100 - 30) / 100))
     }
 }

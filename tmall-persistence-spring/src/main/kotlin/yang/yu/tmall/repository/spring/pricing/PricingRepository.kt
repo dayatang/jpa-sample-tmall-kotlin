@@ -1,6 +1,10 @@
 package yang.yu.tmall.repository.spring.pricing
 
+import org.springframework.data.jpa.repository.JpaRepository
 import yang.yu.tmall.domain.pricing.Pricing
+import yang.yu.tmall.domain.pricing.Pricings
+import yang.yu.tmall.domain.products.Product
+import java.time.LocalDateTime
 import java.util.*
 import java.util.stream.Stream
 import javax.inject.Named
@@ -10,14 +14,16 @@ import javax.inject.Named
  */
 @Named
 interface PricingRepository : Pricings, JpaRepository<Pricing?, Int?> {
-    fun getPricingAt(product: Product?, time: LocalDateTime?): Optional<Pricing?>? {
+
+    override fun getPricingAt(product: Product, time: LocalDateTime): Optional<Pricing> {
         return findFirstByProductAndEffectiveTimeIsLessThanEqualOrderByEffectiveTimeDesc(product, time)
     }
 
-    fun findPricingHistoryOfProduct(product: Product?): Stream<Pricing?>? {
+    override fun findPricingHistoryOfProduct(product: Product): Stream<Pricing> {
         return findByProductOrderByEffectiveTime(product)
     }
 
-    fun findFirstByProductAndEffectiveTimeIsLessThanEqualOrderByEffectiveTimeDesc(product: Product?, time: LocalDateTime?): Optional<Pricing?>?
-    fun findByProductOrderByEffectiveTime(product: Product?): Stream<Pricing?>?
+    fun findFirstByProductAndEffectiveTimeIsLessThanEqualOrderByEffectiveTimeDesc(product: Product, time: LocalDateTime): Optional<Pricing>
+
+    fun findByProductOrderByEffectiveTime(product: Product): Stream<Pricing>
 }

@@ -4,76 +4,92 @@ import org.assertj.core.api.WithAssertions
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig
 import yang.yu.tmall.domain.buyers.Buyer
+import yang.yu.tmall.domain.buyers.OrgBuyer
+import yang.yu.tmall.domain.buyers.PersonalBuyer
+import yang.yu.tmall.domain.commons.Money
+import yang.yu.tmall.domain.products.Product
+import yang.yu.tmall.domain.sales.Order
+import yang.yu.tmall.domain.sales.OrderLine
+import yang.yu.tmall.domain.sales.Orders
+import yang.yu.tmall.spring.JpaSpringConfig
 import java.util.*
 import java.util.function.Consumer
+import javax.inject.Inject
+import javax.persistence.EntityManager
 import javax.transaction.Transactional
 
 @SpringJUnitConfig(classes = [JpaSpringConfig::class])
 @Transactional
-class OrdersTest : WithAssertions {
-    @Inject
-    private val orders: Orders? = null
+open class OrdersTest : WithAssertions {
 
     @Inject
-    private val entityManager: EntityManager? = null
-    private var order1: Order? = null
-    private var order2: Order? = null
-    private var order3: Order? = null
-    private var lineItem1: OrderLine? = null
-    private var lineItem2: OrderLine? = null
-    private var lineItem3: OrderLine? = null
-    private var lineItem4: OrderLine? = null
-    private var product1: Product? = null
-    private var product2: Product? = null
-    private var buyer1: PersonalBuyer? = null
-    private var buyer2: OrgBuyer? = null
+    private lateinit var orders: Orders
+
+    @Inject
+    private lateinit var entityManager: EntityManager
+
+    private lateinit var order1: Order
+    private lateinit var order2: Order
+    private lateinit var order3: Order
+    private lateinit var lineItem1: OrderLine
+    private lateinit var lineItem2: OrderLine
+    private lateinit var lineItem3: OrderLine
+    private lateinit var lineItem4: OrderLine
+    private lateinit var product1: Product
+    private lateinit var product2: Product
+    private lateinit var buyer1: PersonalBuyer
+    private lateinit var buyer2: OrgBuyer
+
     @BeforeEach
     fun beforeEach() {
         product1 = entityManager.merge(Product("电冰箱", null))
         product2 = entityManager.merge(Product("电视机", null))
         buyer1 = entityManager.merge(PersonalBuyer("张三"))
         buyer2 = entityManager.merge(OrgBuyer("华为公司"))
-        lineItem1 = OrderLine(product1, 3, Money.valueOf(3500))
-        lineItem2 = OrderLine(product1, 5, Money.valueOf(3500))
-        lineItem3 = OrderLine(product2, 3, Money.valueOf(8500))
-        lineItem4 = OrderLine(product2, 2, Money.valueOf(8500))
+        lineItem1 = OrderLine(product1, 3.0, Money.valueOf(3500))
+        lineItem2 = OrderLine(product1, 5.0, Money.valueOf(3500))
+        lineItem3 = OrderLine(product2, 3.0, Money.valueOf(8500))
+        lineItem4 = OrderLine(product2, 2.0, Money.valueOf(8500))
         order1 = createOrder("order1", buyer1, lineItem1, lineItem3)
         order2 = createOrder("order2", buyer1, lineItem2)
         order3 = createOrder("order3", buyer2, lineItem2, lineItem3)
     }
 
-    private fun createOrder(orderNo: String, buyer: Buyer?, vararg orderLines: OrderLine): Order {
+    private fun createOrder(orderNo: String, buyer: Buyer, vararg orderLines: OrderLine): Order {
         val order = Order()
-        order.setOrderNo(orderNo)
-        order.setBuyer(buyer)
+        order.orderNo = orderNo
+        order.buyer = buyer
         Arrays.stream(orderLines).forEach(order::addLineItem)
         return entityManager.merge(order)
     }
 
     @AfterEach
     fun afterEach() {
-        Arrays.asList<Any?>(order1, order2, order3)
+        Arrays.asList(order1, order2, order3)
                 .forEach(orders::delete)
-        Arrays.asList<Any?>(product1, product2, buyer1, buyer2)
-                .forEach(Consumer { o: Any? -> entityManager.remove(o) })
+        Arrays.asList(product1, product2, buyer1, buyer2)
+                .forEach(Consumer {entityManager::remove})
     }
 
     @get:Test
     val byId: Unit
         get() {
-            Arrays.asList<Any?>(order1, order2).forEach(Consumer { order: Any? -> assertThat(orders.getById(order.getId())).containsSame(order) })
+            Arrays.asList(order1, order2)
+                    .forEach(Consumer {assertThat(orders.getById(it.id)).containsSame(it) })
         }
 
     @get:Test
     val byOrderNo: Unit
         get() {
-            Arrays.asList<Any?>(order1, order2).forEach(Consumer { order: Any? -> assertThat(orders.getByOrderNo(order.getOrderNo())).containsSame(order) })
+            Arrays.asList(order1, order2)
+                    .forEach(Consumer { assertThat(orders.getByOrderNo(it.orderNo!!)).containsSame(it) })
         }
 
     @Test
     fun findByBuyer() {
-        assertThat(orders.findByBuyer(buyer1)).hasSize(2).allMatch { order -> order.getBuyer().equals(buyer1) }
+        assertThat(orders.findByBuyer(buyer1)).hasSize(2).allMatch { it.buyer.equals(buyer1) }
     }
 
     @Test

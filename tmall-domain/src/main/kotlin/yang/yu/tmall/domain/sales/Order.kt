@@ -11,16 +11,22 @@ import javax.persistence.*
 @Entity
 @Table(name = "orders")
 open class Order : BaseEntity() {
+
     @Basic(optional = false)
     @Column(name = "order_no", nullable = false, unique = true)
-    var orderNo: String? = null
+    lateinit var orderNo: String
 
     @OneToMany(mappedBy = "order", cascade = [CascadeType.ALL], orphanRemoval = true)
     @OrderColumn(name = "seq_no")
-    private val lineItems: MutableList<OrderLine> = ArrayList()
+    var lineItems: MutableList<OrderLine> = ArrayList()
+        //get() = ArrayList(field)
+        set(value) {
+            field = value
+            this.totalPrice = calculateTotalPrice()
+        }
 
     @ManyToOne
-    var buyer: Buyer? = null
+    lateinit var buyer: Buyer
 
     @Embedded
     var shippingAddress: Address? = null
@@ -28,40 +34,27 @@ open class Order : BaseEntity() {
     @Embedded
     @AttributeOverride(name = "value", column = Column(name = "total_price"))
     var totalPrice: Money = Money.ZERO
-    fun getLineItems(): List<OrderLine> {
-        return ArrayList(lineItems)
-    }
 
-    fun addLineItem(lineItem: OrderLine?) {
-        if (lineItem == null) {
-            return
-        }
+    fun addLineItem(lineItem: OrderLine) {
         if (containsProduct(lineItem.product)) {
             throw DuplicateOrderLineException()
         }
         lineItem.order = this
         lineItems.add(lineItem)
-        calculateTotalPrice()
+        this.totalPrice = calculateTotalPrice()
     }
 
-    private fun containsProduct(product: Product?): Boolean {
+    private fun containsProduct(product: Product): Boolean {
         return lineItems.stream()
-            .map { obj: OrderLine -> obj.product }
-            .anyMatch { o: Product? -> product!!.equals(o) }
-    }
-
-    fun removeLineItem(lineItem: OrderLine) {
-        lineItem.order = null
-        lineItems.remove(lineItem)
-        calculateTotalPrice()
+            .map { it.product }
+            .anyMatch {product.equals(it) }
     }
 
     private fun calculateTotalPrice(): Money {
-        totalPrice = lineItems.stream()
+        return lineItems.stream()
             .map { it.subTotal }
-            .peek { println(it) }
+            .peek { println("=======" + it) }
             .reduce(Money.ZERO) { subTotal: Money, each: Money -> subTotal.add(each) }
-        return totalPrice
     }
 
     override fun equals(o: Any?): Boolean {

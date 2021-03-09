@@ -45,7 +45,7 @@ open class JpaSpringConfig(private val env: Environment) {
     }
 
     @Bean
-    open fun entityManagerFactory(dataSource: DataSource?, adapter: JpaVendorAdapter?): LocalContainerEntityManagerFactoryBean {
+    open fun entityManagerFactory(dataSource: DataSource, adapter: JpaVendorAdapter): LocalContainerEntityManagerFactoryBean {
         val result = LocalContainerEntityManagerFactoryBean()
         result.dataSource = dataSource
         result.jpaVendorAdapter = adapter
@@ -54,14 +54,14 @@ open class JpaSpringConfig(private val env: Environment) {
         return result
     }
 
-    private fun hibernateProperties(): Map<String, String?> {
-        val props: MutableMap<String, String?> = HashMap()
+    private fun hibernateProperties(): Map<String, String> {
+        val props: MutableMap<String, String> = HashMap()
         props["hibernate.implicit_naming_strategy"] = "jpa"
         return props
     }
 
     @Bean
-    open fun transactionManager(entityManagerFactory: EntityManagerFactory?): JpaTransactionManager {
+    open fun transactionManager(entityManagerFactory: EntityManagerFactory): JpaTransactionManager {
         return JpaTransactionManager(entityManagerFactory)
     }
 }
