@@ -22,10 +22,10 @@ import javax.sql.DataSource
 @EnableJpaRepositories(basePackages = ["yang.yu.tmall.repository"])
 @EnableTransactionManagement
 @PropertySource("/jdbc.properties")
-class JpaSpringConfig(private val env: Environment) {
+open class JpaSpringConfig(private val env: Environment) {
     @Bean(destroyMethod = "close")
     @Throws(Exception::class)
-    fun dataSource(): ComboPooledDataSource {
+    open fun dataSource(): ComboPooledDataSource {
         val result = ComboPooledDataSource()
         result.driverClass = env.getProperty("jdbc.driverClassName")
         result.jdbcUrl = env.getProperty("jdbc.url")
@@ -35,7 +35,7 @@ class JpaSpringConfig(private val env: Environment) {
     }
 
     @Bean
-    fun jpaVendorAdapter(): JpaVendorAdapter {
+    open fun jpaVendorAdapter(): JpaVendorAdapter {
         val result = HibernateJpaVendorAdapter()
         result.setDatabase(Database.H2)
         result.setDatabasePlatform(env.getProperty("hibernate.dialect"))
@@ -45,7 +45,7 @@ class JpaSpringConfig(private val env: Environment) {
     }
 
     @Bean
-    fun entityManagerFactory(dataSource: DataSource?, adapter: JpaVendorAdapter?): LocalContainerEntityManagerFactoryBean {
+    open fun entityManagerFactory(dataSource: DataSource?, adapter: JpaVendorAdapter?): LocalContainerEntityManagerFactoryBean {
         val result = LocalContainerEntityManagerFactoryBean()
         result.dataSource = dataSource
         result.jpaVendorAdapter = adapter
@@ -61,7 +61,7 @@ class JpaSpringConfig(private val env: Environment) {
     }
 
     @Bean
-    fun transactionManager(entityManagerFactory: EntityManagerFactory?): JpaTransactionManager {
+    open fun transactionManager(entityManagerFactory: EntityManagerFactory?): JpaTransactionManager {
         return JpaTransactionManager(entityManagerFactory)
     }
 }

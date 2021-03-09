@@ -4,7 +4,10 @@ import org.assertj.core.api.WithAssertions
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig
 import yang.yu.tmall.domain.buyers.*
+import yang.yu.tmall.spring.JpaSpringConfig
+import javax.inject.Inject
 import javax.transaction.Transactional
 
 @SpringJUnitConfig(classes = [JpaSpringConfig::class])
@@ -27,7 +30,7 @@ class BuyerRepositoryTest : WithAssertions {
 
     @Test
     fun findById() {
-        assertThat(buyers.getById(buyer1.getId())).containsSame(buyer1)
+        assertThat(buyers.getById(buyer1.id)).containsSame(buyer1)
         assertThat(buyers.getById(buyer2.getId())).containsSame(buyer2)
     }
 
