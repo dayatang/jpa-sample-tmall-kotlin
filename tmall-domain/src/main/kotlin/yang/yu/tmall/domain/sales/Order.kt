@@ -47,13 +47,13 @@ open class Order : BaseEntity() {
     private fun containsProduct(product: Product): Boolean {
         return lineItems.stream()
             .map { it.product }
-            .anyMatch {product.equals(it) }
+            .anyMatch {product == it }
     }
 
     private fun calculateTotalPrice(): Money {
         return lineItems.stream()
             .map { it.subTotal }
-            .peek { println("=======" + it) }
+            .peek { println("=======$it") }
             .reduce(Money.ZERO) { subTotal: Money, each: Money -> subTotal.add(each) }
     }
 

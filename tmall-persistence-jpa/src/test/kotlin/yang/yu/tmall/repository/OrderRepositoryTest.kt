@@ -29,6 +29,7 @@ class OrderRepositoryTest : BaseIntegrationTest() {
     private lateinit var product2: Product
     private lateinit var buyer1: PersonalBuyer
     private lateinit var buyer2: OrgBuyer
+
     @BeforeEach
     fun beforeEach() {
         orders = OrderRepository(entityManager)
@@ -49,7 +50,7 @@ class OrderRepositoryTest : BaseIntegrationTest() {
         val order = Order()
         order.orderNo = orderNo
         order.buyer = buyer
-        Arrays.stream(orderLines).forEach {order::addLineItem }
+        Arrays.stream(orderLines).forEach { order.addLineItem(it) }
         return entityManager.merge(order)
     }
 
