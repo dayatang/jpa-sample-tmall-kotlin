@@ -31,6 +31,7 @@ interface OrderRepository : Orders, JpaRepository<Order, Int> {
      */
     override fun getByOrderNo(orderNo: String): Optional<Order>
 
+    @JvmDefault
     override fun findByBuyer(buyer: Buyer): Stream<Order> {
         return findByBuyerOrderByCreatedDesc(buyer)
     }

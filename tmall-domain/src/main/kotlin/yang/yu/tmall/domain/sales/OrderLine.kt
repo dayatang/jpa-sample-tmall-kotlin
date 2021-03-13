@@ -18,7 +18,7 @@ open class OrderLine : BaseEntity {
     @JoinColumn(name = "prod_id")
     lateinit var product: Product
 
-    var quantity = BigDecimal.ZERO
+    var quantity: BigDecimal = BigDecimal.ZERO
         set(value) {
             field = value
             this.subTotal = calculateSubTotal()
@@ -32,7 +32,7 @@ open class OrderLine : BaseEntity {
         }
 
     @Column(name = "discount_rate")
-    var discountRate = BigDecimal.ZERO
+    var discountRate: BigDecimal = BigDecimal.ZERO
         set(value) {
             field = value
             this.subTotal = calculateSubTotal()

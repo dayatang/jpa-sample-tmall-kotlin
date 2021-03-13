@@ -21,7 +21,7 @@ import javax.transaction.Transactional
 @SpringJUnitConfig(classes = [JpaSpringConfig::class])
 @Transactional
 open class PricingRepositoryTest : WithAssertions {
-    
+
     @Inject
     private lateinit var pricings: Pricings
 

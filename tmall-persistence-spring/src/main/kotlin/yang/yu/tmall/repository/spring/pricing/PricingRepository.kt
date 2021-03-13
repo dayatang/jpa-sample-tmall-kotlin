@@ -13,12 +13,14 @@ import javax.inject.Named
  * 定价仓储的实现
  */
 @Named
-interface PricingRepository : Pricings, JpaRepository<Pricing?, Int?> {
+interface PricingRepository : Pricings, JpaRepository<Pricing, Int> {
 
+    @JvmDefault
     override fun getPricingAt(product: Product, time: LocalDateTime): Optional<Pricing> {
         return findFirstByProductAndEffectiveTimeIsLessThanEqualOrderByEffectiveTimeDesc(product, time)
     }
 
+    @JvmDefault
     override fun findPricingHistoryOfProduct(product: Product): Stream<Pricing> {
         return findByProductOrderByEffectiveTime(product)
     }
