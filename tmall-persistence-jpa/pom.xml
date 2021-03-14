@@ -13,7 +13,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>${groupId}</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>tmall-domain</artifactId>
             <version>${project.version}</version>
         </dependency>
