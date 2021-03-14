@@ -53,7 +53,6 @@ open class Order : BaseEntity() {
     private fun calculateTotalPrice(): Money {
         return lineItems.stream()
             .map { it.subTotal }
-            .peek { println("=======$it") }
             .reduce(Money.ZERO) { subTotal: Money, each: Money -> subTotal.add(each) }
     }
 
