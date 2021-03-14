@@ -10,35 +10,37 @@ import javax.persistence.*
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "DTYPE", discriminatorType = DiscriminatorType.STRING)
 abstract class Buyer : BaseEntity {
+
     @Basic(optional = false)
     @Column(nullable = false, unique = true)
-    var name: String? = null
+    var name: String = ""
 
     @Column(name = "mobile_no")
     var mobileNo: String? = null
 
     @Column(name = "wired_no")
     var wiredNo: String? = null
+
     var email: String? = null
 
     @ElementCollection
     @CollectionTable(name = "shipping_addresses", joinColumns = [JoinColumn(name = "buyer_id")])
-    private val shippingAddresses: MutableSet<Address> = HashSet()
+    var shippingAddresses: MutableSet<Address> = HashSet()
+      set(value) {
+        field = HashSet(value)
+      }
 
     protected constructor() {}
-    constructor(name: String?) {
+
+    constructor(name: String) {
         this.name = name
     }
 
-    fun getShippingAddresses(): Set<Address> {
-        return HashSet(shippingAddresses)
-    }
-
-    fun addShippingAddresses(address: Address) {
+    fun addShippingAddress(address: Address) {
         shippingAddresses.add(address)
     }
 
-    fun removeShippingAddresses(address: Address) {
+    fun removeShippingAddress(address: Address) {
         shippingAddresses.remove(address)
     }
 

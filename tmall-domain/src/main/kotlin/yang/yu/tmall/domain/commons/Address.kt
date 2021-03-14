@@ -16,6 +16,7 @@ open class Address {
 
     @Column(name = "receiver_phone")
     var receiverPhone: String? = null
+
     override fun equals(o: Any?): Boolean {
         if (this === o) {
             return true

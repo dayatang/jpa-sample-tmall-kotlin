@@ -10,31 +10,19 @@ import javax.persistence.Embeddable
  */
 @Embeddable
 open class Money {
-    /**
-     * 获取金额值，以BigDecimal形式表示
-     * @return 金额值
-     */
-    /**
-     * 设置金额值
-     * @param value 要设置的金额值
-     */
-    var value = BigDecimal.ZERO
-        private set
+
+    var value: BigDecimal = BigDecimal.ZERO
 
     /**
-     * 构造函数
+     * 构造函数，仅仅为了满足JPA规范而提供。实际场景应该采用伴生对象的工厂方法创建Money实例。
      */
-    constructor() {}
+    protected constructor() : this(BigDecimal.ZERO)
 
     /**
      * 构造函数。以BigDecimal为参数
      * @param amount 金额值
      */
-    constructor(amount: BigDecimal?) {
-        if (amount == null) {
-            value = BigDecimal.ZERO
-            return
-        }
+    private constructor(amount: BigDecimal) {
         value = amount.setScale(SCALE, RoundingMode.HALF_UP)
     }
 
@@ -91,7 +79,9 @@ open class Money {
     }
 
     companion object {
+
         private const val SCALE = 2
+
         @JvmField
         val ZERO = valueOf(0)
 
@@ -100,7 +90,7 @@ open class Money {
          * @param amount 金额数量
          * @return 金额对象
          */
-        fun valueOf(amount: BigDecimal?): Money {
+        fun valueOf(amount: BigDecimal): Money {
             return Money(amount)
         }
 
@@ -136,8 +126,7 @@ open class Money {
          * @param amount 金额数量
          * @return 金额对象
          */
-        @JvmStatic
-        fun valueOf(amount: String?): Any {
+        fun valueOf(amount: String): Money {
             return Money(BigDecimal(amount))
         }
     }

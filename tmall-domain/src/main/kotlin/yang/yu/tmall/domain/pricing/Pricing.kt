@@ -13,23 +13,22 @@ import javax.persistence.Table
 @Entity
 @Table(name = "pricings")
 open class Pricing : BaseEntity {
-    @ManyToOne
-    var product //商品
-            : Product? = null
-        private set
-    var unitPrice //单价
-            : Money? = null
-        private set
 
+    //商品
+    @ManyToOne
+    var product: Product? = null
+
+    //单价
+    var unitPrice: Money = Money.ZERO
+
+    //定价生效时间
     @Column(name = "effective_time")
-    var effectiveTime //生效时间
-            : LocalDateTime? = null
-        private set
+    var effectiveTime: LocalDateTime = LocalDateTime.now()
 
     constructor() {}
 
     @JvmOverloads
-    constructor(product: Product?, unitPrice: Money?, effectiveTime: LocalDateTime? = LocalDateTime.now()) {
+    constructor(product: Product, unitPrice: Money = Money.ZERO, effectiveTime: LocalDateTime = LocalDateTime.now()) {
         this.product = product
         this.unitPrice = unitPrice
         this.effectiveTime = effectiveTime

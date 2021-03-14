@@ -35,14 +35,14 @@ abstract class BaseEntity : Serializable {
      * 获取实体创建时间
      * @return 实体的创建时间
      */
-    open var created: LocalDateTime? = null
+    open var created: LocalDateTime = LocalDateTime.now()
 
     /**
      * 获取实体最后一次修改时间
      * @return 实体的最后修改时间
      */
     @Column(name = "last_updated")
-    open var lastUpdated: LocalDateTime? = null
+    open var lastUpdated: LocalDateTime = LocalDateTime.now()
 
     /**
      * 判断实体是不是全新的（在数据库中没有对应记录）

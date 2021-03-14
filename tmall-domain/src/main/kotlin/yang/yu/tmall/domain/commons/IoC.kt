@@ -4,10 +4,8 @@ package yang.yu.tmall.domain.commons
  * 依赖注入容器门面类。用于获取容器管理的各种Bean
  */
 object IoC {
+
     private lateinit var provider: InstanceProvider
-    fun setProvider(provider: InstanceProvider) {
-        IoC.provider = provider
-    }
 
     /**
      * 根据类型获取对象实例。返回的对象实例所属的类是T或它的实现类或子类。如果找不到该类型的实例则抛出异常。

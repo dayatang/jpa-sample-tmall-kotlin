@@ -61,30 +61,30 @@ open class OrdersTest : WithAssertions {
         val order = Order()
         order.orderNo = orderNo
         order.buyer = buyer
-        Arrays.stream(orderLines).forEach(order::addLineItem)
+        orderLines.forEach(order::addLineItem)
         return entityManager.merge(order)
     }
 
     @AfterEach
     fun afterEach() {
-        Arrays.asList(order1, order2, order3)
+        listOf(order1, order2, order3)
                 .forEach(orders::delete)
-        Arrays.asList(product1, product2, buyer1, buyer2)
+        listOf(product1, product2, buyer1, buyer2)
                 .forEach(Consumer {entityManager::remove})
     }
 
     @get:Test
     val byId: Unit
         get() {
-            Arrays.asList(order1, order2)
+            listOf(order1, order2)
                     .forEach(Consumer {assertThat(orders.getById(it.id)).containsSame(it) })
         }
 
     @get:Test
     val byOrderNo: Unit
         get() {
-            Arrays.asList(order1, order2)
-                    .forEach(Consumer { assertThat(orders.getByOrderNo(it.orderNo!!)).containsSame(it) })
+            listOf(order1, order2)
+                    .forEach(Consumer { assertThat(orders.getByOrderNo(it.orderNo)).containsSame(it) })
         }
 
     @Test

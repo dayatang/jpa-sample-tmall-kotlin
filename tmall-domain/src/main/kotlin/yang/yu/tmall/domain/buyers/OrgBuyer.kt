@@ -18,5 +18,6 @@ open class OrgBuyer : Buyer {
     var contactInfo: ContactInfo? = null
 
     constructor() {}
-    constructor(name: String?) : super(name) {}
+
+    constructor(name: String) : super(name) {}
 }
