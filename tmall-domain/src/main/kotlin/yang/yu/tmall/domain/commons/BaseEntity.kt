@@ -8,6 +8,7 @@ import javax.persistence.*
  * 所有实体的共同基类。定义实体公共属性和行为
  */
 @MappedSuperclass
+@Access(AccessType.FIELD)
 abstract class BaseEntity : Serializable {
     /**
      * 获取ID
