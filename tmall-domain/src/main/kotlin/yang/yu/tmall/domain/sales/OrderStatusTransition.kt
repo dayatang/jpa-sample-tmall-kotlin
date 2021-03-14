@@ -10,13 +10,15 @@ import javax.persistence.*
 @Entity
 @Table(name = "order_status_transitions")
 open class OrderStatusTransition : BaseEntity() {
+
     @ManyToOne
-    var order: Order? = null
+    open var order: Order? = null
 
     @Enumerated(EnumType.STRING)
-    var status: OrderStatus? = null
-    var occurredOn = LocalDateTime.now()
+    open var status: OrderStatus = OrderStatus.PENDING
+
+    open var occurredOn = LocalDateTime.now()
 
     @Column(name = "seq_no")
-    var seqNo = 0
+    open var seqNo = 0
 }

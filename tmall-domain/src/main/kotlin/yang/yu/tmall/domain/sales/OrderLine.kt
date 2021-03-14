@@ -12,46 +12,45 @@ import javax.persistence.*
 open class OrderLine : BaseEntity {
 
     @ManyToOne(optional = false)
-    lateinit var order: Order
+    open var order: Order? = null
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "prod_id")
-    lateinit var product: Product
+    open var product: Product? = null
 
-    var quantity: BigDecimal = BigDecimal.ZERO
+    open var quantity: BigDecimal = BigDecimal.ZERO
         set(value) {
             field = value
             this.subTotal = calculateSubTotal()
         }
 
     @AttributeOverride(name = "value", column = Column(name = "unit_price"))
-    var unitPrice: Money = Money.ZERO
+    open var unitPrice: Money = Money.ZERO
         set(value) {
             field = value
             this.subTotal = calculateSubTotal()
         }
 
     @Column(name = "discount_rate")
-    var discountRate: BigDecimal = BigDecimal.ZERO
+    open var discountRate: BigDecimal = BigDecimal.ZERO
         set(value) {
             field = value
             this.subTotal = calculateSubTotal()
         }
 
     @AttributeOverride(name = "value", column = Column(name = "sub_total"))
-    var subTotal: Money = Money.ZERO
+    open var subTotal: Money = Money.ZERO
 
     constructor() {}
 
-    constructor(product: Product, quantity: BigDecimal, unitPrice: Money) {
+    constructor(product: Product, quantity: BigDecimal = BigDecimal.ZERO, unitPrice: Money = Money.ZERO) {
         this.product = product
         this.quantity = quantity
         this.unitPrice = unitPrice
         calculateSubTotal()
     }
 
-    @JvmOverloads
-    constructor(product: Product, quantity: Double, unitPrice: Money = Money.ZERO) : this(
+    constructor(product: Product, quantity: Double = 0.0, unitPrice: Money = Money.ZERO) : this(
         product,
         BigDecimal.valueOf(quantity),
         unitPrice

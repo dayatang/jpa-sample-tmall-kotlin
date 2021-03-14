@@ -6,8 +6,9 @@ import javax.persistence.*
 @DiscriminatorValue("O")
 open class OrgBuyer : Buyer {
     @Column(name = "business_license_no")
-    var businessLicenseNo: String? = null
-    var taxNo: String? = null
+    open var businessLicenseNo: String? = null
+
+    open var taxNo: String? = null
 
     @AttributeOverrides(
         AttributeOverride(name = "name", column = Column(name = "contact_name")),
@@ -15,7 +16,7 @@ open class OrgBuyer : Buyer {
         AttributeOverride(name = "mobileNo", column = Column(name = "contact_mobile_no")),
         AttributeOverride(name = "email", column = Column(name = "contact_email"))
     )
-    var contactInfo: ContactInfo? = null
+    open var contactInfo: ContactInfo? = null
 
     constructor() {}
 

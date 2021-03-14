@@ -8,26 +8,18 @@ import javax.persistence.*
 open class PersonalBuyer : Buyer {
 
     @Enumerated(EnumType.STRING)
-    var gender: Gender? = null
+    open var gender: Gender? = null
 
     @ElementCollection
     @CollectionTable(name = "contact_infos", joinColumns = [JoinColumn(name = "buyer_id")])
     @MapKeyEnumerated(EnumType.STRING)
     @MapKeyColumn(name = "im_type")
     @Column(name = "im_value")
-    private var imInfos: MutableMap<ImType, String> = HashMap()
+    open var imInfos: MutableMap<ImType, String> = HashMap()
 
     constructor() {}
 
     constructor(name: String) : super(name) {}
-
-    fun getImInfos(): Map<ImType, String> {
-        return imInfos
-    }
-
-    fun setImInfos(imInfos: MutableMap<ImType, String>) {
-        this.imInfos = imInfos
-    }
 
     fun getImInfo(type: ImType): String {
         return imInfos.getOrDefault(type, "")

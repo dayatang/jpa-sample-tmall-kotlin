@@ -16,18 +16,17 @@ open class Pricing : BaseEntity {
 
     //商品
     @ManyToOne
-    var product: Product? = null
+    open var product: Product? = null
 
     //单价
-    var unitPrice: Money = Money.ZERO
+    open var unitPrice: Money = Money.ZERO
 
     //定价生效时间
     @Column(name = "effective_time")
-    var effectiveTime: LocalDateTime = LocalDateTime.now()
+    open var effectiveTime: LocalDateTime = LocalDateTime.now()
 
     constructor() {}
 
-    @JvmOverloads
     constructor(product: Product, unitPrice: Money = Money.ZERO, effectiveTime: LocalDateTime = LocalDateTime.now()) {
         this.product = product
         this.unitPrice = unitPrice
@@ -41,8 +40,7 @@ open class Pricing : BaseEntity {
         if (o !is Pricing) {
             return false
         }
-        val pricing = o
-        return product == pricing.product && effectiveTime == pricing.effectiveTime
+        return product == o.product && effectiveTime == o.effectiveTime
     }
 
     override fun hashCode(): Int {

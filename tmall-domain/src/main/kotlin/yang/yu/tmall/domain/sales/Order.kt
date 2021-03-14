@@ -14,11 +14,11 @@ open class Order : BaseEntity() {
 
     @Basic(optional = false)
     @Column(name = "order_no", nullable = false, unique = true)
-    lateinit var orderNo: String
+    open var orderNo: String = ""
 
     @OneToMany(mappedBy = "order", cascade = [CascadeType.ALL], orphanRemoval = true)
     @OrderColumn(name = "seq_no")
-    var lineItems: MutableList<OrderLine> = ArrayList()
+    open var lineItems: MutableList<OrderLine> = ArrayList()
         //get() = ArrayList(field)
         set(value) {
             field = value
@@ -26,17 +26,17 @@ open class Order : BaseEntity() {
         }
 
     @ManyToOne
-    lateinit var buyer: Buyer
+    open var buyer: Buyer? = null
 
     @Embedded
-    var shippingAddress: Address? = null
+    open var shippingAddress: Address? = null
 
     @Embedded
     @AttributeOverride(name = "value", column = Column(name = "total_price"))
-    var totalPrice: Money = Money.ZERO
+    open var totalPrice: Money = Money.ZERO
 
     fun addLineItem(lineItem: OrderLine) {
-        if (containsProduct(lineItem.product)) {
+        if (containsProduct(lineItem.product!!)) {
             throw DuplicateOrderLineException()
         }
         lineItem.order = this

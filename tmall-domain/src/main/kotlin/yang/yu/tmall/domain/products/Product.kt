@@ -9,10 +9,10 @@ import javax.persistence.Table
 @Entity
 @Table(name = "products")
 open class Product : BaseEntity {
-    var name: String? = null
+    open var name: String? = null
 
     @ManyToOne
-    var category: ProductCategory? = null
+    open var category: ProductCategory? = null
 
     constructor() {}
     constructor(name: String?, category: ProductCategory?) {

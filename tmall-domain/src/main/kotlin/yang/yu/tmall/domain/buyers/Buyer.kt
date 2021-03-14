@@ -13,19 +13,19 @@ abstract class Buyer : BaseEntity {
 
     @Basic(optional = false)
     @Column(nullable = false, unique = true)
-    var name: String = ""
+    open var name: String = ""
 
     @Column(name = "mobile_no")
-    var mobileNo: String? = null
+    open var mobileNo: String? = null
 
     @Column(name = "wired_no")
-    var wiredNo: String? = null
+    open var wiredNo: String? = null
 
-    var email: String? = null
+    open var email: String? = null
 
     @ElementCollection
     @CollectionTable(name = "shipping_addresses", joinColumns = [JoinColumn(name = "buyer_id")])
-    var shippingAddresses: MutableSet<Address> = HashSet()
+    open var shippingAddresses: MutableSet<Address> = HashSet()
       set(value) {
         field = HashSet(value)
       }

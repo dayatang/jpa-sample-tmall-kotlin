@@ -84,7 +84,7 @@ class OrderRepositoryTest : BaseIntegrationTest() {
 
     @Test
     fun findByBuyer() {
-        assertThat(orders.findByBuyer(buyer1)).hasSize(2).allMatch { it.buyer.equals(buyer1) }
+        assertThat(orders.findByBuyer(buyer1)).hasSize(2).allMatch { it.buyer!! == buyer1 }
     }
 
     @Test

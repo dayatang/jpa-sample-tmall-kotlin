@@ -10,26 +10,25 @@ import javax.persistence.Table
 @Entity
 @Table(name = "product_categories")
 open class ProductCategory : BaseEntity {
-    var name: String? = null
+
+    open var name: String? = null
 
     @ManyToOne
-    var parent: ProductCategory? = null
+    open var parent: ProductCategory? = null
 
     @OneToMany(mappedBy = "parent")
-    private val children: MutableSet<ProductCategory> = HashSet()
+    open val children: MutableSet<ProductCategory> = HashSet()
+      get() = HashSet(field)
 
     constructor() {}
+
     constructor(name: String?) {
         this.name = name
     }
 
-    constructor(name: String?, parent: ProductCategory?) {
+    constructor(name: String, parent: ProductCategory?) {
         this.name = name
         this.parent = parent
-    }
-
-    fun getChildren(): Set<ProductCategory> {
-        return HashSet(children)
     }
 
     fun addChild(child: ProductCategory) {
