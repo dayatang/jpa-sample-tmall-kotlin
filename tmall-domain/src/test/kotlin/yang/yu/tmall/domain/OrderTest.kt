@@ -30,7 +30,7 @@ internal class OrderTest : BaseUnitTest() {
         //System.out.println(subtotal1);
         val subtotal2 = 25.4 * 3.2
         //System.out.println(subtotal2);
-        assertThat(order.totalPrice!!.value.toDouble())
+        assertThat(order.totalPrice.value.toDouble())
             .isCloseTo(subtotal1 + subtotal2, Percentage.withPercentage(0.00001))
     }
 }

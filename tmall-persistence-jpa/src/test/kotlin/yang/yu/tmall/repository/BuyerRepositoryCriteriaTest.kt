@@ -13,7 +13,7 @@ internal class BuyerRepositoryCriteriaTest : BaseIntegrationTest() {
     private lateinit  var buyer2: OrgBuyer
     @BeforeEach
     fun beforeEach() {
-        buyers = BuyerRepositoryCriteria(entityManager!!)
+        buyers = BuyerRepositoryCriteria(entityManager)
         buyer1 = buyers.save(PersonalBuyer(buyer1Name))
         buyer2 = buyers.save(OrgBuyer(buyer2Name))
     }

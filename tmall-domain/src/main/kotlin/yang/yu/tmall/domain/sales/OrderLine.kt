@@ -58,7 +58,7 @@ open class OrderLine : BaseEntity {
     }
 
     private fun calculateSubTotal(): Money {
-        val base = unitPrice!!.multiply(quantity)
+        val base = unitPrice.multiply(quantity)
         val discountMoney = base.multiply(discountRate).divide(100)
         subTotal = base.subtract(discountMoney)
         return subTotal
