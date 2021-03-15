@@ -9,11 +9,7 @@ import javax.persistence.*
 @Table(name = "buyers")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "DTYPE", discriminatorType = DiscriminatorType.STRING)
-abstract class Buyer : BaseEntity {
-
-    @Basic(optional = false)
-    @Column(nullable = false, unique = true)
-    open var name: String = ""
+abstract class Buyer(@Column(nullable = false, unique = true) open val name: String) : BaseEntity() {
 
     @Column(name = "mobile_no")
     open var mobileNo: String? = null
@@ -29,12 +25,6 @@ abstract class Buyer : BaseEntity {
       set(value) {
         field = HashSet(value)
       }
-
-    protected constructor() {}
-
-    constructor(name: String) {
-        this.name = name
-    }
 
     fun addShippingAddress(address: Address) {
         shippingAddresses.add(address)

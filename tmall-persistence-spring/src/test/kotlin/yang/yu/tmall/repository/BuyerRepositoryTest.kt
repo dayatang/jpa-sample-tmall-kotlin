@@ -77,9 +77,9 @@ open class BuyerRepositoryTest : WithAssertions {
 
     @Test
     fun update() {
-        buyer1.name = "李四"
+        buyer1.email = "me@my.com"
         buyers.save(buyer1)
-        assertThat(buyers.getById(buyer1.id).map(Buyer::name)).containsSame("李四")
+        assertThat(buyers.getById(buyer1.id).map(Buyer::email)).containsSame("me@my.com")
         assertThat(buyers.getById(buyer2.id).map(Buyer::name)).containsSame(buyer2Name)
     }
 
