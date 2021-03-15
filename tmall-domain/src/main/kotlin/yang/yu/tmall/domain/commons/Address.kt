@@ -8,14 +8,13 @@ import javax.persistence.Embeddable
  * 地址值对象
  */
 @Embeddable
-open class Address {
-    var province: String? = null
-    var city: String? = null
-    var detail: String? = null
-    var receiver: String? = null
-
+open class Address(
+    val province: String,
+    val city: String,
+    val detail: String,
+    val receiver: String,
     @Column(name = "receiver_phone")
-    var receiverPhone: String? = null
+    val receiverPhone: String){
 
     override fun equals(o: Any?): Boolean {
         if (this === o) {
@@ -24,12 +23,11 @@ open class Address {
         if (o !is Address) {
             return false
         }
-        val address = o
-        return province == address.province &&
-                city == address.city &&
-                detail == address.detail &&
-                receiver == address.receiver &&
-                receiverPhone == address.receiverPhone
+        return province == o.province &&
+                city == o.city &&
+                detail == o.detail &&
+                receiver == o.receiver &&
+                receiverPhone == o.receiverPhone
     }
 
     override fun hashCode(): Int {

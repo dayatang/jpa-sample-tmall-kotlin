@@ -4,6 +4,7 @@ import yang.yu.tmall.domain.commons.Address
 import yang.yu.tmall.domain.commons.BaseEntity
 import java.util.*
 import javax.persistence.*
+import kotlin.collections.HashSet
 
 @Entity
 @Table(name = "buyers")
@@ -22,6 +23,9 @@ abstract class Buyer(@Column(nullable = false, unique = true) open val name: Str
     @ElementCollection
     @CollectionTable(name = "shipping_addresses", joinColumns = [JoinColumn(name = "buyer_id")])
     open var shippingAddresses: MutableSet<Address> = HashSet()
+        get() {
+            return HashSet(field)
+        }
       set(value) {
         field = HashSet(value)
       }
