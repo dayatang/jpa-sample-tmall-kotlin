@@ -9,22 +9,10 @@ import javax.persistence.Embeddable
  * 金额值对象。只保留两位小数
  */
 @Embeddable
-open class Money {
+data class Money(val value: BigDecimal = BigDecimal.ZERO){
 
-    var value: BigDecimal = BigDecimal.ZERO
-
-    /**
-     * 构造函数，仅仅为了满足JPA规范而提供。实际场景应该采用伴生对象的工厂方法创建Money实例。
-     */
-    protected constructor() : this(BigDecimal.ZERO)
-
-    /**
-     * 构造函数。以BigDecimal为参数
-     * @param amount 金额值
-     */
-    private constructor(amount: BigDecimal) {
-        value = amount.setScale(SCALE, RoundingMode.HALF_UP)
-    }
+    val scaledValue : BigDecimal
+        get() = value.setScale(SCALE, RoundingMode.HALF_UP)
 
     fun add(amount: Money): Money {
         return Money(value.add(amount.value))
@@ -82,7 +70,6 @@ open class Money {
 
         private const val SCALE = 2
 
-        @JvmField
         val ZERO = valueOf(0)
 
         /**
