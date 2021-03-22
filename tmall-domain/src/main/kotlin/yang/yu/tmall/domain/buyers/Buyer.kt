@@ -4,16 +4,13 @@ import yang.yu.tmall.domain.commons.Address
 import yang.yu.tmall.domain.commons.BaseEntity
 import java.util.*
 import javax.persistence.*
+import kotlin.collections.HashSet
 
 @Entity
 @Table(name = "buyers")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "DTYPE", discriminatorType = DiscriminatorType.STRING)
-abstract class Buyer : BaseEntity {
-
-    @Basic(optional = false)
-    @Column(nullable = false, unique = true)
-    open var name: String = ""
+abstract class Buyer(@Column(nullable = false, unique = true) open val name: String) : BaseEntity() {
 
     @Column(name = "mobile_no")
     open var mobileNo: String? = null
@@ -26,15 +23,12 @@ abstract class Buyer : BaseEntity {
     @ElementCollection
     @CollectionTable(name = "shipping_addresses", joinColumns = [JoinColumn(name = "buyer_id")])
     open var shippingAddresses: MutableSet<Address> = HashSet()
+        get() {
+            return HashSet(field)
+        }
       set(value) {
         field = HashSet(value)
       }
-
-    protected constructor() {}
-
-    constructor(name: String) {
-        this.name = name
-    }
 
     fun addShippingAddress(address: Address) {
         shippingAddresses.add(address)

@@ -4,7 +4,8 @@ import javax.persistence.*
 
 @Entity
 @DiscriminatorValue("O")
-open class OrgBuyer : Buyer {
+open class OrgBuyer(name: String) : Buyer(name) {
+
     @Column(name = "business_license_no")
     open var businessLicenseNo: String? = null
 
@@ -18,7 +19,4 @@ open class OrgBuyer : Buyer {
     )
     open var contactInfo: ContactInfo? = null
 
-    constructor() {}
-
-    constructor(name: String) : super(name) {}
 }

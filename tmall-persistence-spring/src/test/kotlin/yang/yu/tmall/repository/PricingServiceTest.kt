@@ -23,7 +23,7 @@ import javax.transaction.Transactional
 @SpringJUnitConfig(classes = [JpaSpringConfig::class])
 
 @Transactional
-class PricingServiceTest : WithAssertions {
+open class PricingServiceTest : WithAssertions {
     @Inject
     private lateinit var service: PricingService
 
@@ -49,7 +49,7 @@ class PricingServiceTest : WithAssertions {
 
     @AfterEach
     fun afterEach() {
-        Arrays.asList<Any?>(product1, product2, pricing1, pricing2, pricing3, pricing4)
+        listOf(product1, product2, pricing1, pricing2, pricing3, pricing4)
                 .forEach(Consumer { o: Any? -> entityManager.remove(o) })
     }
 
@@ -71,7 +71,7 @@ class PricingServiceTest : WithAssertions {
     @Test
     fun adjustPriceByPercentage() {
         val time2002_11_01: LocalDateTime = LocalDate.of(2020, 11, 1).atStartOfDay()
-        val time2002_10_31: LocalDateTime = time2002_11_01.minusSeconds(1)
+        val time2002_10_31: LocalDateTime = time2002_11_01.minusSeconds(10)
         val productSet: Set<Product> = Sets.newLinkedHashSet(product1, product2)
         service.adjustPriceByPercentage(productSet, 10, time2002_11_01)
         println("=======================")

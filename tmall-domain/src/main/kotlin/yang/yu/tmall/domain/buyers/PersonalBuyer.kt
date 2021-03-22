@@ -5,7 +5,7 @@ import javax.persistence.*
 
 @Entity
 @DiscriminatorValue("P")
-open class PersonalBuyer : Buyer {
+open class PersonalBuyer(name: String) : Buyer(name) {
 
     @Enumerated(EnumType.STRING)
     open var gender: Gender? = null
@@ -16,10 +16,6 @@ open class PersonalBuyer : Buyer {
     @MapKeyColumn(name = "im_type")
     @Column(name = "im_value")
     open var imInfos: MutableMap<ImType, String> = HashMap()
-
-    constructor() {}
-
-    constructor(name: String) : super(name) {}
 
     fun getImInfo(type: ImType): String {
         return imInfos.getOrDefault(type, "")

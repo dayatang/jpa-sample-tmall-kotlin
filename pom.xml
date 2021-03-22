@@ -322,7 +322,7 @@
         <mysql.password></mysql.password>
         <jdbc.groupId>mysql</jdbc.groupId>
         <jdbc.artifactId>mysql-connector-java</jdbc.artifactId>
-        <jdbc.version>8.0.22</jdbc.version>
+        <jdbc.version>8.0.23</jdbc.version>
         <jdbc.driverClassName>com.mysql.cj.jdbc.Driver</jdbc.driverClassName>
         <jdbc.url><![CDATA[jdbc:mysql://127.0.0.1:3306/tmalldb?createDatabaseIfNotExist=true]]></jdbc.url>
         <jdbc.username>${mysql.username}</jdbc.username>
