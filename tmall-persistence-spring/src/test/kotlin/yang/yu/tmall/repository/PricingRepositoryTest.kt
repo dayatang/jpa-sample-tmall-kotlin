@@ -9,6 +9,7 @@ import yang.yu.tmall.domain.commons.Money
 import yang.yu.tmall.domain.pricing.Pricing
 import yang.yu.tmall.domain.pricing.Pricings
 import yang.yu.tmall.domain.products.Product
+import yang.yu.tmall.domain.products.ProductCategory
 import yang.yu.tmall.spring.JpaSpringConfig
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -37,8 +38,9 @@ open class PricingRepositoryTest : WithAssertions {
 
     @BeforeEach
     fun beforeEach() {
-        product1 = entityManager.merge(Product("电冰箱", null))
-        product2 = entityManager.merge(Product("电视机", null))
+        val category = entityManager.merge(ProductCategory("a"))
+        product1 = entityManager.merge(Product("电冰箱", category))
+        product2 = entityManager.merge(Product("电视机", category))
         pricing1 = entityManager.merge(Pricing(product1, Money.valueOf(500), LocalDate.of(2020, 10, 1).atStartOfDay()))
         pricing2 = entityManager.merge(Pricing(product1, Money.valueOf(600), LocalDate.of(2020, 2, 15).atStartOfDay()))
         pricing3 = entityManager.merge(Pricing(product2, Money.valueOf(7000), LocalDate.of(2020, 7, 14).atStartOfDay()))
@@ -47,13 +49,12 @@ open class PricingRepositoryTest : WithAssertions {
 
     @AfterEach
     fun afterEach() {
-        Arrays.asList(product1, product2, pricing1, pricing2, pricing3, pricing4)
-                .forEach(Consumer { entityManager::remove})
+        listOf(product1, product2, pricing1, pricing2, pricing3, pricing4)
+                .forEach(entityManager::remove)
     }
 
-    @get:Test
-    val priceAt: Unit
-        get() {
+    @Test
+    fun getPriceAt() {
             val time2002_02_15: LocalDateTime = LocalDate.of(2020, 2, 15).atStartOfDay()
             val time2002_02_16: LocalDateTime = LocalDate.of(2020, 2, 16).atStartOfDay()
             val time2002_10_01: LocalDateTime = LocalDate.of(2020, 10, 1).atStartOfDay()

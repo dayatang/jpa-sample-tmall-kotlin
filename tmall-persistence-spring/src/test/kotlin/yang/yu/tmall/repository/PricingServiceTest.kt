@@ -11,6 +11,7 @@ import yang.yu.tmall.domain.pricing.Pricing
 import yang.yu.tmall.domain.pricing.PricingException
 import yang.yu.tmall.domain.pricing.PricingService
 import yang.yu.tmall.domain.products.Product
+import yang.yu.tmall.domain.products.ProductCategory
 import yang.yu.tmall.spring.JpaSpringConfig
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -39,8 +40,9 @@ open class PricingServiceTest : WithAssertions {
 
     @BeforeEach
     fun beforeEach() {
-        product1 = entityManager.merge(Product("电冰箱", null))
-        product2 = entityManager.merge(Product("电视机", null))
+        val category = entityManager.merge(ProductCategory("a"))
+        product1 = entityManager.merge(Product("电冰箱", category))
+        product2 = entityManager.merge(Product("电视机", category))
         pricing1 = service.setPriceOfProduct(product1, Money.valueOf(500), LocalDate.of(2020, 10, 1).atStartOfDay())
         pricing2 = service.setPriceOfProduct(product1, Money.valueOf(600), LocalDate.of(2020, 2, 15).atStartOfDay())
         pricing3 = service.setPriceOfProduct(product2, Money.valueOf(7000), LocalDate.of(2020, 7, 14).atStartOfDay())
