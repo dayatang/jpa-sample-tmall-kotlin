@@ -5,11 +5,8 @@ import javax.persistence.EnumType
 import javax.persistence.Enumerated
 
 @Embeddable
-open class ContactInfo {
-    var name: String? = null
-
-    @Enumerated(EnumType.STRING)
-    var gender: Gender? = null
-    var mobileNo: String? = null
-    var email: String? = null
-}
+data class ContactInfo(
+    var name: String,
+    @Enumerated(EnumType.STRING) var gender: Gender = Gender.MALE,
+    var mobileNo: String,
+    var email: String)

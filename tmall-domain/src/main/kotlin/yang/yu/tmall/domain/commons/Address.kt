@@ -14,5 +14,4 @@ data class Address(
     val detail: String,
     val receiver: String,
     @Column(name = "receiver_phone")
-    val receiverPhone: String){
-}
+    val receiverPhone: String)

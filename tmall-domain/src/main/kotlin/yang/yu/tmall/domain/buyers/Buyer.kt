@@ -13,16 +13,16 @@ import kotlin.collections.HashSet
 abstract class Buyer(@Column(nullable = false, unique = true) open val name: String) : BaseEntity() {
 
     @Column(name = "mobile_no")
-    open var mobileNo: String? = null
+    var mobileNo: String? = null
 
     @Column(name = "wired_no")
-    open var wiredNo: String? = null
+    var wiredNo: String? = null
 
-    open var email: String? = null
+    var email: String? = null
 
     @ElementCollection
     @CollectionTable(name = "shipping_addresses", joinColumns = [JoinColumn(name = "buyer_id")])
-    open var shippingAddresses: MutableSet<Address> = HashSet()
+    var shippingAddresses: MutableSet<Address> = HashSet()
         get() {
             return HashSet(field)
         }
