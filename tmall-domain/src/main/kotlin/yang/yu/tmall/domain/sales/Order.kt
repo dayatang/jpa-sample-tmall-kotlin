@@ -10,30 +10,26 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "orders")
-open class Order : BaseEntity() {
-
-    @Basic(optional = false)
-    @Column(name = "order_no", nullable = false, unique = true)
-    open var orderNo: String = ""
+data class Order(
+    @Column(name = "order_no", unique = true) var orderNo: String,
+    @ManyToOne var buyer: Buyer
+) : BaseEntity() {
 
     @OneToMany(mappedBy = "order", cascade = [CascadeType.ALL], orphanRemoval = true)
     @OrderColumn(name = "seq_no")
-    open var lineItems: MutableList<OrderLine> = ArrayList()
+    var lineItems: MutableList<OrderLine> = ArrayList()
         //get() = ArrayList(field)
         set(value) {
             field = value
             this.totalPrice = calculateTotalPrice()
         }
 
-    @ManyToOne
-    open var buyer: Buyer? = null
-
     @Embedded
-    open var shippingAddress: Address? = null
+    var shippingAddress: Address? = null
 
     @Embedded
     @AttributeOverride(name = "value", column = Column(name = "total_price"))
-    open var totalPrice: Money = Money.ZERO
+    var totalPrice: Money = Money.ZERO
 
     fun addLineItem(lineItem: OrderLine) {
         if (containsProduct(lineItem.product!!)) {
@@ -54,25 +50,5 @@ open class Order : BaseEntity() {
         return lineItems.stream()
             .map { it.subTotal }
             .reduce(Money.ZERO) { subTotal: Money, each: Money -> subTotal.add(each) }
-    }
-
-    override fun equals(o: Any?): Boolean {
-        if (this === o) {
-            return true
-        }
-        if (o !is Order) {
-            return false
-        }
-        return orderNo == o.orderNo
-    }
-
-    override fun hashCode(): Int {
-        return Objects.hash(orderNo)
-    }
-
-    override fun toString(): String {
-        return "Order{" +
-                "orderNo='" + orderNo + '\'' +
-                '}'
     }
 }

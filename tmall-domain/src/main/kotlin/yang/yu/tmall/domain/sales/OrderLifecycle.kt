@@ -20,7 +20,7 @@ class OrderLifecycle private constructor(private val order: Order) {
 
   private val transitionList: List<OrderStatusTransition>
     get() = transitions!!.findByOrder(order)
-      .sorted(Comparator.comparing { it.seqNo })
+      .sorted(Comparator.comparing { it.occurredOn })
       .collect(Collectors.toList())
 
   companion object {
