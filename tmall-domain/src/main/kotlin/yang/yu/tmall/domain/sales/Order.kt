@@ -11,8 +11,11 @@ import javax.persistence.*
 @Entity
 @Table(name = "orders")
 data class Order(
-    @Column(name = "order_no", unique = true) var orderNo: String,
-    @ManyToOne var buyer: Buyer
+    @Column(name = "order_no", unique = true)
+    val orderNo: String,
+
+    @ManyToOne
+    val buyer: Buyer
 ) : BaseEntity() {
 
     @OneToMany(mappedBy = "order", cascade = [CascadeType.ALL], orphanRemoval = true)

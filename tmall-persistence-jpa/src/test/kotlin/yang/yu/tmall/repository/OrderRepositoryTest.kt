@@ -1,18 +1,19 @@
 package yang.yu.tmall.repository
 
-import org.junit.jupiter.api.*
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import yang.yu.tmall.domain.buyers.Buyer
 import yang.yu.tmall.domain.buyers.OrgBuyer
 import yang.yu.tmall.domain.buyers.PersonalBuyer
-import yang.yu.tmall.domain.commons.BaseEntity
 import yang.yu.tmall.domain.commons.Money.Companion.valueOf
 import yang.yu.tmall.domain.products.Product
+import yang.yu.tmall.domain.products.ProductCategory
 import yang.yu.tmall.domain.sales.Order
 import yang.yu.tmall.domain.sales.OrderLine
 import yang.yu.tmall.domain.sales.Orders
 import yang.yu.tmall.repository.jpa.OrderRepository
-import java.util.*
-import java.util.function.Consumer
+import java.math.BigDecimal
 import javax.transaction.Transactional
 
 @Transactional
@@ -33,58 +34,57 @@ class OrderRepositoryTest : BaseIntegrationTest() {
     @BeforeEach
     fun beforeEach() {
         orders = OrderRepository(entityManager)
-        product1 = entityManager.merge(Product("电冰箱", null))
-        product2 = entityManager.merge(Product("电视机", null))
+        val category = entityManager.merge(ProductCategory("a"))
+        product1 = entityManager.merge(Product("电冰箱", category))
+        product2 = entityManager.merge(Product("电视机", category))
         buyer1 = entityManager.merge(PersonalBuyer("张三"))
         buyer2 = entityManager.merge(OrgBuyer("华为公司"))
-        lineItem1 = OrderLine(product1, 3.0, valueOf(3500))
-        lineItem2 = OrderLine(product1, 5.0, valueOf(3500))
-        lineItem3 = OrderLine(product2, 3.0, valueOf(8500))
-        lineItem4 = OrderLine(product2, 2.0, valueOf(8500))
+        lineItem1 = OrderLine(product1, BigDecimal(3), valueOf(3500))
+        lineItem2 = OrderLine(product1, BigDecimal(5), valueOf(3500))
+        lineItem3 = OrderLine(product2, BigDecimal(3), valueOf(8500))
+        lineItem4 = OrderLine(product2, BigDecimal(2), valueOf(8500))
         order1 = createOrder("order1", buyer1, lineItem1, lineItem3)
         order2 = createOrder("order2", buyer1, lineItem2)
         order3 = createOrder("order3", buyer2, lineItem2, lineItem3)
     }
 
     private fun createOrder(orderNo: String, buyer: Buyer, vararg orderLines: OrderLine): Order {
-        val order = Order()
-        order.orderNo = orderNo
-        order.buyer = buyer
-        Arrays.stream(orderLines).forEach { order.addLineItem(it) }
+        val order = Order(orderNo, buyer)
+        orderLines.forEach { order.addLineItem(it) }
         return entityManager.merge(order)
     }
 
     @AfterEach
     fun afterEach() {
-        Arrays.asList(order1, order2, order3)
-            .forEach(Consumer { orders.delete(it) })
-        Arrays.asList(product1, product2, buyer1, buyer2)
-            .forEach(Consumer { o: BaseEntity? -> entityManager.remove(o) })
+        listOf(order1, order2, order3)
+            .forEach(orders::delete)
+        listOf(product1, product2, buyer1, buyer2)
+            .forEach(entityManager::remove)
     }
 
-    @get:Test
-    val byId: Unit
-        get() {
-            Arrays.asList(order1, order2).forEach(Consumer { order: Order ->
+    @Test
+    fun getById() {
+        listOf(order1, order2).forEach {
                 assertThat(
-                    orders.getById(order.id)
-                ).containsSame(order)
-            })
+                    orders.getById(it.id)
+                ).containsSame(it)
+            }
         }
 
-    @get:Test
-    val byOrderNo: Unit
-        get() {
-            Arrays.asList(order1, order2).forEach(Consumer { order: Order ->
+    @Test
+    fun getByOrderNo() {
+            listOf(order1, order2).forEach {
                 assertThat(
-                    orders.getByOrderNo(order.orderNo)
-                ).containsSame(order)
-            })
+                    orders.getByOrderNo(it.orderNo)
+                ).containsSame(it)
+            }
         }
 
     @Test
     fun findByBuyer() {
-        assertThat(orders.findByBuyer(buyer1)).hasSize(2).allMatch { it.buyer!! == buyer1 }
+        assertThat(orders.findByBuyer(buyer1))
+            .hasSize(2)
+            .allMatch { it.buyer == buyer1 }
     }
 
     @Test
