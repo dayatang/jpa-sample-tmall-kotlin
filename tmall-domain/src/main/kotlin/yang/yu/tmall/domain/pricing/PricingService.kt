@@ -2,8 +2,8 @@ package yang.yu.tmall.domain.pricing
 
 import yang.yu.tmall.domain.commons.Money
 import yang.yu.tmall.domain.products.Product
+import yang.yu.tmall.domain.products.ProductCategory
 import java.time.LocalDateTime
-import java.util.function.Consumer
 import java.util.stream.Stream
 import javax.inject.Named
 
@@ -13,13 +13,13 @@ class PricingService(private val pricings: Pricings) {
         return pricings.save(Pricing(product, unitPrice, effectiveTime))
     }
 
-    fun adjustPriceByPercentage(product: Product, percentage: Int, effectiveTime: LocalDateTime): Pricing {
+    fun adjustPriceByPercentage(product: Product, percentage: Double, effectiveTime: LocalDateTime): Pricing {
         val newPrice = currentPriceOfProduct(product).multiply(100 + percentage).divide(100)
         return setPriceOfProduct(product, newPrice, effectiveTime)
     }
 
-    fun adjustPriceByPercentage(products: Set<Product>, percentage: Int, effectiveTime: LocalDateTime) {
-        products.forEach(Consumer { product: Product -> adjustPriceByPercentage(product, percentage, effectiveTime) })
+    fun adjustPriceByPercentage(products: Set<Product>, percentage: Double, effectiveTime: LocalDateTime) {
+        products.forEach { adjustPriceByPercentage(it, percentage, effectiveTime) }
     }
 
     fun priceOfProductAt(product: Product, time: LocalDateTime): Money {

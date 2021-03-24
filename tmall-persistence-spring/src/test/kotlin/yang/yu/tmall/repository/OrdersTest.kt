@@ -15,8 +15,6 @@ import yang.yu.tmall.domain.sales.Order
 import yang.yu.tmall.domain.sales.OrderLine
 import yang.yu.tmall.domain.sales.Orders
 import yang.yu.tmall.spring.JpaSpringConfig
-import java.util.*
-import java.util.function.Consumer
 import javax.inject.Inject
 import javax.persistence.EntityManager
 import javax.transaction.Transactional

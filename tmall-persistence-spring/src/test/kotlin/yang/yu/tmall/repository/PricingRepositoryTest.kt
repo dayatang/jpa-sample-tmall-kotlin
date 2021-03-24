@@ -13,8 +13,6 @@ import yang.yu.tmall.domain.products.ProductCategory
 import yang.yu.tmall.spring.JpaSpringConfig
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.util.*
-import java.util.function.Consumer
 import javax.inject.Inject
 import javax.persistence.EntityManager
 import javax.transaction.Transactional

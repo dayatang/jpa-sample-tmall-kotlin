@@ -15,8 +15,6 @@ import yang.yu.tmall.domain.products.ProductCategory
 import yang.yu.tmall.spring.JpaSpringConfig
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.util.*
-import java.util.function.Consumer
 import javax.inject.Inject
 import javax.persistence.EntityManager
 import javax.transaction.Transactional
@@ -25,6 +23,7 @@ import javax.transaction.Transactional
 
 @Transactional
 open class PricingServiceTest : WithAssertions {
+
     @Inject
     private lateinit var service: PricingService
 
@@ -52,7 +51,7 @@ open class PricingServiceTest : WithAssertions {
     @AfterEach
     fun afterEach() {
         listOf(product1, product2, pricing1, pricing2, pricing3, pricing4)
-                .forEach(Consumer { o: Any? -> entityManager.remove(o) })
+                .forEach(entityManager::remove)
     }
 
     @Test
@@ -75,7 +74,7 @@ open class PricingServiceTest : WithAssertions {
         val time2002_11_01: LocalDateTime = LocalDate.of(2020, 11, 1).atStartOfDay()
         val time2002_10_31: LocalDateTime = time2002_11_01.minusSeconds(10)
         val productSet: Set<Product> = Sets.newLinkedHashSet(product1, product2)
-        service.adjustPriceByPercentage(productSet, 10, time2002_11_01)
+        service.adjustPriceByPercentage(productSet, 10.0, time2002_11_01)
         println("=======================")
         service.pricingHistoryOfProduct(product1).forEach(System.out::println)
         service.pricingHistoryOfProduct(product2).forEach(System.out::println)
