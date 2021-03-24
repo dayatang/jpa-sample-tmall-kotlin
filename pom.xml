@@ -19,7 +19,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>1.8</java.version>
+        <java.version>11</java.version>
         <kotlin.version>1.4.31</kotlin.version>
     </properties>
 
@@ -280,7 +280,7 @@
                 <artifactId>maven-pmd-plugin</artifactId>
                 <version>3.14.0</version>
                 <configuration>
-                    <targetJdk>1.8</targetJdk>
+                    <targetJdk>${java.version}</targetJdk>
                     <format>xml</format>
                     <linkXRef>true</linkXRef>
                     <minimumTokens>100</minimumTokens>
