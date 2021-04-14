@@ -2,6 +2,7 @@
 .settings
 .project
 .classpath
+.scannerwork
 target
 *.log
 *.tlog
