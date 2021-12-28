@@ -17,12 +17,12 @@ import javax.inject.Named
  */
 @Named
 interface OrderRepository : Orders, JpaRepository<Order, Int> {
-    /**
-     * 根据ID获取订单
-     * @param id 订单ID
-     * @return 订单
-     */
-    override fun getById(id: Int): Optional<Order>
+  /**
+   * 根据ID获取订单
+   * @param id 订单ID
+   * @return 订单
+   */
+  override fun findById(id: Int): Optional<Order>
 
     /**
      * 根据订单编号获取订单
@@ -31,7 +31,6 @@ interface OrderRepository : Orders, JpaRepository<Order, Int> {
      */
     override fun getByOrderNo(orderNo: String): Optional<Order>
 
-    @JvmDefault
     override fun findByBuyer(buyer: Buyer): Stream<Order> {
         return findByBuyerOrderByCreatedDesc(buyer)
     }
