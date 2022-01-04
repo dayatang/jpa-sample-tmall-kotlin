@@ -29,9 +29,7 @@ class PricingService(private val pricings: Pricings) {
     }
 
     fun currentPriceOfProduct(product: Product): Money {
-        return pricings.getPricingAt(product, LocalDateTime.now())
-                .map { it.unitPrice }
-                .orElseThrow { PricingException(product.name + "'s price has not been set yet.") }!!
+        return priceOfProductAt(product, LocalDateTime.now())
     }
 
     fun pricingHistoryOfProduct(product: Product): Stream<Pricing> {
