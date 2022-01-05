@@ -1,6 +1,6 @@
 package yang.yu.tmall.domain.sales
 
-import yang.yu.tmall.domain.commons.IoC.getInstance
+import yang.yu.lang.IoC.getInstance
 import java.util.*
 import java.util.stream.Collectors
 

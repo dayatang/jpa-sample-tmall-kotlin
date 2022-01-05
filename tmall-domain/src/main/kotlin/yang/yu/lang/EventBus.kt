@@ -1,4 +1,4 @@
-package yang.yu.tmall.domain.commons
+package yang.yu.lang
 
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.PublishSubject
