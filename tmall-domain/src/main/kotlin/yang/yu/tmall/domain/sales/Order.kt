@@ -35,7 +35,7 @@ data class Order(
     var totalPrice: Money = Money.ZERO
 
     fun addLineItem(lineItem: OrderLine) {
-        if (containsProduct(lineItem.product!!)) {
+        if (containsProduct(lineItem.product)) {
             throw DuplicateOrderLineException()
         }
         lineItem.order = this
