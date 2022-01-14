@@ -5,7 +5,9 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import yang.yu.tmall.domain.buyers.*
 import yang.yu.tmall.repository.jpa.BuyerRepositoryCriteria
+import javax.transaction.Transactional
 
+@Transactional
 internal class BuyerRepositoryCriteriaTest : BaseIntegrationTest() {
     private lateinit var buyers: Buyers
     private lateinit  var buyer1: PersonalBuyer
