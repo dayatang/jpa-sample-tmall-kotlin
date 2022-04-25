@@ -1,8 +1,8 @@
 package yang.yu.tmall.domain.commons
 
 import java.util.*
-import javax.persistence.Column
-import javax.persistence.Embeddable
+import jakarta.persistence.Column
+import jakarta.persistence.Embeddable
 
 /**
  * 地址值对象

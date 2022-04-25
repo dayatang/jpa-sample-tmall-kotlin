@@ -3,7 +3,7 @@ package yang.yu.tmall.domain.commons
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.util.*
-import javax.persistence.Embeddable
+import jakarta.persistence.Embeddable
 
 /**
  * 金额值对象。只保留两位小数

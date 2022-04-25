@@ -13,8 +13,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>javax.persistence</groupId>
-            <artifactId>javax.persistence-api</artifactId>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
         </dependency>
         <dependency>
             <groupId>javax.inject</groupId>
@@ -38,9 +38,9 @@
                         <plugin>all-open</plugin>
                     </compilerPlugins>
                     <pluginOptions>
-                        <option>all-open:annotation=javax.persistence.Entity</option>
-                        <option>all-open:annotation=javax.persistence.Embeddable</option>
-                        <option>all-open:annotation=javax.persistence.MappedSuperclass</option>
+                        <option>all-open:annotation=jakarta.persistence.Entity</option>
+                        <option>all-open:annotation=jakarta.persistence.Embeddable</option>
+                        <option>all-open:annotation=jakarta.persistence.MappedSuperclass</option>
                         <option>all-open:annotation=javax.inject.Named</option>
                     </pluginOptions>
                 </configuration>

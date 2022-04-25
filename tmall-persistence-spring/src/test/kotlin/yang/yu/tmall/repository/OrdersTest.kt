@@ -16,7 +16,7 @@ import yang.yu.tmall.domain.sales.OrderLine
 import yang.yu.tmall.domain.sales.Orders
 import yang.yu.tmall.spring.JpaSpringConfig
 import javax.inject.Inject
-import javax.persistence.EntityManager
+import jakarta.persistence.EntityManager
 import javax.transaction.Transactional
 
 @SpringJUnitConfig(classes = [JpaSpringConfig::class])

@@ -14,7 +14,7 @@ import yang.yu.tmall.spring.JpaSpringConfig
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.inject.Inject
-import javax.persistence.EntityManager
+import jakarta.persistence.EntityManager
 import javax.transaction.Transactional
 
 @SpringJUnitConfig(classes = [JpaSpringConfig::class])

@@ -7,7 +7,7 @@ import yang.yu.tmall.domain.sales.Orders
 import java.time.LocalDateTime
 import java.util.*
 import java.util.stream.Stream
-import javax.persistence.EntityManager
+import jakarta.persistence.EntityManager
 
 class OrderRepository(private val entityManager: EntityManager) : Orders {
     override fun getById(id: Int): Optional<Order> {

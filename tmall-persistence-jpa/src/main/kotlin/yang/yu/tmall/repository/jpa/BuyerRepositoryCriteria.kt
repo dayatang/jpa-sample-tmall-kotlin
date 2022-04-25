@@ -6,9 +6,9 @@ import yang.yu.tmall.domain.buyers.ImType
 import yang.yu.tmall.domain.buyers.PersonalBuyer
 import java.util.*
 import java.util.stream.Stream
-import javax.persistence.EntityManager
-import javax.persistence.criteria.CriteriaBuilder
-import javax.persistence.criteria.CriteriaQuery
+import jakarta.persistence.EntityManager
+import jakarta.persistence.criteria.CriteriaBuilder
+import jakarta.persistence.criteria.CriteriaQuery
 
 class BuyerRepositoryCriteria(private val entityManager: EntityManager) : Buyers {
     override fun <T : Buyer> save(buyer: T): T {
