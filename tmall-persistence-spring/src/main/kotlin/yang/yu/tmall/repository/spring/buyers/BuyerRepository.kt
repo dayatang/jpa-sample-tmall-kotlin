@@ -16,7 +16,6 @@ import javax.inject.Named
 @Named
 interface BuyerRepository : Buyers, JpaRepository<Buyer, Int> {
 
-
     override fun findPersonalBuyerByQQ(qq: String): Optional<PersonalBuyer> {
         return findPersonalBuyerByImInfo(ImType.QQ, qq)
     }

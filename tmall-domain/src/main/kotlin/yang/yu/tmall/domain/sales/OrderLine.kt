@@ -4,7 +4,7 @@ import yang.yu.tmall.domain.commons.BaseEntity
 import yang.yu.tmall.domain.commons.Money
 import yang.yu.tmall.domain.products.Product
 import java.math.BigDecimal
-import jakarta.persistence.*
+import javax.persistence.*
 
 @Entity
 @Table(name = "order_lines")

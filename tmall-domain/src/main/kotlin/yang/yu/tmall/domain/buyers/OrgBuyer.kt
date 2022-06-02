@@ -1,6 +1,6 @@
 package yang.yu.tmall.domain.buyers
 
-import jakarta.persistence.*
+import javax.persistence.*
 
 @Entity
 @DiscriminatorValue("O")

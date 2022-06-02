@@ -40,4 +40,41 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-maven-plugin</artifactId>
+                <configuration>
+                    <args>
+                        <arg>-Xjsr305=strict</arg>
+                    </args>
+                    <compilerPlugins>
+                        <plugin>spring</plugin>
+                        <plugin>jpa</plugin>
+                    </compilerPlugins>
+                    <pluginOptions>
+                        <option>spring:annotation=javax.inject.Named</option>
+                        <option>spring:annotation=org.springframework.stereotype.Component</option>
+                        <option>spring:annotation=org.springframework.context.annotation.Configuration</option>
+                        <option>jpa:annotation=javax.persistence.Entity</option>
+                        <option>jpa:annotation=javax.persistence.Embeddable</option>
+                        <option>jpa:annotation=javax.persistence.MappedSuperclass</option>
+                    </pluginOptions>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.jetbrains.kotlin</groupId>
+                        <artifactId>kotlin-maven-allopen</artifactId>
+                        <version>${kotlin.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.jetbrains.kotlin</groupId>
+                        <artifactId>kotlin-maven-noarg</artifactId>
+                        <version>${kotlin.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
 </project>

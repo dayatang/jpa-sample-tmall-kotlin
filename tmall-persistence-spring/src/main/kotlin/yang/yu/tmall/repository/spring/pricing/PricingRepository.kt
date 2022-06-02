@@ -15,12 +15,10 @@ import javax.inject.Named
 @Named
 interface PricingRepository : Pricings, JpaRepository<Pricing, Int> {
 
-    @JvmDefault
     override fun getPricingAt(product: Product, time: LocalDateTime): Optional<Pricing> {
         return findFirstByProductAndEffectiveTimeIsLessThanEqualOrderByEffectiveTimeDesc(product, time)
     }
 
-    @JvmDefault
     override fun findPricingHistoryOfProduct(product: Product): Stream<Pricing> {
         return findByProductOrderByEffectiveTime(product)
     }

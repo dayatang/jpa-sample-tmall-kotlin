@@ -1,6 +1,6 @@
 package yang.yu.tmall.domain.buyers
 
-import jakarta.persistence.*
+import javax.persistence.*
 import yang.yu.tmall.domain.commons.Address
 import yang.yu.tmall.domain.commons.BaseEntity
 import java.util.*

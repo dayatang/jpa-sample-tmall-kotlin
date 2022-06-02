@@ -6,7 +6,7 @@ import yang.yu.tmall.domain.buyers.ImType
 import yang.yu.tmall.domain.buyers.PersonalBuyer
 import java.util.*
 import java.util.stream.Stream
-import jakarta.persistence.EntityManager
+import javax.persistence.EntityManager
 
 class BuyerRepositoryJpql(private val entityManager: EntityManager) : Buyers {
     override fun <T : Buyer> save(buyer: T): T {

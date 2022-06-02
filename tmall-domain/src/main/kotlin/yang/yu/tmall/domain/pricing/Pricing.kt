@@ -4,10 +4,10 @@ import yang.yu.tmall.domain.commons.BaseEntity
 import yang.yu.tmall.domain.commons.Money
 import yang.yu.tmall.domain.products.Product
 import java.time.LocalDateTime
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.ManyToOne
-import jakarta.persistence.Table
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.ManyToOne
+import javax.persistence.Table
 
 @Entity
 @Table(name = "pricings")

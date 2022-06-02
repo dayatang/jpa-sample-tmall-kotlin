@@ -19,7 +19,11 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>11</java.version>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <jdk.version>11</jdk.version>
+        <maven.compiler.release>${jdk.version}</maven.compiler.release>
+        <maven.compiler.source>${jdk.version}</maven.compiler.source>
+        <maven.compiler.target>${jdk.version}</maven.compiler.target>
         <kotlin.version>1.6.21</kotlin.version>
     </properties>
 
@@ -63,7 +67,7 @@
             <dependency>
                 <groupId>jakarta.persistence</groupId>
                 <artifactId>jakarta.persistence-api</artifactId>
-                <version>3.1.0</version>
+                <version>2.2.3</version>
             </dependency>
             <dependency>
                 <groupId>javax.inject</groupId>
@@ -78,12 +82,12 @@
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-core</artifactId>
-                <version>6.0.0.Final</version>
+                <version>5.6.7.Final</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.data</groupId>
                 <artifactId>spring-data-jpa</artifactId>
-                <version>2.6.4</version>
+                <version>2.7.0</version>
             </dependency>
             <dependency>
                 <groupId>com.h2database</groupId>
@@ -148,7 +152,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-clean-plugin</artifactId>
-                    <version>3.1.0</version>
+                    <version>3.2.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -158,7 +162,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.8.1</version>
+                    <version>3.10.1</version>
                     <configuration>
                         <skip>true</skip>
                     </configuration>
@@ -166,12 +170,12 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.22.2</version>
+                    <version>3.0.0-M6</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.2.0</version>
+                    <version>3.2.2</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -186,7 +190,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-site-plugin</artifactId>
-                    <version>3.9.1</version>
+                    <version>3.12.0</version>
                     <dependencies>
                         <dependency>
                             <groupId>org.apache.maven.wagon</groupId>
@@ -203,7 +207,7 @@
                 <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>0.8.7</version>
+                    <version>0.8.8</version>
                     <configuration>
                         <destFile>target/coverage-reports/jacoco-unit.exec</destFile>
                         <dataFile>target/coverage-reports/jacoco-unit.exec</dataFile>
@@ -243,7 +247,7 @@
                 <artifactId>kotlin-maven-plugin</artifactId>
                 <version>${kotlin.version}</version>
                 <configuration>
-                    <jvmTarget>${java.version}</jvmTarget>
+                    <jvmTarget>${jdk.version}</jvmTarget>
                 </configuration>
                 <executions>
                     <execution>
@@ -337,7 +341,7 @@
                 <artifactId>maven-pmd-plugin</artifactId>
                 <version>3.14.0</version>
                 <configuration>
-                    <targetJdk>${java.version}</targetJdk>
+                    <targetJdk>${jdk.version}</targetJdk>
                     <format>xml</format>
                     <linkXRef>true</linkXRef>
                     <minimumTokens>100</minimumTokens>
@@ -354,7 +358,7 @@
             <properties>
                 <jdbc.groupId>com.h2database</jdbc.groupId>
                 <jdbc.artifactId>h2</jdbc.artifactId>
-                <jdbc.version>1.4.200</jdbc.version>
+                <jdbc.version>2.1.212</jdbc.version>
                 <jdbc.driverClassName>org.h2.Driver</jdbc.driverClassName>
                 <jdbc.url><![CDATA[jdbc:h2:mem:tmall;DB_CLOSE_DELAY=-1]]></jdbc.url>
                 <jdbc.username>sa</jdbc.username>

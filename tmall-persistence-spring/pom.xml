@@ -51,7 +51,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>5.3.19</version>
+            <version>5.3.20</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -60,49 +60,33 @@
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-maven-plugin</artifactId>
-                <version>${kotlin.version}</version>
                 <configuration>
-                    <jvmTarget>${java.version}</jvmTarget>
+                    <args>
+                        <arg>-Xjsr305=strict</arg>
+                    </args>
                     <compilerPlugins>
                         <plugin>spring</plugin>
+                        <plugin>jpa</plugin>
                     </compilerPlugins>
                     <pluginOptions>
                         <option>spring:annotation=javax.inject.Named</option>
+                        <option>spring:annotation=org.springframework.stereotype.Component</option>
+                        <option>spring:annotation=org.springframework.context.annotation.Configuration</option>
+                        <option>jpa:annotation=javax.persistence.Entity</option>
+                        <option>jpa:annotation=javax.persistence.Embeddable</option>
+                        <option>jpa:annotation=javax.persistence.MappedSuperclass</option>
                     </pluginOptions>
+                    <jvmTarget>${jdk.version}</jvmTarget>
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>compile</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                        <configuration>
-                            <sourceDirs>
-                                <sourceDir>${project.basedir}/src/main/kotlin</sourceDir>
-                            </sourceDirs>
-                            <args>
-                                <arg>-Xjvm-default=enable</arg>
-                            </args>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>test-compile</id>
-                        <phase>test-compile</phase>
-                        <goals>
-                            <goal>test-compile</goal>
-                        </goals>
-                        <configuration>
-                            <sourceDirs>
-                                <sourceDir>${project.basedir}/src/test/kotlin</sourceDir>
-                            </sourceDirs>
-                        </configuration>
-                    </execution>
-                </executions>
                 <dependencies>
                     <dependency>
                         <groupId>org.jetbrains.kotlin</groupId>
                         <artifactId>kotlin-maven-allopen</artifactId>
+                        <version>${kotlin.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.jetbrains.kotlin</groupId>
+                        <artifactId>kotlin-maven-noarg</artifactId>
                         <version>${kotlin.version}</version>
                     </dependency>
                 </dependencies>
