@@ -46,8 +46,9 @@ open class BuyerRepositoryTest : WithAssertions {
         assertThat(buyers.findByNameStartsWith("华"))
                 .contains(buyer2)
                 .doesNotContain(buyer1)
-        assertThat(buyers.findByNameStartsWith("三"))
-                .isEmpty()
+//        assertThat(buyers.findByNameStartsWith("ABC"))
+//            .doesNotContain(buyer1)
+//            .doesNotContain(buyer2)
     }
 
     @Test
