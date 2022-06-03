@@ -20,7 +20,7 @@ abstract class BaseEntity : Serializable {
      */
     @Id
     @GeneratedValue
-    var id = 0
+    open var id = 0
     /**
      * 获取版本号。该属性用于辅助实现乐观锁
      * @return
@@ -30,27 +30,27 @@ abstract class BaseEntity : Serializable {
      * @param version 要设置的版本号
      */
     @Version
-    var version = 0
+    open var version = 0
 
     /**
      * 获取实体创建时间
      * @return 实体的创建时间
      */
-    var created: LocalDateTime = LocalDateTime.now()
+    open var created: LocalDateTime = LocalDateTime.now()
 
     /**
      * 获取实体最后一次修改时间
      * @return 实体的最后修改时间
      */
     @Column(name = "last_updated")
-    var lastUpdated: LocalDateTime = LocalDateTime.now()
+    open var lastUpdated: LocalDateTime = LocalDateTime.now()
 
     /**
      * 判断实体是不是全新的（在数据库中没有对应记录）
      * @return 如果实体是新的，返回true；否则返回false
      */
     @Transient
-    var isNew = true
+    open var isNew = true
 
     /**
      * 生命周期回调方法。在实体将被第一次保存到数据库中前调用

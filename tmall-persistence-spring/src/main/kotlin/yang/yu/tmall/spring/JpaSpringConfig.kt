@@ -1,6 +1,6 @@
 package yang.yu.tmall.spring
 
-import com.mchange.v2.c3p0.ComboPooledDataSource
+import com.zaxxer.hikari.HikariDataSource
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
@@ -22,14 +22,14 @@ import javax.sql.DataSource
 @EnableJpaRepositories(basePackages = ["yang.yu.tmall.repository"])
 @EnableTransactionManagement
 @PropertySource("/jdbc.properties")
-open class JpaSpringConfig(private val env: Environment) {
+class JpaSpringConfig(private val env: Environment) {
     @Bean(destroyMethod = "close")
     @Throws(Exception::class)
-    open fun dataSource(): ComboPooledDataSource {
-        val result = ComboPooledDataSource()
-        result.driverClass = env.getProperty("jdbc.driverClassName")
+    open fun dataSource(): HikariDataSource {
+        val result = HikariDataSource()
+        result.driverClassName = env.getProperty("jdbc.driverClassName")
         result.jdbcUrl = env.getProperty("jdbc.url")
-        result.user = env.getProperty("jdbc.username")
+        result.username = env.getProperty("jdbc.username")
         result.password = env.getProperty("jdbc.password", "")
         return result
     }

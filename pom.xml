@@ -261,7 +261,7 @@
                                 <sourceDir>${project.basedir}/src/main/kotlin</sourceDir>
                             </sourceDirs>
                             <args>
-                                <arg>-Xjvm-default=enable</arg>
+                                <arg>-Xjvm-default=all</arg>
                             </args>
                         </configuration>
                     </execution>
