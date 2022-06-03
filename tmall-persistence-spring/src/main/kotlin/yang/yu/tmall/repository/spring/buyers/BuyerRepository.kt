@@ -1,25 +1,28 @@
 package yang.yu.tmall.repository.spring.buyers
 
-import org.springframework.data.jpa.repository.JpaRepository
-import org.springframework.data.jpa.repository.Query
-import org.springframework.data.repository.query.Param
 import yang.yu.tmall.domain.buyers.Buyer
 import yang.yu.tmall.domain.buyers.Buyers
 import yang.yu.tmall.domain.buyers.ImType
 import yang.yu.tmall.domain.buyers.PersonalBuyer
+import yang.yu.tmall.repository.spring.AbstractRepository
 import java.util.*
+import java.util.stream.Stream
 import javax.inject.Named
 
 /**
  * 买家仓储实现类。
  */
 @Named
-interface BuyerRepository : Buyers, JpaRepository<Buyer, Int> {
+class BuyerRepository(private val jpa: BuyerJpa) : Buyers, AbstractRepository<Buyer>(jpa) {
+    override fun getByName(name: String): Optional<Buyer> = jpa.getByName(name)
 
-    override fun findPersonalBuyerByQQ(qq: String): Optional<PersonalBuyer> {
-        return findPersonalBuyerByImInfo(ImType.QQ, qq)
+    override fun findByNameStartsWith(nameFragment: String): Stream<Buyer> {
+        println("=============$nameFragment")
+        return jpa.findByNameStartsWith(nameFragment)
     }
 
-    @Query("select o from PersonalBuyer o join o.imInfos i where KEY(i) = :key and VALUE(i) = :value")
-    fun findPersonalBuyerByImInfo(@Param("key") key: ImType, @Param("value") value: String): Optional<PersonalBuyer>
+    override fun findByNameContains(nameFragment: String): Stream<Buyer> = jpa.findByNameContains(nameFragment)
+
+    override fun findPersonalBuyerByQQ(qq: String): Optional<PersonalBuyer> = jpa.findPersonalBuyerByImInfo(ImType.QQ, qq)
+
 }

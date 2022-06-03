@@ -50,11 +50,15 @@ class OrderRepository(private val entityManager: EntityManager) : Orders {
             .resultStream
     }
 
-    override fun save(order: Order): Order {
+    override fun <S: Order> save(order: S): S {
         return entityManager.merge(order)
     }
 
     override fun delete(order: Order) {
         entityManager.remove(order)
+    }
+
+    override fun findAll(): List<Order> {
+        return entityManager.createQuery("select t from Order t", Order::class.java).resultList
     }
 }

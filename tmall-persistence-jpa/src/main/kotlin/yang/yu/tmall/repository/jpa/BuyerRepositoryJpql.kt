@@ -9,7 +9,7 @@ import java.util.stream.Stream
 import javax.persistence.EntityManager
 
 class BuyerRepositoryJpql(private val entityManager: EntityManager) : Buyers {
-    override fun <T : Buyer> save(buyer: T): T {
+    override fun <S: Buyer> save(buyer: S): S {
         return entityManager.merge(buyer)
     }
 

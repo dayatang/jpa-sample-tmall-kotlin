@@ -1,13 +1,10 @@
 package yang.yu.tmall.domain.buyers
 
+import yang.yu.tmall.domain.commons.BaseRepository
 import java.util.*
 import java.util.stream.Stream
 
-interface Buyers {
-    fun <T : Buyer> save(buyer: T): T
-    fun delete(buyer: Buyer)
-    fun findAll(): List<Buyer>
-    fun getById(id: Int): Optional<Buyer>
+interface Buyers: BaseRepository<Buyer> {
     fun getByName(name: String): Optional<Buyer>
     fun findByNameStartsWith(nameFragment: String): Stream<Buyer>
     fun findByNameContains(nameFragment: String): Stream<Buyer>

@@ -11,7 +11,7 @@ import javax.persistence.criteria.CriteriaBuilder
 import javax.persistence.criteria.CriteriaQuery
 
 class BuyerRepositoryCriteria(private val entityManager: EntityManager) : Buyers {
-    override fun <T : Buyer> save(buyer: T): T {
+    override fun <S: Buyer> save(buyer: S): S {
         return entityManager.merge(buyer)
     }
 
@@ -66,7 +66,7 @@ class BuyerRepositoryCriteria(private val entityManager: EntityManager) : Buyers
     }
 
     private val criteriaBuilder: CriteriaBuilder
-        private get() = entityManager.criteriaBuilder
+        get() = entityManager.criteriaBuilder
 
     private fun <T : Buyer?> createCriteriaQuery(resultClass: Class<T>): CriteriaQuery<T> {
         return criteriaBuilder.createQuery(resultClass)
