@@ -11,12 +11,12 @@ import javax.persistence.criteria.CriteriaBuilder
 import javax.persistence.criteria.CriteriaQuery
 
 class BuyerRepositoryCriteria(private val entityManager: EntityManager) : Buyers {
-    override fun <S: Buyer> save(buyer: S): S {
-        return entityManager.merge(buyer)
+    override fun <S: Buyer> save(entity: S): S {
+        return entityManager.merge(entity)
     }
 
-    override fun delete(buyer: Buyer) {
-        entityManager.remove(buyer)
+    override fun delete(entity: Buyer) {
+        entityManager.remove(entity)
     }
 
     override fun findAll(): List<Buyer> {

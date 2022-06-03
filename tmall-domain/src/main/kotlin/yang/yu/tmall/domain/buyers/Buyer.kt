@@ -38,14 +38,14 @@ abstract class Buyer(@Column(nullable = false, unique = true) open val name: Str
         shippingAddresses.remove(address)
     }
 
-    override fun equals(o: Any?): Boolean {
-        if (this === o) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
             return true
         }
-        if (o !is Buyer) {
+        if (other !is Buyer) {
             return false
         }
-        return name == o.name
+        return name == other.name
     }
 
     override fun hashCode(): Int {

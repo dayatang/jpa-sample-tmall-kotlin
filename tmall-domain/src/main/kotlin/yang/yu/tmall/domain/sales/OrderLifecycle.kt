@@ -1,22 +1,16 @@
 package yang.yu.tmall.domain.sales
 
-import yang.yu.lang.IoC.getInstance
+import yang.yu.lang.IoC
 import java.util.*
 import java.util.stream.Collectors
 
 class OrderLifecycle private constructor(private val order: Order) {
   private var transitions: OrderStatusTransitions? = null
-    private get() = Optional.ofNullable(field)
-      .orElse(getInstance(OrderStatusTransitions::class.java))
+    get() = field ?: IoC.getInstance(OrderStatusTransitions::class.java)
 
-  private val currentTransition: OrderStatusTransition
-    get() {
-      val transitionList = transitionList
-      return transitionList[transitionList.size - 1]
-    }
+  private val currentTransition: OrderStatusTransition? = transitionList.lastOrNull()
 
-  val currentStatus: OrderStatus
-    get() = currentTransition.status
+  val currentStatus: OrderStatus = currentTransition?.status?: OrderStatus.PENDING
 
   private val transitionList: List<OrderStatusTransition>
     get() = transitions!!.findByOrder(order)

@@ -10,8 +10,9 @@ import javax.persistence.*
 @Entity
 @Table(name = "order_status_transitions")
 data class OrderStatusTransition(
+
     @ManyToOne
-    open val order: Order,
+    val order: Order,
 
     @Enumerated(EnumType.STRING)
     val status: OrderStatus = OrderStatus.PENDING,
