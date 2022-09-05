@@ -2,7 +2,7 @@ package yang.yu.tmall.repository.spring.pricing
 
 import yang.yu.tmall.domain.pricing.Pricing
 import yang.yu.tmall.domain.pricing.Pricings
-import yang.yu.tmall.domain.products.Product
+import yang.yu.tmall.domain.catalogue.Product
 import yang.yu.tmall.repository.spring.AbstractRepository
 import java.time.LocalDateTime
 import java.util.*

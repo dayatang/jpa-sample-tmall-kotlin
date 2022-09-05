@@ -10,8 +10,8 @@ import yang.yu.tmall.domain.commons.Money
 import yang.yu.tmall.domain.pricing.Pricing
 import yang.yu.tmall.domain.pricing.PricingException
 import yang.yu.tmall.domain.pricing.PricingService
-import yang.yu.tmall.domain.products.Product
-import yang.yu.tmall.domain.products.ProductCategory
+import yang.yu.tmall.domain.catalogue.Product
+import yang.yu.tmall.domain.catalogue.ProductCategory
 import yang.yu.tmall.spring.JpaSpringConfig
 import java.time.LocalDate
 import java.time.LocalDateTime

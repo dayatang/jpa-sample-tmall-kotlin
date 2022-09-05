@@ -7,8 +7,8 @@ import yang.yu.tmall.domain.buyers.Buyer
 import yang.yu.tmall.domain.buyers.OrgBuyer
 import yang.yu.tmall.domain.buyers.PersonalBuyer
 import yang.yu.tmall.domain.commons.Money.Companion.valueOf
-import yang.yu.tmall.domain.products.Product
-import yang.yu.tmall.domain.products.ProductCategory
+import yang.yu.tmall.domain.catalogue.Product
+import yang.yu.tmall.domain.catalogue.ProductCategory
 import yang.yu.tmall.domain.sales.Order
 import yang.yu.tmall.domain.sales.OrderLine
 import yang.yu.tmall.domain.sales.Orders
