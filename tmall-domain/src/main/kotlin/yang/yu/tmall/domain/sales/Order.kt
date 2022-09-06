@@ -4,7 +4,6 @@ import yang.yu.tmall.domain.buyers.Buyer
 import yang.yu.tmall.domain.commons.Address
 import yang.yu.tmall.domain.commons.BaseEntity
 import yang.yu.tmall.domain.commons.Money
-import yang.yu.tmall.domain.catalog.Product
 import java.util.*
 import javax.persistence.*
 

@@ -2,7 +2,6 @@ package yang.yu.tmall.repository.spring.sales
 
 import org.springframework.data.repository.query.Param
 import yang.yu.tmall.domain.buyers.Buyer
-import yang.yu.tmall.domain.catalog.Product
 import yang.yu.tmall.domain.sales.Order
 import yang.yu.tmall.domain.sales.Orders
 import yang.yu.tmall.repository.spring.AbstractRepository

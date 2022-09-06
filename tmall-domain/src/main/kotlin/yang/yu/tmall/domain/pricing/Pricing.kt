@@ -2,7 +2,6 @@ package yang.yu.tmall.domain.pricing
 
 import yang.yu.tmall.domain.commons.BaseEntity
 import yang.yu.tmall.domain.commons.Money
-import yang.yu.tmall.domain.catalog.Product
 import java.time.LocalDateTime
 import javax.persistence.AttributeOverride
 import javax.persistence.Column

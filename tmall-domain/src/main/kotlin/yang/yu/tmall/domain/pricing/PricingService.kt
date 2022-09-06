@@ -1,7 +1,7 @@
 package yang.yu.tmall.domain.pricing
 
-import yang.yu.tmall.domain.commons.Money
 import yang.yu.tmall.domain.catalog.Product
+import yang.yu.tmall.domain.commons.Money
 import java.time.LocalDateTime
 import java.util.stream.Stream
 import javax.inject.Named
@@ -31,8 +31,8 @@ class PricingService(private val pricings: Pricings) {
      * @param effectiveTime 生效时间
      * @return 一个新的定价对象
      */
-    fun adjustPriceByPercentage(product: Product, percentage: Double, effectiveTime: LocalDateTime): Pricing {
-        val newPrice = currentPrice(product).multiply(100 + percentage).divide(100)
+    fun adjustPriceByPercentage(product: Product, percentage: Number, effectiveTime: LocalDateTime): Pricing {
+        val newPrice = currentPrice(product).multiply(percentage.toDouble() + 100).divide(100)
         return setPrice(product, newPrice, effectiveTime)
     }
 
@@ -43,7 +43,7 @@ class PricingService(private val pricings: Pricings) {
      * @param effectiveTime 生效时间
      * @return 一批定价对象
      */
-    fun adjustPriceByPercentage(products: Set<Product>, percentage: Double, effectiveTime: LocalDateTime): Set<Pricing> {
+    fun adjustPriceByPercentage(products: Set<Product>, percentage: Number, effectiveTime: LocalDateTime): Set<Pricing> {
         return products.map { adjustPriceByPercentage(it, percentage, effectiveTime) }.toSet()
     }
 

@@ -2,7 +2,6 @@ package yang.yu.tmall.domain.sales
 
 import yang.yu.tmall.domain.commons.BaseEntity
 import yang.yu.tmall.domain.commons.Money
-import yang.yu.tmall.domain.catalog.Product
 import java.math.BigDecimal
 import javax.persistence.*
 
