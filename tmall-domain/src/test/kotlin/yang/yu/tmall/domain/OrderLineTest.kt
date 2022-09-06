@@ -2,8 +2,8 @@ package yang.yu.tmall.domain
 
 import org.junit.jupiter.api.Test
 import yang.yu.tmall.domain.commons.Money.Companion.valueOf
-import yang.yu.tmall.domain.catalogue.Product
-import yang.yu.tmall.domain.catalogue.ProductCategory
+import yang.yu.tmall.domain.catalog.Product
+import yang.yu.tmall.domain.catalog.ProductCategory
 import yang.yu.tmall.domain.sales.OrderLine
 import java.math.BigDecimal
 

@@ -2,7 +2,7 @@ package yang.yu.tmall.domain.sales
 
 import yang.yu.tmall.domain.buyers.Buyer
 import yang.yu.tmall.domain.commons.BaseRepository
-import yang.yu.tmall.domain.catalogue.Product
+import yang.yu.tmall.domain.catalog.Product
 import java.time.LocalDateTime
 import java.util.*
 import java.util.stream.Stream
