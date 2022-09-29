@@ -13,7 +13,7 @@ import java.time.LocalDateTime
  * @return 一个新的定价对象
  */
 fun Product.setPrice(unitPrice: Money?, effectiveTime: LocalDateTime = LocalDateTime.now()): Pricing {
-  return pricingService.setPrice(this, unitPrice!!, effectiveTime!!)
+  return pricingService.setPrice(this, unitPrice!!, effectiveTime)
 }
 
 /**
@@ -22,7 +22,8 @@ fun Product.setPrice(unitPrice: Money?, effectiveTime: LocalDateTime = LocalDate
  * @param effectiveTime 生效时间
  * @return 一个新的定价对象
  */
-fun Product.adjustPriceByPercentage(percentage: Number, effectiveTime: LocalDateTime = LocalDateTime.now()): Pricing {
+fun Product.adjustPriceByPercentage(percentage: Number,
+                                    effectiveTime: LocalDateTime = LocalDateTime.now()): Pricing {
   return pricingService.adjustPriceByPercentage(this, percentage, effectiveTime)
 }
 

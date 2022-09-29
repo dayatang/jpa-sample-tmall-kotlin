@@ -6,7 +6,11 @@ import javax.persistence.Enumerated
 
 @Embeddable
 data class ContactInfo(
-    var name: String,
-    @Enumerated(EnumType.STRING) var gender: Gender = Gender.MALE,
-    var mobileNo: String,
-    var email: String)
+    val name: String,
+
+    @Enumerated(EnumType.STRING)
+    val gender: Gender = Gender.MALE,
+
+    val mobileNo: String? = null,
+
+    val email: String? = null)
