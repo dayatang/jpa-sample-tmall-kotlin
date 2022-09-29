@@ -1,6 +1,5 @@
 package yang.yu.tmall.domain.commons
 
-import java.util.*
 import javax.persistence.Column
 import javax.persistence.Embeddable
 

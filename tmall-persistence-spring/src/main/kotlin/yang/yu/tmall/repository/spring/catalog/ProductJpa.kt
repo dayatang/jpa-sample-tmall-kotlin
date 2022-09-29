@@ -1,6 +1,7 @@
-package yang.yu.tmall.repository.spring.products
+package yang.yu.tmall.repository.spring.catalog
 
 import org.springframework.data.jpa.repository.JpaRepository
+import yang.yu.tmall.domain.catalog.Product
 import yang.yu.tmall.domain.catalog.ProductCategory
 import java.util.*
 import java.util.stream.Stream

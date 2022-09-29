@@ -1,5 +1,6 @@
-package yang.yu.tmall.repository.spring.products
+package yang.yu.tmall.repository.spring.catalog
 
+import yang.yu.tmall.domain.catalog.Product
 import yang.yu.tmall.domain.catalog.ProductCategory
 import yang.yu.tmall.domain.catalog.Products
 import yang.yu.tmall.repository.spring.AbstractRepository

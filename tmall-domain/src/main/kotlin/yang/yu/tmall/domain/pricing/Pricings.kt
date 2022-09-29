@@ -1,5 +1,6 @@
 package yang.yu.tmall.domain.pricing
 
+import yang.yu.tmall.domain.catalog.Product
 import yang.yu.tmall.domain.commons.BaseRepository
 import java.time.LocalDateTime
 import java.util.*
