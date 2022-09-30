@@ -1,5 +1,6 @@
 package yang.yu.tmall.domain.buyers
 
+import yang.yu.lang.IoC
 import javax.persistence.*
 import yang.yu.tmall.domain.commons.Address
 import yang.yu.tmall.domain.commons.BaseEntity
@@ -38,6 +39,9 @@ abstract class Buyer(@Column(nullable = false, unique = true) open val name: Str
     shippingAddresses.remove(address)
   }
 
+  fun save() = buyers.save(this)
+
+
   override fun equals(other: Any?): Boolean {
     if (this === other) {
       return true
@@ -56,5 +60,10 @@ abstract class Buyer(@Column(nullable = false, unique = true) open val name: Str
     return "Buyer{" +
       "name='" + name + '\'' +
       '}'
+  }
+
+  companion object {
+    private val buyers: Buyers
+      get() = IoC.getInstance(Buyers::class.java)
   }
 }
