@@ -8,75 +8,75 @@ import java.math.BigDecimal
 internal class MoneyTest : BaseUnitTest() {
     @Test
     fun valueOfBigDecimal() {
-        assertThat<Any>(valueOf(BigDecimal("15.554"))).isEqualTo(valueOf("15.554"))
-        assertThat<Any>(valueOf(BigDecimal("15.555"))).isEqualTo(valueOf("15.555"))
+        assertThat(valueOf(BigDecimal("15.554"))).isEqualTo(valueOf("15.554"))
+        assertThat(valueOf(BigDecimal("15.555"))).isEqualTo(valueOf("15.555"))
     }
 
     @Test
     fun valueOfInt() {
         val value = 10
-        assertThat<Any>(valueOf(value)).isEqualTo(valueOf("10"))
+        assertThat(valueOf(value)).isEqualTo(valueOf("10"))
     }
 
     @Test
     fun valueOfLong() {
         val value = 10000000L
-        assertThat<Any>(valueOf(value)).isEqualTo(valueOf("10000000"))
+        assertThat(valueOf(value)).isEqualTo(valueOf("10000000"))
     }
 
     @Test
     fun valueOfDouble() {
         val value = 10.556
-        assertThat<Any>(valueOf(value)).isEqualTo(valueOf("10.556"))
+        assertThat(valueOf(value)).isEqualTo(valueOf("10.556"))
     }
 
     @Test
-    fun add() {
+    fun plus() {
         val money1 = valueOf(67)
         val money2 = valueOf(46)
-        assertThat(money1.add(money2)).isEqualTo(valueOf("113"))
+        assertThat(money1.plus(money2)).isEqualTo(valueOf("113"))
     }
 
     @Test
-    fun subtract() {
+    fun minus() {
         val money1 = valueOf(67)
         val money2 = valueOf(46)
-        assertThat(money1.subtract(money2)).isEqualTo(valueOf("21"))
+        assertThat(money1.minus(money2)).isEqualTo(valueOf("21"))
     }
 
     @Test
-    fun multiplyByInt() {
-        assertThat(valueOf(67).multiply(2)).isEqualTo(valueOf("134"))
+    fun timesByInt() {
+        assertThat(valueOf(67).times(2)).isEqualTo(valueOf("134"))
     }
 
     @Test
-    fun multiplyByLong() {
-        assertThat(valueOf(67).multiply(2L)).isEqualTo(valueOf("134"))
+    fun timesByLong() {
+        assertThat(valueOf(67).times(2L)).isEqualTo(valueOf("134"))
     }
 
     @Test
-    fun multiplyByDouble() {
+    fun timesByDouble() {
         val money = valueOf(6.79)
-        assertThat(money.multiply(2.5)).isEqualTo(valueOf("16.975"))
+        assertThat(money.times(2.5)).isEqualTo(valueOf("16.975"))
     }
 
     @Test
-    fun multiplyByBigDecimal() {
+    fun timesByBigDecimal() {
         val money = valueOf(67)
         val m = BigDecimal(3)
-        assertThat(money.multiply(m)).isEqualTo(valueOf("201"))
+        assertThat(money.times(m)).isEqualTo(valueOf("201"))
     }
 
     @Test
     fun dividedByInt() {
         val money = valueOf(68)
-        assertThat(money.divide(2)).isEqualTo(valueOf("34"))
+        assertThat(money.div(2)).isEqualTo(valueOf("34"))
     }
 
     @Test
     fun dividedByLong() {
         val money = valueOf(68)
-        assertThat(money.divide(2L)).isEqualTo(valueOf("34"))
+        assertThat(money.div(2L)).isEqualTo(valueOf("34"))
     }
 
     @Disabled

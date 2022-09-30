@@ -32,7 +32,7 @@ class PricingService(private val pricings: Pricings) {
      * @return 一个新的定价对象
      */
     fun adjustPriceByPercentage(product: Product, percentage: Number, effectiveTime: LocalDateTime): Pricing {
-        val newPrice = currentPrice(product).multiply(percentage.toDouble() + 100).divide(100)
+        val newPrice = currentPrice(product).times(percentage.toDouble() + 100).div(100)
         return setPrice(product, newPrice, effectiveTime)
     }
 

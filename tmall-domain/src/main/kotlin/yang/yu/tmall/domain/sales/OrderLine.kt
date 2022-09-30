@@ -42,9 +42,9 @@ data class OrderLine(
 
     @PreUpdate
     fun calculateSubTotal() {
-        val base = unitPrice.multiply(quantity)
-        val discountMoney = base.multiply(discountRate).divide(100)
-        subTotal = base.subtract(discountMoney)
+        val base = unitPrice.times(quantity)
+        val discountMoney = base.times(discountRate).div(100)
+        subTotal = base.minus(discountMoney)
     }
 
 }

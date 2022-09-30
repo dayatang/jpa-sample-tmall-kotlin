@@ -52,6 +52,6 @@ data class Order(
   private fun calculateTotalPrice(): Money {
     return lineItems
       .map(OrderLine::subTotal)
-      .reduceOrNull(Money::add)?: Money.ZERO
+      .reduceOrNull(Money::plus)?: Money.ZERO
   }
 }
