@@ -1,5 +1,6 @@
 package yang.yu.tmall.domain.sales
 
+import yang.yu.tmall.domain.catalog.Product
 import yang.yu.tmall.domain.commons.BaseEntity
 import yang.yu.tmall.domain.commons.Money
 import java.math.BigDecimal

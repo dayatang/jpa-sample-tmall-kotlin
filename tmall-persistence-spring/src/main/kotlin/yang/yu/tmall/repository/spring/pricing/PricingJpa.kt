@@ -1,6 +1,7 @@
 package yang.yu.tmall.repository.spring.pricing
 
 import org.springframework.data.jpa.repository.JpaRepository
+import yang.yu.tmall.domain.catalog.Product
 import yang.yu.tmall.domain.pricing.Pricing
 import java.time.LocalDateTime
 import java.util.*

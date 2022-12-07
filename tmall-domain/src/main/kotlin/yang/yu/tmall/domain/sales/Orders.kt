@@ -1,6 +1,7 @@
 package yang.yu.tmall.domain.sales
 
 import yang.yu.tmall.domain.buyers.Buyer
+import yang.yu.tmall.domain.catalog.Product
 import yang.yu.tmall.domain.commons.BaseRepository
 import java.time.LocalDateTime
 import java.util.*
