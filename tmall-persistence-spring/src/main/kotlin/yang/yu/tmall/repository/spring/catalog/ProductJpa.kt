@@ -5,7 +5,7 @@ import yang.yu.tmall.domain.catalog.Product
 import yang.yu.tmall.domain.catalog.ProductCategory
 import java.util.*
 import java.util.stream.Stream
-import javax.inject.Named
+import jakarta.inject.Named
 
 /**
  * 商品仓储的实现

@@ -4,7 +4,7 @@ import yang.yu.tmall.domain.catalog.Product
 import yang.yu.tmall.domain.commons.Money
 import java.time.LocalDateTime
 import java.util.stream.Stream
-import javax.inject.Named
+import jakarta.inject.Named
 
 /**
  * 定价领域服务

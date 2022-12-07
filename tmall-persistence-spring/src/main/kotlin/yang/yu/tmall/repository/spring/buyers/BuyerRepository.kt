@@ -7,7 +7,7 @@ import yang.yu.tmall.domain.buyers.PersonalBuyer
 import yang.yu.tmall.repository.spring.AbstractRepository
 import java.util.*
 import java.util.stream.Stream
-import javax.inject.Named
+import jakarta.inject.Named
 
 /**
  * 买家仓储实现类。

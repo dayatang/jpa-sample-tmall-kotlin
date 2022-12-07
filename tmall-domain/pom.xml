@@ -17,12 +17,18 @@
       <artifactId>jakarta.persistence-api</artifactId>
     </dependency>
     <dependency>
-      <groupId>javax.inject</groupId>
-      <artifactId>javax.inject</artifactId>
+      <groupId>jakarta.inject</groupId>
+      <artifactId>jakarta.inject-api</artifactId>
     </dependency>
     <dependency>
       <groupId>io.reactivex.rxjava3</groupId>
       <artifactId>rxjava</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate.orm</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <version>6.1.5.Final</version>
+      <scope>runtime</scope>
     </dependency>
   </dependencies>
   <build>
@@ -40,15 +46,15 @@
             <plugin>all-open</plugin>
           </compilerPlugins>
           <pluginOptions>
-            <option>spring:annotation=javax.inject.Named</option>
+            <option>spring:annotation=jakarta.inject.Named</option>
             <option>spring:annotation=org.springframework.stereotype.Component</option>
             <option>spring:annotation=org.springframework.context.annotation.Configuration</option>
-            <option>jpa:annotation=javax.persistence.Entity</option>
-            <option>jpa:annotation=javax.persistence.Embeddable</option>
-            <option>jpa:annotation=javax.persistence.MappedSuperclass</option>
-            <option>all-open:annotation=javax.persistence.Entity</option>
-            <option>all-open:annotation=javax.persistence.Embeddable</option>
-            <option>all-open:annotation=javax.persistence.MappedSuperclass</option>
+            <option>jpa:annotation=jakarta.persistence.Entity</option>
+            <option>jpa:annotation=jakarta.persistence.Embeddable</option>
+            <option>jpa:annotation=jakarta.persistence.MappedSuperclass</option>
+            <option>all-open:annotation=jakarta.persistence.Entity</option>
+            <option>all-open:annotation=jakarta.persistence.Embeddable</option>
+            <option>all-open:annotation=jakarta.persistence.MappedSuperclass</option>
           </pluginOptions>
         </configuration>
         <dependencies>

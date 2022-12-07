@@ -8,7 +8,7 @@ import yang.yu.tmall.domain.buyers.ImType
 import yang.yu.tmall.domain.buyers.PersonalBuyer
 import java.util.*
 import java.util.stream.Stream
-import javax.inject.Named
+import jakarta.inject.Named
 
 /**
  * 买家仓储实现类。

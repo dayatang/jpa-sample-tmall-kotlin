@@ -13,9 +13,9 @@ import yang.yu.tmall.domain.catalog.ProductCategory
 import yang.yu.tmall.spring.JpaSpringConfig
 import java.time.LocalDate
 import java.time.LocalDateTime
-import javax.inject.Inject
-import javax.persistence.EntityManager
-import javax.transaction.Transactional
+import jakarta.inject.Inject
+import jakarta.persistence.EntityManager
+import jakarta.transaction.Transactional
 
 @SpringJUnitConfig(classes = [JpaSpringConfig::class])
 @Transactional

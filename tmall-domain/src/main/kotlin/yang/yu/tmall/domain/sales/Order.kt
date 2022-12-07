@@ -6,7 +6,7 @@ import yang.yu.tmall.domain.commons.Address
 import yang.yu.tmall.domain.commons.BaseEntity
 import yang.yu.tmall.domain.commons.Money
 import java.util.*
-import javax.persistence.*
+import jakarta.persistence.*
 
 @Entity
 @Table(name = "orders")

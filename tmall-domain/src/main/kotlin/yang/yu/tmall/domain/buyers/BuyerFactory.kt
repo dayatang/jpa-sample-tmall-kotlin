@@ -1,6 +1,6 @@
 package yang.yu.tmall.domain.buyers
 
-import javax.inject.Named
+import jakarta.inject.Named
 
 @Named
 class BuyerFactory {

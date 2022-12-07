@@ -7,7 +7,7 @@ import yang.yu.tmall.repository.spring.AbstractRepository
 import java.time.LocalDateTime
 import java.util.*
 import java.util.stream.Stream
-import javax.inject.Named
+import jakarta.inject.Named
 
 /**
  * 定价仓储的实现

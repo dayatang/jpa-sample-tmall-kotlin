@@ -14,7 +14,7 @@ import yang.yu.tmall.domain.sales.OrderLine
 import yang.yu.tmall.domain.sales.Orders
 import yang.yu.tmall.repository.jpa.OrderRepository
 import java.math.BigDecimal
-import javax.transaction.Transactional
+import jakarta.transaction.Transactional
 
 @Transactional
 class OrderRepositoryTest : BaseIntegrationTest() {
