@@ -6,17 +6,17 @@ import yang.yu.tmall.domain.buyers.ImType
 import yang.yu.tmall.domain.buyers.PersonalBuyer
 import java.util.*
 import java.util.stream.Stream
-import javax.persistence.EntityManager
-import javax.persistence.criteria.CriteriaBuilder
-import javax.persistence.criteria.CriteriaQuery
+import jakarta.persistence.EntityManager
+import jakarta.persistence.criteria.CriteriaBuilder
+import jakarta.persistence.criteria.CriteriaQuery
 
 class BuyerRepositoryCriteria(private val entityManager: EntityManager) : Buyers {
-    override fun <T : Buyer> save(buyer: T): T {
-        return entityManager.merge(buyer)
+    override fun <S: Buyer> save(entity: S): S {
+        return entityManager.merge(entity)
     }
 
-    override fun delete(buyer: Buyer) {
-        entityManager.remove(buyer)
+    override fun delete(entity: Buyer) {
+        entityManager.remove(entity)
     }
 
     override fun findAll(): List<Buyer> {
@@ -66,7 +66,7 @@ class BuyerRepositoryCriteria(private val entityManager: EntityManager) : Buyers
     }
 
     private val criteriaBuilder: CriteriaBuilder
-        private get() = entityManager.criteriaBuilder
+        get() = entityManager.criteriaBuilder
 
     private fun <T : Buyer?> createCriteriaQuery(resultClass: Class<T>): CriteriaQuery<T> {
         return criteriaBuilder.createQuery(resultClass)

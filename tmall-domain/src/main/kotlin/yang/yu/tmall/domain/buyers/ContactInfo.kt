@@ -1,15 +1,16 @@
 package yang.yu.tmall.domain.buyers
 
-import javax.persistence.Embeddable
-import javax.persistence.EnumType
-import javax.persistence.Enumerated
+import jakarta.persistence.Embeddable
+import jakarta.persistence.EnumType
+import jakarta.persistence.Enumerated
 
 @Embeddable
-open class ContactInfo {
-    var name: String? = null
+data class ContactInfo(
+    val name: String,
 
     @Enumerated(EnumType.STRING)
-    var gender: Gender? = null
-    var mobileNo: String? = null
-    var email: String? = null
-}
+    val gender: Gender = Gender.MALE,
+
+    val mobileNo: String? = null,
+
+    val email: String? = null)

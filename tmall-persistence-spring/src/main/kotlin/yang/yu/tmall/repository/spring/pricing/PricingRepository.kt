@@ -1,31 +1,24 @@
 package yang.yu.tmall.repository.spring.pricing
 
-import org.springframework.data.jpa.repository.JpaRepository
+import yang.yu.tmall.domain.catalog.Product
 import yang.yu.tmall.domain.pricing.Pricing
 import yang.yu.tmall.domain.pricing.Pricings
-import yang.yu.tmall.domain.products.Product
+import yang.yu.tmall.repository.spring.AbstractRepository
 import java.time.LocalDateTime
 import java.util.*
 import java.util.stream.Stream
-import javax.inject.Named
+import jakarta.inject.Named
 
 /**
  * 定价仓储的实现
  */
 @Named
-interface PricingRepository : Pricings, JpaRepository<Pricing, Int> {
+class PricingRepository(private val jpa: PricingJpa) : Pricings, AbstractRepository<Pricing>(jpa) {
 
-    @JvmDefault
-    override fun getPricingAt(product: Product, time: LocalDateTime): Optional<Pricing> {
-        return findFirstByProductAndEffectiveTimeIsLessThanEqualOrderByEffectiveTimeDesc(product, time)
-    }
+    override fun getPricingAt(product: Product, time: LocalDateTime): Optional<Pricing> =
+        jpa.findFirstByProductAndEffectiveTimeIsLessThanEqualOrderByEffectiveTimeDesc(product, time)
 
-    @JvmDefault
-    override fun findPricingHistoryOfProduct(product: Product): Stream<Pricing> {
-        return findByProductOrderByEffectiveTime(product)
-    }
+    override fun findPricingHistoryOfProduct(product: Product): Stream<Pricing> =
+        jpa.findByProductOrderByEffectiveTime(product)
 
-    fun findFirstByProductAndEffectiveTimeIsLessThanEqualOrderByEffectiveTimeDesc(product: Product, time: LocalDateTime): Optional<Pricing>
-
-    fun findByProductOrderByEffectiveTime(product: Product): Stream<Pricing>
 }

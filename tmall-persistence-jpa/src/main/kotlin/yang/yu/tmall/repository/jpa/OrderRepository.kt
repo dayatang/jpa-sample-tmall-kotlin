@@ -1,13 +1,13 @@
 package yang.yu.tmall.repository.jpa
 
+import yang.yu.tmall.domain.catalog.Product
 import yang.yu.tmall.domain.buyers.Buyer
-import yang.yu.tmall.domain.products.Product
 import yang.yu.tmall.domain.sales.Order
 import yang.yu.tmall.domain.sales.Orders
 import java.time.LocalDateTime
 import java.util.*
 import java.util.stream.Stream
-import javax.persistence.EntityManager
+import jakarta.persistence.EntityManager
 
 class OrderRepository(private val entityManager: EntityManager) : Orders {
     override fun getById(id: Int): Optional<Order> {
@@ -50,11 +50,15 @@ class OrderRepository(private val entityManager: EntityManager) : Orders {
             .resultStream
     }
 
-    override fun save(order: Order): Order {
-        return entityManager.merge(order)
+    override fun <S: Order> save(entity: S): S {
+        return entityManager.merge(entity)
     }
 
-    override fun delete(order: Order) {
-        entityManager.remove(order)
+    override fun delete(entity: Order) {
+        entityManager.remove(entity)
+    }
+
+    override fun findAll(): List<Order> {
+        return entityManager.createQuery("select t from Order t", Order::class.java).resultList
     }
 }

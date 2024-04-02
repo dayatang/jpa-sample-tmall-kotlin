@@ -1,6 +1,7 @@
 package yang.yu.tmall.domain.pricing
 
-import yang.yu.tmall.domain.products.Product
+import yang.yu.tmall.domain.catalog.Product
+import yang.yu.tmall.domain.commons.BaseRepository
 import java.time.LocalDateTime
 import java.util.*
 import java.util.stream.Stream
@@ -8,13 +9,7 @@ import java.util.stream.Stream
 /**
  * 定价仓储接口
  */
-interface Pricings {
-    /**
-     * 保存定价信息
-     * @param pricing 要保存的定价信息
-     * @return 持久化后的定价信息
-     */
-    fun save(pricing: Pricing): Pricing
+interface Pricings: BaseRepository<Pricing> {
 
     /**
      * 获得指定商品在指定时间的定价信息

@@ -8,17 +8,16 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig
 import yang.yu.tmall.domain.buyers.Buyer
 import yang.yu.tmall.domain.buyers.OrgBuyer
 import yang.yu.tmall.domain.buyers.PersonalBuyer
+import yang.yu.tmall.domain.catalog.Product
 import yang.yu.tmall.domain.commons.Money
-import yang.yu.tmall.domain.products.Product
+import yang.yu.tmall.domain.catalog.ProductCategory
 import yang.yu.tmall.domain.sales.Order
 import yang.yu.tmall.domain.sales.OrderLine
 import yang.yu.tmall.domain.sales.Orders
 import yang.yu.tmall.spring.JpaSpringConfig
-import java.util.*
-import java.util.function.Consumer
-import javax.inject.Inject
-import javax.persistence.EntityManager
-import javax.transaction.Transactional
+import jakarta.inject.Inject
+import jakarta.persistence.EntityManager
+import jakarta.transaction.Transactional
 
 @SpringJUnitConfig(classes = [JpaSpringConfig::class])
 @Transactional
@@ -44,8 +43,9 @@ open class OrdersTest : WithAssertions {
 
     @BeforeEach
     fun beforeEach() {
-        product1 = entityManager.merge(Product("电冰箱", null))
-        product2 = entityManager.merge(Product("电视机", null))
+        val category = entityManager.merge(ProductCategory("a"))
+        product1 = entityManager.merge(Product("电冰箱", category))
+        product2 = entityManager.merge(Product("电视机", category))
         buyer1 = entityManager.merge(PersonalBuyer("张三"))
         buyer2 = entityManager.merge(OrgBuyer("华为公司"))
         lineItem1 = OrderLine(product1, 3.0, Money.valueOf(3500))
@@ -58,9 +58,7 @@ open class OrdersTest : WithAssertions {
     }
 
     private fun createOrder(orderNo: String, buyer: Buyer, vararg orderLines: OrderLine): Order {
-        val order = Order()
-        order.orderNo = orderNo
-        order.buyer = buyer
+        val order = Order(orderNo, buyer)
         orderLines.forEach(order::addLineItem)
         return entityManager.merge(order)
     }
@@ -70,26 +68,28 @@ open class OrdersTest : WithAssertions {
         listOf(order1, order2, order3)
                 .forEach(orders::delete)
         listOf(product1, product2, buyer1, buyer2)
-                .forEach(Consumer {entityManager::remove})
+                .forEach (entityManager::remove)
     }
 
-    @get:Test
-    val byId: Unit
-        get() {
-            listOf(order1, order2)
-                    .forEach(Consumer {assertThat(orders.getById(it.id)).containsSame(it) })
+    @Test
+    fun getById() {
+        listOf(order1, order2).forEach {
+            assertThat(orders.getById(it.id)).containsSame(it)
         }
+    }
 
-    @get:Test
-    val byOrderNo: Unit
-        get() {
-            listOf(order1, order2)
-                    .forEach(Consumer { assertThat(orders.getByOrderNo(it.orderNo)).containsSame(it) })
+    @Test
+    fun getByOrderNo() {
+        listOf(order1, order2).forEach {
+            assertThat(orders.getByOrderNo(it.orderNo)).containsSame(it)
         }
+    }
 
     @Test
     fun findByBuyer() {
-        assertThat(orders.findByBuyer(buyer1)).hasSize(2).allMatch { it.buyer!! == buyer1 }
+        assertThat(orders.findByBuyer(buyer1))
+            .hasSize(2)
+            .allMatch { it.buyer == buyer1 }
     }
 
     @Test

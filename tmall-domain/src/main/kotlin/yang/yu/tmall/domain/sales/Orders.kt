@@ -1,7 +1,8 @@
 package yang.yu.tmall.domain.sales
 
 import yang.yu.tmall.domain.buyers.Buyer
-import yang.yu.tmall.domain.products.Product
+import yang.yu.tmall.domain.catalog.Product
+import yang.yu.tmall.domain.commons.BaseRepository
 import java.time.LocalDateTime
 import java.util.*
 import java.util.stream.Stream
@@ -9,13 +10,7 @@ import java.util.stream.Stream
 /**
  * 订单仓储接口
  */
-interface Orders {
-    /**
-     * 根据ID获取订单
-     * @param id 订单ID
-     * @return 订单
-     */
-    fun getById(id: Int): Optional<Order>
+interface Orders: BaseRepository<Order> {
 
     /**
      * 根据订单号获取订单
@@ -52,17 +47,4 @@ interface Orders {
      * @return 订单流
      */
     fun findByOrgBuyers(): Stream<Order>
-
-    /**
-     * 下订单
-     * @param order 要保存的订单
-     * @return 订单
-     */
-    fun save(order: Order): Order
-
-    /**
-     * 删除订单
-     * @param order 要删除的订单
-     */
-    fun delete(order: Order)
 }

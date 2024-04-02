@@ -2,7 +2,7 @@ package yang.yu.tmall.domain.commons
 
 import java.io.Serializable
 import java.time.LocalDateTime
-import javax.persistence.*
+import jakarta.persistence.*
 
 /**
  * 所有实体的共同基类。定义实体公共属性和行为
