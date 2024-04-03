@@ -22,10 +22,10 @@ import javax.sql.DataSource
 @EnableJpaRepositories(basePackages = ["yang.yu.tmall.repository"])
 @EnableTransactionManagement
 @PropertySource("/jdbc.properties")
-open class JpaSpringConfig(private val env: Environment) {
+class JpaSpringConfig(private val env: Environment) {
     @Bean(destroyMethod = "close")
     @Throws(Exception::class)
-    open fun dataSource(): ComboPooledDataSource {
+    fun dataSource(): ComboPooledDataSource {
         val result = ComboPooledDataSource()
         result.driverClass = env.getProperty("jdbc.driverClassName")
         result.jdbcUrl = env.getProperty("jdbc.url")
@@ -35,7 +35,7 @@ open class JpaSpringConfig(private val env: Environment) {
     }
 
     @Bean
-    open fun jpaVendorAdapter(): JpaVendorAdapter {
+    fun jpaVendorAdapter(): JpaVendorAdapter {
         val result = HibernateJpaVendorAdapter()
         result.setDatabase(Database.valueOf(env.getProperty("db.type", "H2")))
         result.setDatabasePlatform(env.getProperty("hibernate.dialect"))
@@ -45,7 +45,7 @@ open class JpaSpringConfig(private val env: Environment) {
     }
 
     @Bean
-    open fun entityManagerFactory(dataSource: DataSource, adapter: JpaVendorAdapter): LocalContainerEntityManagerFactoryBean {
+    fun entityManagerFactory(dataSource: DataSource, adapter: JpaVendorAdapter): LocalContainerEntityManagerFactoryBean {
         val result = LocalContainerEntityManagerFactoryBean()
         result.dataSource = dataSource
         result.jpaVendorAdapter = adapter
@@ -54,14 +54,11 @@ open class JpaSpringConfig(private val env: Environment) {
         return result
     }
 
-    private fun hibernateProperties(): Map<String, String> {
-        val props: MutableMap<String, String> = HashMap()
-        props["hibernate.implicit_naming_strategy"] = "jpa"
-        return props
-    }
+    private fun hibernateProperties(): Map<String, String> =
+      mapOf(Pair("hibernate.implicit_naming_strategy", "jpa"))
 
     @Bean
-    open fun transactionManager(entityManagerFactory: EntityManagerFactory): JpaTransactionManager {
+    fun transactionManager(entityManagerFactory: EntityManagerFactory): JpaTransactionManager {
         return JpaTransactionManager(entityManagerFactory)
     }
 }
