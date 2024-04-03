@@ -1,6 +1,8 @@
 package yang.yu.tmall.domain.buyers
 
 import jakarta.inject.Named
+import java.util.*
+import kotlin.collections.HashMap
 
 @Named
 class BuyerFactory {
@@ -8,7 +10,7 @@ class BuyerFactory {
   fun createPersonalBuyer(
     name: String,
     gender: Gender = Gender.MALE,
-    imInfos: MutableMap<ImType, String> = HashMap()
+    imInfos: MutableMap<ImType, String> = EnumMap(ImType::class.java)
   ): Buyer {
     return PersonalBuyer(name, gender, imInfos)
   }

@@ -11,7 +11,10 @@ import kotlin.collections.HashSet
 @Table(name = "buyers")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "DTYPE", discriminatorType = DiscriminatorType.STRING)
-abstract class Buyer(@Column(nullable = false, unique = true) open val name: String) : BaseEntity() {
+abstract class Buyer(
+  @Column(nullable = false, unique = true)
+  open val name: String
+) : BaseEntity() {
 
   @Column(name = "mobile_no")
   var mobileNo: String? = null

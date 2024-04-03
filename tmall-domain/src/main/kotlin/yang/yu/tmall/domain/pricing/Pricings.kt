@@ -2,6 +2,7 @@ package yang.yu.tmall.domain.pricing
 
 import yang.yu.tmall.domain.catalog.Product
 import yang.yu.tmall.domain.commons.BaseRepository
+import java.time.Instant
 import java.time.LocalDateTime
 import java.util.*
 import java.util.stream.Stream
@@ -17,7 +18,7 @@ interface Pricings: BaseRepository<Pricing> {
      * @param time 时间
      * @return 当时的商品价格
      */
-    fun getPricingAt(product: Product, time: LocalDateTime): Optional<Pricing>
+    fun getPricingAt(product: Product, time: Instant = Instant.now()): Optional<Pricing>
 
     /**
      * 查找指定商品的定价历史，按生效时间排序。

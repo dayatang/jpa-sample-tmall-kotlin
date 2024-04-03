@@ -16,6 +16,7 @@ import java.time.LocalDateTime
 import jakarta.inject.Inject
 import jakarta.persistence.EntityManager
 import jakarta.transaction.Transactional
+import java.time.ZoneOffset
 
 @SpringJUnitConfig(classes = [JpaSpringConfig::class])
 @Transactional
@@ -39,10 +40,14 @@ open class PricingRepositoryTest : WithAssertions {
         val category = entityManager.merge(ProductCategory("a"))
         product1 = entityManager.merge(Product("电冰箱", category))
         product2 = entityManager.merge(Product("电视机", category))
-        pricing1 = entityManager.merge(Pricing(product1, Money.valueOf(500), LocalDate.of(2020, 10, 1).atStartOfDay()))
-        pricing2 = entityManager.merge(Pricing(product1, Money.valueOf(600), LocalDate.of(2020, 2, 15).atStartOfDay()))
-        pricing3 = entityManager.merge(Pricing(product2, Money.valueOf(7000), LocalDate.of(2020, 7, 14).atStartOfDay()))
-        pricing4 = entityManager.merge(Pricing(product2, Money.valueOf(7100), LocalDate.of(2020, 2, 15).atStartOfDay()))
+        pricing1 = entityManager.merge(Pricing(product1, Money.valueOf(500),
+          LocalDate.of(2020, 10, 1).atStartOfDay().toInstant(ZoneOffset.UTC)))
+        pricing2 = entityManager.merge(Pricing(product1, Money.valueOf(600),
+          LocalDate.of(2020, 2, 15).atStartOfDay().toInstant(ZoneOffset.UTC)))
+        pricing3 = entityManager.merge(Pricing(product2, Money.valueOf(7000),
+          LocalDate.of(2020, 7, 14).atStartOfDay().toInstant(ZoneOffset.UTC)))
+        pricing4 = entityManager.merge(Pricing(product2, Money.valueOf(7100),
+          LocalDate.of(2020, 2, 15).atStartOfDay().toInstant(ZoneOffset.UTC)))
     }
 
     @AfterEach
@@ -53,9 +58,12 @@ open class PricingRepositoryTest : WithAssertions {
 
     @Test
     fun getPriceAt() {
-            val time2002_02_15: LocalDateTime = LocalDate.of(2020, 2, 15).atStartOfDay()
-            val time2002_02_16: LocalDateTime = LocalDate.of(2020, 2, 16).atStartOfDay()
-            val time2002_10_01: LocalDateTime = LocalDate.of(2020, 10, 1).atStartOfDay()
+            val time2002_02_15 = LocalDate.of(2020, 2, 15)
+              .atStartOfDay().toInstant(ZoneOffset.UTC)
+            val time2002_02_16 = LocalDate.of(2020, 2, 16)
+              .atStartOfDay().toInstant(ZoneOffset.UTC)
+            val time2002_10_01 = LocalDate.of(2020, 10, 1)
+              .atStartOfDay().toInstant(ZoneOffset.UTC)
             assertThat(pricings.getPricingAt(product1, time2002_02_15))
                     .map(Pricing::unitPrice)
                     .contains(Money.valueOf(600))

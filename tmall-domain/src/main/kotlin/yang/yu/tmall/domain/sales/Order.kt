@@ -7,6 +7,7 @@ import yang.yu.tmall.domain.commons.BaseEntity
 import yang.yu.tmall.domain.commons.Money
 import java.util.*
 import jakarta.persistence.*
+import java.time.Instant
 
 @Entity
 @Table(name = "orders")
@@ -15,7 +16,10 @@ data class Order(
   val orderNo: String,
 
   @ManyToOne
-  val buyer: Buyer
+  val buyer: Buyer,
+
+  @Column(name = "created_instant")
+  val createdInstant: Instant = Instant.now()
 ) : BaseEntity() {
 
   @OneToMany(mappedBy = "order", cascade = [CascadeType.ALL], orphanRemoval = true)

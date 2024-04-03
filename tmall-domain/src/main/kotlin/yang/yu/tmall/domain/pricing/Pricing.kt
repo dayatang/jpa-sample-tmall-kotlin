@@ -9,6 +9,7 @@ import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
+import java.time.Instant
 
 @Entity
 @Table(name = "pricings")
@@ -19,6 +20,6 @@ data class Pricing(
   @AttributeOverride(name = "value", column = Column(name = "unit_price"))
   val unitPrice: Money = Money.ZERO,
 
-  @Column(name = "effective_time")
-  val effectiveTime: LocalDateTime = LocalDateTime.now()
+  @Column(name = "effective_instant")
+  val effectiveInstant: Instant = Instant.now()
 ) : BaseEntity()

@@ -74,9 +74,8 @@ class OrderRepositoryTest : BaseIntegrationTest() {
     @Test
     fun getByOrderNo() {
             listOf(order1, order2).forEach {
-                assertThat(
-                    orders.getByOrderNo(it.orderNo)
-                ).containsSame(it)
+                assertThat(orders.getByOrderNo(it.orderNo))
+                  .containsSame(it)
             }
         }
 

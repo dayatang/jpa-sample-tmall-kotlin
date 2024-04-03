@@ -13,4 +13,5 @@ data class ContactInfo(
 
     val mobileNo: String? = null,
 
-    val email: String? = null)
+    val email: String? = null
+)

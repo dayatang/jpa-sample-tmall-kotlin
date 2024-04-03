@@ -16,7 +16,7 @@ data class PersonalBuyer(
   @MapKeyEnumerated(EnumType.STRING)
   @MapKeyColumn(name = "im_type")
   @Column(name = "im_value")
-  var imInfos: MutableMap<ImType, String> = HashMap()
+  var imInfos: MutableMap<ImType, String> = EnumMap(ImType::class.java)
 ) : Buyer(name) {
 
   fun getImInfo(type: ImType): String {
