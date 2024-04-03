@@ -8,24 +8,10 @@ import java.util.*
 import java.util.stream.Stream
 import jakarta.persistence.EntityManager
 
-class BuyerRepositoryJpql(private val entityManager: EntityManager) : Buyers {
-    override fun <S: Buyer> save(entity: S): S {
-        return entityManager.merge(entity)
-    }
+class BuyerRepositoryJpql(private val entityManager: EntityManager) :
+  AbstractRepository<Buyer>(entityManager, Buyer::class.java), Buyers {
 
-    override fun delete(entity: Buyer) {
-        entityManager.remove(entity)
-    }
-
-    override fun findAll(): List<Buyer> {
-        return entityManager.createQuery("select o from Buyer o", Buyer::class.java).resultList
-    }
-
-    override fun getById(id: Int): Optional<Buyer> {
-        return Optional.ofNullable(entityManager.find(Buyer::class.java, id))
-    }
-
-    override fun getByName(name: String): Optional<Buyer> {
+  override fun getByName(name: String): Optional<Buyer> {
         return entityManager
             .createQuery("select o from Buyer o where o.name = :name", Buyer::class.java)
             .setParameter("name", name)

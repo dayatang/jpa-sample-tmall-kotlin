@@ -10,23 +10,8 @@ import jakarta.persistence.EntityManager
 import jakarta.persistence.criteria.CriteriaBuilder
 import jakarta.persistence.criteria.CriteriaQuery
 
-class BuyerRepositoryCriteria(private val entityManager: EntityManager) : Buyers {
-    override fun <S: Buyer> save(entity: S): S {
-        return entityManager.merge(entity)
-    }
-
-    override fun delete(entity: Buyer) {
-        entityManager.remove(entity)
-    }
-
-    override fun findAll(): List<Buyer> {
-        val query = createCriteriaQuery(Buyer::class.java)
-        return entityManager.createQuery(query.select(query.from(Buyer::class.java))).resultList
-    }
-
-    override fun getById(id: Int): Optional<Buyer> {
-        return Optional.ofNullable(entityManager.find(Buyer::class.java, id))
-    }
+class BuyerRepositoryCriteria(private val entityManager: EntityManager) :
+  AbstractRepository<Buyer>(entityManager, Buyer::class.java), Buyers {
 
     override fun getByName(name: String): Optional<Buyer> {
         val query = createCriteriaQuery(Buyer::class.java)
@@ -68,7 +53,7 @@ class BuyerRepositoryCriteria(private val entityManager: EntityManager) : Buyers
     private val criteriaBuilder: CriteriaBuilder
         get() = entityManager.criteriaBuilder
 
-    private fun <T : Buyer?> createCriteriaQuery(resultClass: Class<T>): CriteriaQuery<T> {
+    private fun <T : Buyer> createCriteriaQuery(resultClass: Class<T>): CriteriaQuery<T> {
         return criteriaBuilder.createQuery(resultClass)
     }
 }

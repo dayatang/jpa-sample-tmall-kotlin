@@ -63,10 +63,10 @@ class OrderRepositoryTest : BaseIntegrationTest() {
     }
 
     @Test
-    fun getById() {
+    fun findById() {
         listOf(order1, order2).forEach {
                 assertThat(
-                    orders.getById(it.id)
+                    orders.findById(it.id)
                 ).containsSame(it)
             }
         }

@@ -72,9 +72,9 @@ open class OrdersTest : WithAssertions {
     }
 
     @Test
-    fun getById() {
+    fun findById() {
         listOf(order1, order2).forEach {
-            assertThat(orders.getById(it.id)).containsSame(it)
+            assertThat(orders.findById(it.id)).containsSame(it)
         }
     }
 

@@ -26,8 +26,8 @@ internal class BuyerRepositoryJpqlTest : BaseIntegrationTest() {
 
     @Test
     fun findById() {
-        assertThat(buyers.getById(buyer1.id)).containsSame(buyer1)
-        assertThat(buyers.getById(buyer2.id)).containsSame(buyer2)
+        assertThat(buyers.findById(buyer1.id)).containsSame(buyer1)
+        assertThat(buyers.findById(buyer2.id)).containsSame(buyer2)
     }
 
     @Test
@@ -67,8 +67,8 @@ internal class BuyerRepositoryJpqlTest : BaseIntegrationTest() {
     fun update() {
         buyer1.email = "me@my.com"
         buyers.save(buyer1)
-        assertThat(buyers.getById(buyer1.id).map(Buyer::email)).containsSame("me@my.com")
-        //assertThat(buyers.getById(buyer2.id).map(Buyer::name)).containsSame(buyer2Name)
+        assertThat(buyers.findById(buyer1.id).map(Buyer::email)).containsSame("me@my.com")
+        //assertThat(buyers.findById(buyer2.id).map(Buyer::name)).containsSame(buyer2Name)
     }
 
     @Test

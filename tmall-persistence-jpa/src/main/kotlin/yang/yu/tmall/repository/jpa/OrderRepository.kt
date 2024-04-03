@@ -1,18 +1,16 @@
 package yang.yu.tmall.repository.jpa
 
-import yang.yu.tmall.domain.catalog.Product
+import jakarta.persistence.EntityManager
 import yang.yu.tmall.domain.buyers.Buyer
+import yang.yu.tmall.domain.catalog.Product
 import yang.yu.tmall.domain.sales.Order
 import yang.yu.tmall.domain.sales.Orders
 import java.time.LocalDateTime
 import java.util.*
 import java.util.stream.Stream
-import jakarta.persistence.EntityManager
 
-class OrderRepository(private val entityManager: EntityManager) : Orders {
-    override fun getById(id: Int): Optional<Order> {
-        return Optional.ofNullable(entityManager.find(Order::class.java, id))
-    }
+class OrderRepository(private val entityManager: EntityManager) :
+  AbstractRepository<Order>(entityManager, Order::class.java), Orders {
 
     override fun getByOrderNo(orderNo: String): Optional<Order> {
         return entityManager.createQuery("select o from Order o where o.orderNo = :orderNo", Order::class.java)
@@ -48,17 +46,5 @@ class OrderRepository(private val entityManager: EntityManager) : Orders {
         val jpql = "select o from Order o join o.buyer b where TYPE(b) = OrgBuyer"
         return entityManager.createQuery(jpql, Order::class.java)
             .resultStream
-    }
-
-    override fun <S: Order> save(entity: S): S {
-        return entityManager.merge(entity)
-    }
-
-    override fun delete(entity: Order) {
-        entityManager.remove(entity)
-    }
-
-    override fun findAll(): List<Order> {
-        return entityManager.createQuery("select t from Order t", Order::class.java).resultList
     }
 }
