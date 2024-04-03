@@ -10,26 +10,39 @@ import java.time.LocalDateTime
 import java.util.*
 import java.util.stream.Stream
 import jakarta.inject.Named
+import org.springframework.data.jpa.repository.Query
+import org.springframework.stereotype.Repository
 
 /**
  * 订单仓储的实现
  */
-@Named
-class OrderRepository(private val jpa: OrderJpa) : Orders, AbstractRepository<Order>(jpa) {
+@Repository
+interface OrderRepository : Orders, AbstractRepository<Order> {
 
-    /**
-     * 根据订单编号获取订单
-     * @param orderNo 订单编号
-     * @return 订单
-     */
-    override fun getByOrderNo(orderNo: String): Optional<Order> = jpa.getByOrderNo(orderNo)
+  /**
+   * 根据订单编号获取订单
+   * @param orderNo 订单编号
+   * @return 订单
+   */
+  override fun getByOrderNo(orderNo: String): Optional<Order>
 
-    override fun findByBuyer(buyer: Buyer): Stream<Order> = jpa.findByBuyerOrderByCreatedDesc(buyer)
+  fun findByBuyerOrderByCreatedDesc(buyer: Buyer): Stream<Order>
 
-    override fun findByProduct(@Param("product") product: Product): Stream<Order> = jpa.findByProduct(product)
+  override fun findByBuyer(buyer: Buyer): Stream<Order> = findByBuyerOrderByCreatedDesc(buyer)
 
-    override fun findByProduct(product: Product, from: LocalDateTime, until: LocalDateTime): Stream<Order> =
-      jpa.findByProduct(product, from, until)
+  @Query("select o.order from OrderLine o where o.product = :product order by o.order.created desc")
+  override fun findByProduct(@Param("product") product: Product): Stream<Order>
 
-    override fun findByOrgBuyers(): Stream<Order> = jpa.findByOrgBuyers()
+  @Query(
+    "select o.order from OrderLine o where o.product = :product and o.created >= :fromTime" +
+      " and o.created < :untilTime order by o.order.created desc"
+  )
+  override fun findByProduct(
+    @Param("product") product: Product,
+    @Param("fromTime") from: LocalDateTime,
+    @Param("untilTime") until: LocalDateTime
+  ): Stream<Order>
+
+  @Query("select o from Order o join o.buyer b where TYPE(b) = OrgBuyer order by o.created desc")
+  override fun findByOrgBuyers(): Stream<Order>
 }
