@@ -12,7 +12,7 @@ class RxEventBus: EventBus {
 
    private val bus = PublishSubject.create<Any>().toSerialized()
 
-   private val observables = HashMap<String, Disposable>()
+   private val observables: MutableMap<String, MutableList<Disposable>> = HashMap()
 
    /**
     * Post an event to the bus
@@ -22,14 +22,13 @@ class RxEventBus: EventBus {
       bus.onNext(event)
    }
 
-   override fun <T : Any> subscribe(eventType: Class<T>, consumer: (T) -> Unit) {
+  override fun <T : Any> subscribe(eventType: Class<T>, consumer: (T) -> Unit) {
       val observable = bus.ofType(eventType).subscribe(consumer::invoke)
-      observables[eventType.name] = observable
+      observables.computeIfAbsent(eventType.name){ ArrayList() }.add(observable)
    }
 
    override fun unsubscribe(eventType: Class<*>) {
-      val observable = observables[eventType.name]
-      observable?.dispose()
+      observables[eventType.name]?.forEach(Disposable::dispose)
    }
 
 }

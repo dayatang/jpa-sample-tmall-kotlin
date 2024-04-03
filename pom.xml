@@ -13,8 +13,7 @@
     <url>https://dayatang.github.io/jpa-sample-tmall</url>
     <modules>
         <module>tmall-domain</module>
-        <module>tmall-persistence-jpa</module>
-        <module>tmall-persistence-spring</module>
+        <module>tmall-infra</module>
     </modules>
 
     <properties>
