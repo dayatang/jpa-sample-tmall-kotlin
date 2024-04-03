@@ -38,7 +38,7 @@ open class JpaSpringConfig(private val env: Environment) {
     open fun jpaVendorAdapter(): JpaVendorAdapter {
         val result = HibernateJpaVendorAdapter()
         result.setDatabase(Database.valueOf(env.getProperty("db.type", "H2")))
-        //result.setDatabasePlatform(env.getProperty("hibernate.dialect"))
+        result.setDatabasePlatform(env.getProperty("hibernate.dialect"))
         result.setGenerateDdl(true)
         result.setShowSql(true)
         return result

@@ -3,6 +3,7 @@ package yang.yu.tmall.domain.commons
 import java.io.Serializable
 import java.time.LocalDateTime
 import jakarta.persistence.*
+import java.time.Instant
 
 /**
  * 所有实体的共同基类。定义实体公共属性和行为
@@ -21,6 +22,7 @@ abstract class BaseEntity : Serializable {
     @Id
     @GeneratedValue
     var id = 0
+
     /**
      * 获取版本号。该属性用于辅助实现乐观锁
      * @return
@@ -36,14 +38,14 @@ abstract class BaseEntity : Serializable {
      * 获取实体创建时间
      * @return 实体的创建时间
      */
-    var created: LocalDateTime = LocalDateTime.now()
+    var created: Instant = Instant.now()
 
     /**
      * 获取实体最后一次修改时间
      * @return 实体的最后修改时间
      */
     @Column(name = "last_updated")
-    var lastUpdated: LocalDateTime = LocalDateTime.now()
+    var lastUpdated: Instant = Instant.now()
 
     /**
      * 判断实体是不是全新的（在数据库中没有对应记录）
@@ -58,7 +60,7 @@ abstract class BaseEntity : Serializable {
     @PrePersist
     fun beforeCreate() {
         isNew = false
-        created = LocalDateTime.now()
+        created = Instant.now()
     }
 
     /**
@@ -67,7 +69,7 @@ abstract class BaseEntity : Serializable {
     @PreUpdate
     fun beforeSave() {
         isNew = false
-        lastUpdated = LocalDateTime.now()
+        lastUpdated = Instant.now()
     }
 
     /**
