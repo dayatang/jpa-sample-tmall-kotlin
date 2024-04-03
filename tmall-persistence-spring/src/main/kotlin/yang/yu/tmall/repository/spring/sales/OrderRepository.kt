@@ -30,7 +30,7 @@ interface OrderRepository : Orders, AbstractRepository<Order> {
 
   override fun findByBuyer(buyer: Buyer): Stream<Order> = findByBuyerOrderByCreatedDesc(buyer)
 
-  @Query("select o.order from OrderLine o where o.product = :product order by o.order.created desc")
+  @Query("select distinct o.order from OrderLine o where o.product = :product order by o.order.created desc")
   override fun findByProduct(@Param("product") product: Product): Stream<Order>
 
   @Query(
