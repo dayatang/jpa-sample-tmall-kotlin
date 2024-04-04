@@ -11,7 +11,7 @@ abstract class AbstractRepository<T: BaseEntity>(
 ): BaseRepository<T> {
   override fun <S : T> save(entity: S): S = entityManager.merge(entity)
 
-  override fun <S : T> saveAll(entities: Iterable<S>): Iterable<S> = entities.map(entityManager::merge)
+  override fun <S : T> saveAll(entities: Iterable<S>): List<S> = entities.map(entityManager::merge)
 
   override fun deleteById(id: Int) = entityManager.remove(entityManager.getReference(clazz, id))
 
@@ -23,12 +23,12 @@ abstract class AbstractRepository<T: BaseEntity>(
 
   override fun existsById(id: Int): Boolean = findById(id).isPresent
 
-  override fun findAll(): Iterable<T> {
+  override fun findAll(): List<T> {
     val query = entityManager.criteriaBuilder.createQuery(clazz)
     return entityManager.createQuery(query.select(query.from(clazz))).resultList
   }
 
-  override fun findAllById(ids: Iterable<Int>): Iterable<T> = ids.map { findById(it).orElseThrow() }
+  override fun findAllById(ids: Iterable<Int>): List<T> = ids.map { findById(it).orElseThrow() }
 
   override fun count(): Long = findAll().count().toLong()
 
