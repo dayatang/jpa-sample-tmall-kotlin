@@ -24,7 +24,6 @@ class OrderQuery {
   var totalPriceLessThan: Money? = null
   var totalPriceNotLessThan: Money? = null
 
-
   fun id(id: Int): OrderQuery {
     this.id = id
     return this
