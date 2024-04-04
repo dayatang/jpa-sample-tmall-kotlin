@@ -29,7 +29,7 @@ data class OrderLine(
     var subTotal: Money = Money.ZERO
         get() {
             if (isNew) {
-                calculateSubTotal()
+              executeBeforeSave()
             }
             return field
         }
@@ -41,8 +41,7 @@ data class OrderLine(
         discountRate
     )
 
-    @PreUpdate
-    fun calculateSubTotal() {
+    override fun executeBeforeSave() {
         val base = unitPrice.times(quantity)
         val discountMoney = base.times(discountRate).div(100)
         subTotal = base.minus(discountMoney)

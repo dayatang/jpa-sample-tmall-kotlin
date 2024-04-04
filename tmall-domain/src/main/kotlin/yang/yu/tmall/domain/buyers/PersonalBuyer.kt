@@ -5,8 +5,8 @@ import jakarta.persistence.*
 
 @Entity
 @DiscriminatorValue("P")
-data class PersonalBuyer(
-  override var name: String,
+class PersonalBuyer(
+  name: String,
 
   @Enumerated(EnumType.STRING)
   val gender: Gender = Gender.MALE,
@@ -26,4 +26,14 @@ data class PersonalBuyer(
   fun setImInfo(type: ImType, value: String) {
     imInfos[type] = value
   }
+
+
+  override fun equals(other: Any?): Boolean {
+    if (this === other) return true
+    if (other !is PersonalBuyer) {
+      return false
+    }
+    return super.equals(other)
+  }
+
 }

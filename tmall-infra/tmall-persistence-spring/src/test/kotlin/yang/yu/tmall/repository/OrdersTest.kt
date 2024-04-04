@@ -17,7 +17,10 @@ import yang.yu.tmall.domain.sales.Orders
 import yang.yu.tmall.spring.JpaSpringConfig
 import jakarta.inject.Inject
 import jakarta.persistence.EntityManager
+import jakarta.persistence.Query
 import jakarta.transaction.Transactional
+import yang.yu.tmall.domain.sales.OrderQuery
+import java.math.BigDecimal
 
 @SpringJUnitConfig(classes = [JpaSpringConfig::class])
 @Transactional
@@ -104,5 +107,21 @@ open class OrdersTest : WithAssertions {
         assertThat(orders.findByOrgBuyers())
                 .contains(order3)
                 .doesNotContain(order1, order2)
+    }
+
+    @Test
+    fun findByQuery() {
+      assertThat(orders.find(OrderQuery().isOrgBuyer()))
+        .contains(order3)
+        .doesNotContain(order1, order2)
+
+      val query = OrderQuery().isPersonalBuyer()
+        .buyerName("张三")
+        .totalPriceNotLessThan(Money.valueOf(5000))
+
+      assertThat(orders.find(query))
+        .contains(order1, order2)
+        .doesNotContain(order3)
+
     }
 }

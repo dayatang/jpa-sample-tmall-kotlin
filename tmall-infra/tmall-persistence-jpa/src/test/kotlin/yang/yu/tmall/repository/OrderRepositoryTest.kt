@@ -15,6 +15,8 @@ import yang.yu.tmall.domain.sales.Orders
 import yang.yu.tmall.repository.jpa.OrderRepository
 import java.math.BigDecimal
 import jakarta.transaction.Transactional
+import yang.yu.tmall.domain.commons.Money
+import yang.yu.tmall.domain.sales.OrderQuery
 
 @Transactional
 class OrderRepositoryTest : BaseIntegrationTest() {
@@ -99,4 +101,20 @@ class OrderRepositoryTest : BaseIntegrationTest() {
             .contains(order3)
             .doesNotContain(order1, order2)
     }
+
+  @Test
+  fun findByQuery() {
+    assertThat(orders.find(OrderQuery().isOrgBuyer()))
+      .contains(order3)
+      .doesNotContain(order1, order2)
+
+    val query = OrderQuery().isPersonalBuyer()
+      .buyerName("张三")
+      .totalPriceNotLessThan(Money.valueOf(5000))
+
+    assertThat(orders.find(query))
+      .contains(order1, order2)
+      .doesNotContain(order3)
+
+  }
 }

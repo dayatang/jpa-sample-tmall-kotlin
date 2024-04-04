@@ -1,7 +1,6 @@
 package yang.yu.tmall.domain.commons
 
 import java.io.Serializable
-import java.time.LocalDateTime
 import jakarta.persistence.*
 import java.time.Instant
 
@@ -61,15 +60,19 @@ abstract class BaseEntity : Serializable {
     fun beforeCreate() {
         isNew = false
         created = Instant.now()
+        executeBeforeCreate()
+        executeBeforeSave()
     }
 
     /**
      * 生命周期回调方法。在实体每次保存到数据库中前调用
      */
     @PreUpdate
-    fun beforeSave() {
+    fun beforeUpdate() {
         isNew = false
         lastUpdated = Instant.now()
+        executeBeforeUpdate()
+        executeBeforeSave()
     }
 
     /**
@@ -78,5 +81,15 @@ abstract class BaseEntity : Serializable {
     @PostLoad
     fun afterLoad() {
         isNew = false
+        executeAfterLoad()
     }
+
+    protected fun executeBeforeCreate() {}
+
+    protected fun executeBeforeUpdate() {}
+
+    protected fun executeAfterLoad() {}
+
+    protected fun executeBeforeSave() {}
+
 }

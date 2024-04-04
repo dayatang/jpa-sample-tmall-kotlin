@@ -17,7 +17,7 @@ import org.springframework.stereotype.Repository
  * 订单仓储的实现
  */
 @Repository
-interface OrderRepository : Orders, AbstractRepository<Order> {
+interface OrderRepository : Orders, AbstractRepository<Order>, OrderRepositoryExt {
 
   /**
    * 根据订单编号获取订单
@@ -45,4 +45,6 @@ interface OrderRepository : Orders, AbstractRepository<Order> {
 
   @Query("select o from Order o join o.buyer b where TYPE(b) = OrgBuyer order by o.created desc")
   override fun findByOrgBuyers(): Stream<Order>
+
+
 }

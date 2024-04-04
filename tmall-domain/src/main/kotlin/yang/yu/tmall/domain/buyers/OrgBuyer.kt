@@ -4,9 +4,7 @@ import jakarta.persistence.*
 
 @Entity
 @DiscriminatorValue("O")
-data class OrgBuyer(
-  override val name: String,
-  ) : Buyer(name) {
+class OrgBuyer(name: String) : Buyer(name) {
 
     @Column(name = "business_license_no")
     var businessLicenseNo: String? = null
@@ -20,5 +18,13 @@ data class OrgBuyer(
         AttributeOverride(name = "email", column = Column(name = "contact_email"))
     )
     var contactInfo: ContactInfo? = null
+
+  override fun equals(other: Any?): Boolean {
+    if (this === other) return true
+    if (other !is OrgBuyer) {
+      return false
+    }
+    return super.equals(other)
+  }
 
 }

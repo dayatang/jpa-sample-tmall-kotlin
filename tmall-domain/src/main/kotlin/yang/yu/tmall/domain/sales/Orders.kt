@@ -47,4 +47,12 @@ interface Orders: BaseRepository<Order> {
      * @return 订单流
      */
     fun findByOrgBuyers(): Stream<Order>
+
+
+  /**
+   * 根据查询条件获取订单，以下单时间逆序排序
+   * @param query 查询条件
+   * @return 符合查询条件的全部订单
+   */
+  fun find(query: OrderQuery): Stream<Order>
 }
