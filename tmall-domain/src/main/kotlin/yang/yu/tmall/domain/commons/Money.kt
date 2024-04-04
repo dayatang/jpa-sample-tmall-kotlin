@@ -36,38 +36,12 @@ data class Money(val value: BigDecimal = BigDecimal.ZERO) {
     val ZERO = valueOf(0)
 
     /**
-     * 从BigDecimal生成金额的工厂方法
-     * @param amount 金额数量
-     * @return 金额对象
-     */
-    fun valueOf(amount: BigDecimal): Money = Money(amount)
-
-    /**
-     * 从int生成金额的工厂方法
-     * @param amount 金额数量
-     * @return 金额对象
-     */
-    fun valueOf(amount: Int): Money = Money(BigDecimal.valueOf(amount.toLong()))
-
-    /**
-     * 从long生成金额的工厂方法
-     * @param amount 金额数量
-     * @return 金额对象
-     */
-    fun valueOf(amount: Long): Money = Money(BigDecimal.valueOf(amount))
-
-    /**
-     * 从double生成金额的工厂方法
-     * @param amount 金额数量
-     * @return 金额对象
-     */
-    fun valueOf(amount: Double): Money = Money(BigDecimal.valueOf(amount))
-
-    /**
      * 从double生成金额的工厂方法
      * @param amount 金额数量
      * @return 金额对象
      */
     fun valueOf(amount: String): Money = Money(BigDecimal(amount))
+
+    fun valueOf(amount: Number): Money = valueOf(amount.toString())
   }
 }
