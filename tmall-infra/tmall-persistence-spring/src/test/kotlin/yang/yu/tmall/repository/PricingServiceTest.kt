@@ -16,6 +16,7 @@ import java.time.LocalDate
 import jakarta.inject.Inject
 import jakarta.persistence.EntityManager
 import jakarta.transaction.Transactional
+import java.math.BigDecimal
 import java.time.ZoneOffset
 
 @SpringJUnitConfig(classes = [JpaSpringConfig::class])

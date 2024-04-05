@@ -18,6 +18,7 @@ import jakarta.inject.Inject
 import jakarta.persistence.EntityManager
 import jakarta.transaction.Transactional
 import yang.yu.tmall.domain.sales.OrderQuery
+import java.math.BigDecimal
 import java.time.LocalDate
 
 @SpringJUnitConfig(classes = [JpaSpringConfig::class])
