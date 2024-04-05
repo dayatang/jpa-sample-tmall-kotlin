@@ -95,6 +95,15 @@ class OrderRepositoryTest : BaseIntegrationTest() {
             .doesNotContain(order2)
     }
 
+  @Test
+  fun findByProductBetween() {
+    assertThat(orders.findByProduct(product2,
+      LocalDate.now().atStartOfDay(),
+      LocalDate.now().plusDays(1).atStartOfDay()))
+      .contains(order1)
+      .doesNotContain(order2)
+  }
+
     @Test
     fun findByOrgBuyers() {
         assertThat(orders.findByOrgBuyers())

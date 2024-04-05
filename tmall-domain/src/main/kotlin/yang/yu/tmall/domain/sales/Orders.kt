@@ -52,9 +52,12 @@ interface Orders: BaseRepository<Order> {
      * @param until 结束时间（不包含）
      * @return 包含特定商品的订单列表
      */
-    fun findByProduct(product: Product, from: LocalDateTime, until: LocalDateTime): Stream<Order> =
-      find(OrderQuery().product(product).createdFrom(from.toInstant(ZoneOffset.UTC))
-        .createdUntil(until.toInstant(ZoneOffset.UTC)))
+    fun findByProduct(product: Product, from: LocalDateTime, until: LocalDateTime): Stream<Order> {
+      val query = OrderQuery().product(product)
+        .createdFrom(from.toInstant(ZoneOffset.UTC))
+        .createdUntil(until.toInstant(ZoneOffset.UTC))
+      return find(query)
+    }
 
     /**
      * 获取机构用户所下的全部订单，以下单时间逆序排序

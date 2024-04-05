@@ -1,5 +1,6 @@
 package yang.yu.tmall.repository.spring.sales
 
+import org.springframework.data.domain.Limit
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
@@ -27,27 +28,50 @@ interface OrderRepository : Orders, AbstractRepository<Order>, OrderRepositoryEx
     " from OrderLine ol join ol.order o where o.createdDate >= :from and o.createdDate < :until group by ol.product")
   override fun sumOfSalesByProduct(@Param("from") from: LocalDate, @Param("until") until: LocalDate): Stream<ProductSalesSummary>
 
-  override fun sumOfSalesByYear(): Stream<YearMonthSales> {
-    TODO("Not yet implemented")
-  }
+  @Query("select new yang.yu.tmall.domain.sales.YearMonthSales(o.year, sum(o.totalPrice))" +
+    " from Order o group by o.year")
+  override fun sumOfSalesByYear(): Stream<YearMonthSales>
 
-  override fun sumOfSalesByMonth(year: Int): Stream<YearMonthSales> {
-    TODO("Not yet implemented")
-  }
+  @Query("select new yang.yu.tmall.domain.sales.YearMonthSales(o.month, sum(o.totalPrice))" +
+    " from Order o where o.year = :year group by o.month")
+  override fun sumOfSalesByMonth(@Param("year") year: Int): Stream<YearMonthSales>
 
-  override fun bestSellNByQuantity(@Param("from") from: LocalDate, @Param("until") until: LocalDate, limit: Int): Stream<ProductSalesSummary> {
-    TODO("Not yet implemented")
-  }
+  @Query("select new yang.yu.tmall.domain.sales.ProductSalesSummary(ol.product as product, sum(ol.quantity) as quantity, " +
+    "sum(ol.subTotal) as amount) from OrderLine ol join ol.order o" +
+    " where o.createdDate >= :from and o.createdDate < :until group by ol.product order by quantity desc")
+  fun bestSellNByQuantity(@Param("from") from: LocalDate, @Param("until") until: LocalDate, limit: Limit): Stream<ProductSalesSummary>
 
-  override fun worstSellNByQuantity(@Param("from") from: LocalDate, @Param("until") until: LocalDate, limit: Int): Stream<ProductSalesSummary> {
-    TODO("Not yet implemented")
-  }
+  override fun bestSellNByQuantity(
+    @Param("from") from: LocalDate,
+    @Param("until") until: LocalDate,
+    limit: Int,
+  ): Stream<ProductSalesSummary> = bestSellNByQuantity(from, until, Limit.of(limit))
 
-  override fun bestSellNByAmount(@Param("from") from: LocalDate, @Param("until") until: LocalDate, limit: Int): Stream<ProductSalesSummary> {
-    TODO("Not yet implemented")
-  }
+  @Query("select new yang.yu.tmall.domain.sales.ProductSalesSummary(ol.product as product, " +
+    "sum(ol.quantity) as quantity, sum(ol.subTotal) as amount)" +
+    " from OrderLine ol join ol.order o" +
+    " where o.createdDate >= :from and o.createdDate < :until group by ol.product order by quantity")
+  fun worstSellNByQuantity(@Param("from") from: LocalDate, @Param("until") until: LocalDate, limit: Limit): Stream<ProductSalesSummary>
 
-  override fun worstSellNBAmount(@Param("from") from: LocalDate, @Param("until") until: LocalDate, limit: Int): Stream<ProductSalesSummary> {
-    TODO("Not yet implemented")
-  }
+  override fun worstSellNByQuantity(
+    @Param("from") from: LocalDate, @Param("until") until: LocalDate, limit: Int
+  ): Stream<ProductSalesSummary> = worstSellNByQuantity(from, until, Limit.of(limit))
+
+  @Query("select new yang.yu.tmall.domain.sales.ProductSalesSummary(ol.product as product, sum(ol.quantity) as quantity, " +
+    "sum(ol.subTotal) as amount) from OrderLine ol join ol.order o" +
+    " where o.createdDate >= :from and o.createdDate < :until group by ol.product order by amount desc")
+  fun bestSellNByAmount(@Param("from") from: LocalDate, @Param("until") until: LocalDate, limit: Limit): Stream<ProductSalesSummary>
+
+  override fun bestSellNByAmount(
+    @Param("from") from: LocalDate, @Param("until") until: LocalDate, limit: Int
+  ): Stream<ProductSalesSummary> = bestSellNByAmount(from, until, Limit.of(limit))
+
+  @Query("select new yang.yu.tmall.domain.sales.ProductSalesSummary(ol.product as product, sum(ol.quantity) as quantity, " +
+    "sum(ol.subTotal) as amount) from OrderLine ol join ol.order o" +
+    " where o.createdDate >= :from and o.createdDate < :until group by ol.product order by amount")
+  fun worstSellNBAmount(@Param("from") from: LocalDate, @Param("until") until: LocalDate, limit: Limit): Stream<ProductSalesSummary>
+
+  override fun worstSellNBAmount(
+    @Param("from") from: LocalDate, @Param("until") until: LocalDate, limit: Int
+  ): Stream<ProductSalesSummary> = worstSellNBAmount(from, until, Limit.of(limit))
 }

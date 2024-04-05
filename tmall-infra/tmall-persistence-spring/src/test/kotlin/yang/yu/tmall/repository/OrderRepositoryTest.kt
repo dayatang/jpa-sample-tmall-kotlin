@@ -101,6 +101,15 @@ open class OrderRepositoryTest : WithAssertions {
                 .doesNotContain(order2)
     }
 
+  @Test
+  fun findByProductBetween() {
+    assertThat(orders.findByProduct(product2,
+      LocalDate.now().atStartOfDay(),
+      LocalDate.now().plusDays(1).atStartOfDay()))
+      .contains(order1)
+      .doesNotContain(order2)
+  }
+
     @Test
     fun findByOrgBuyers() {
         assertThat(orders.findByOrgBuyers())
@@ -133,6 +142,46 @@ open class OrderRepositoryTest : WithAssertions {
   @Test
   fun sumOfSalesByProduct() {
     val results = orders.sumOfSalesByProduct(LocalDate.now(), LocalDate.now().plusDays(1))
+    results.forEach { println( "${it.product} amount = ${it.amount}, quantity = ${it.quantity}") }
+  }
+
+  @Test
+  fun sumOfSalesByYear() {
+    val amount = orders.sumOfSalesByYear()
+    amount.forEach{ println("${it.yearOrMonth} = ${it.amount}") }
+  }
+
+  @Test
+  fun sumOfSalesByMonth() {
+    val amount = orders.sumOfSalesByMonth(LocalDate.now().year)
+    amount.forEach{ println("${it.yearOrMonth} = ${it.amount}") }
+  }
+
+  @Test
+  fun bestSellNByQuantity() {
+    val results = orders.bestSellNByQuantity(LocalDate.now().minusYears(1), LocalDate.now().plusDays(1), 10)
+    println("============bestSellNByQuantity:")
+    results.forEach { println( "${it.product} amount = ${it.amount}, quantity = ${it.quantity}") }
+  }
+
+  @Test
+  fun worstSellNByQuantity() {
+    val results = orders.worstSellNByQuantity(LocalDate.now().minusYears(1), LocalDate.now().plusDays(1), 10)
+    println("============worstSellNByQuantity:")
+    results.forEach { println( "${it.product} amount = ${it.amount}, quantity = ${it.quantity}") }
+  }
+
+  @Test
+  fun bestSellNByAmount() {
+    val results = orders.bestSellNByAmount(LocalDate.now().minusYears(1), LocalDate.now().plusDays(1), 10)
+    println("============bestSellNByAmount:")
+    results.forEach { println( "${it.product} amount = ${it.amount}, quantity = ${it.quantity}") }
+  }
+
+  @Test
+  fun worstSellNBAmount() {
+    val results = orders.worstSellNBAmount(LocalDate.now().minusYears(1), LocalDate.now().plusDays(1), 10)
+    println("============worstSellNBAmount:")
     results.forEach { println( "${it.product} amount = ${it.amount}, quantity = ${it.quantity}") }
   }
 }
