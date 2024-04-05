@@ -6,6 +6,7 @@ import yang.yu.tmall.domain.catalog.Product
 import yang.yu.tmall.domain.commons.Address
 import yang.yu.tmall.domain.commons.BaseEntity
 import yang.yu.tmall.domain.commons.Money
+import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
@@ -36,17 +37,20 @@ data class Order(
   @AttributeOverride(name = "value", column = Column(name = "total_price", precision = 15, scale = 4))
   var totalPrice: Money = Money.ZERO
 
+  @Column(name = "created_time")
+  val createdDateTime: ZonedDateTime = ZonedDateTime.ofInstant(created, ZoneId.systemDefault())
+
   @Column(name = "created_date")
-  val createdDateTime = ZonedDateTime.ofInstant(created, ZoneId.systemDefault())
+  val createdDate: LocalDate = LocalDate.ofInstant(created, ZoneId.systemDefault())
 
   @Column(name = "created_year")
-  val year: Int = createdDateTime.year
+  val year: Int = createdDate.year
 
   @Column(name = "created_month")
-  val month: Int = createdDateTime.monthValue
+  val month: Int = createdDate.monthValue
 
   @Column(name = "created_day")
-  val day: Int = createdDateTime.dayOfMonth
+  val day: Int = createdDate.dayOfMonth
 
   fun addLineItem(lineItem: OrderLine) {
     if (containsProduct(lineItem.product)) {

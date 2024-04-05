@@ -17,15 +17,13 @@ import yang.yu.tmall.domain.sales.Orders
 import yang.yu.tmall.spring.JpaSpringConfig
 import jakarta.inject.Inject
 import jakarta.persistence.EntityManager
-import jakarta.persistence.Query
 import jakarta.transaction.Transactional
 import yang.yu.tmall.domain.sales.OrderQuery
-import java.math.BigDecimal
 import java.time.LocalDate
 
 @SpringJUnitConfig(classes = [JpaSpringConfig::class])
 @Transactional
-open class OrdersTest : WithAssertions {
+open class OrderRepositoryTest : WithAssertions {
 
     @Inject
     private lateinit var orders: Orders
@@ -131,4 +129,10 @@ open class OrdersTest : WithAssertions {
       val amount = orders.sumOfSalesAmount(LocalDate.now(), LocalDate.now().plusDays(1))
       println(amount)
     }
+
+  @Test
+  fun sumOfSalesByProduct() {
+    val results = orders.sumOfSalesByProduct(LocalDate.now(), LocalDate.now().plusDays(1))
+    results.forEach { println( "${it.product} amount = ${it.amount}, quantity = ${it.quantity}") }
+  }
 }

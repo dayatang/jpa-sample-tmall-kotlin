@@ -54,4 +54,6 @@ class Money(val value: BigDecimal = BigDecimal.ZERO) {
   override fun hashCode(): Int {
     return value.setScale(SCALE, RoundingMode.HALF_UP).hashCode()
   }
+
+  override fun toString(): String = value.toString()
 }

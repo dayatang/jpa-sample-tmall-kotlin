@@ -2,13 +2,14 @@ package yang.yu.tmall.domain.sales
 
 import yang.yu.tmall.domain.catalog.Product
 import yang.yu.tmall.domain.commons.Money
+import java.math.BigDecimal
 
-interface ProductSalesSummary {
+data class ProductSalesSummary(
 
-  val product: Product
+  val product: Product,
 
-  val count: Long
+  val quantity: BigDecimal,
 
   val amount: Money
 
-}
+)

@@ -59,11 +59,7 @@ abstract class Buyer(
     return Objects.hash(name)
   }
 
-  override fun toString(): String {
-    return "Buyer{" +
-      "name='" + name + '\'' +
-      '}'
-  }
+  override fun toString(): String = name
 
   companion object {
     private val buyers: Buyers

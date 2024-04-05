@@ -124,4 +124,12 @@ class OrderRepositoryTest : BaseIntegrationTest() {
     val amount = orders.sumOfSalesAmount(LocalDate.now(), LocalDate.now().plusDays(1))
     println(amount)
   }
+
+
+  @Test
+  fun sumOfSalesByProduct() {
+    val results = orders.sumOfSalesByProduct(LocalDate.now(), LocalDate.now().plusDays(1))
+    results.forEach { println( "${it.product} amount = ${it.amount}, quantity = ${it.quantity}") }
+  }
+
 }

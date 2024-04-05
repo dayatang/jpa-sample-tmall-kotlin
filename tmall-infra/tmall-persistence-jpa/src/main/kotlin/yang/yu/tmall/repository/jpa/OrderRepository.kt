@@ -6,8 +6,7 @@ import yang.yu.tmall.domain.sales.Order
 import yang.yu.tmall.domain.sales.OrderQuery
 import yang.yu.tmall.domain.sales.Orders
 import yang.yu.tmall.domain.sales.ProductSalesSummary
-import java.time.LocalDate
-import java.time.ZoneId
+import java.time.*
 import java.util.stream.Stream
 
 class OrderRepository(private val entityManager: EntityManager) :
@@ -99,7 +98,14 @@ class OrderRepository(private val entityManager: EntityManager) :
   }
 
   override fun sumOfSalesByProduct(from: LocalDate, until: LocalDate): Stream<ProductSalesSummary> {
-    TODO("Not yet implemented")
+    val jpql = "select ol.product as product, sum(ol.quantity) as quantity, " +
+      " new yang.yu.tmall.domain.commons.Money(sum(ol.subTotal.value)) as amount" +
+      " from OrderLine ol join ol.order o" +
+      " where o.createdDate >= :from and o.createdDate < :until group by ol.product"
+    return entityManager.createQuery(jpql, ProductSalesSummary::class.java)
+      .setParameter("from", from)
+      .setParameter("until", until)
+      .resultStream
   }
 
   override fun sumOfSalesByYear(from: LocalDate, until: LocalDate): Stream<Pair<Int, Money>> {
@@ -125,4 +131,10 @@ class OrderRepository(private val entityManager: EntityManager) :
   override fun worstSellNBAmount(from: LocalDate, until: LocalDate, limit: Int): Stream<ProductSalesSummary> {
     TODO("Not yet implemented")
   }
+
+  fun toInstant(value: LocalDate) = value.atStartOfDay().toInstant(ZoneOffset.UTC)
+
+  fun toInstant(value: LocalDateTime) = value.toInstant(ZoneOffset.UTC)
+
+  fun toInstant(value: ZonedDateTime) = value.toInstant()
 }

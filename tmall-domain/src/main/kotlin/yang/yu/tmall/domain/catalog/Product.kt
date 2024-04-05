@@ -12,4 +12,6 @@ data class Product(
 
     @ManyToOne
     val category: ProductCategory? = null
-): BaseEntity()
+): BaseEntity() {
+  override fun toString(): String = name
+}

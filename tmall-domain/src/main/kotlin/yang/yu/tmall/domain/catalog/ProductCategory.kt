@@ -27,4 +27,6 @@ data class ProductCategory(
     fun removeChild(child: ProductCategory) {
         children.remove(child)
     }
+
+  override fun toString(): String = name
 }
