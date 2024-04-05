@@ -2,7 +2,7 @@ package yang.yu.tmall.domain.pricing
 
 import yang.yu.lang.IoC
 import yang.yu.tmall.domain.catalog.Product
-import yang.yu.tmall.domain.commons.Money
+import java.math.BigDecimal
 import java.time.Instant
 
 
@@ -12,7 +12,7 @@ import java.time.Instant
  * @param effectiveInstant 生效时间
  * @return 一个新的定价对象
  */
-fun Product.setPrice(unitPrice: Money, effectiveInstant: Instant = Instant.now()): Pricing {
+fun Product.setPrice(unitPrice: BigDecimal, effectiveInstant: Instant = Instant.now()): Pricing {
   return pricingService.setPrice(this, unitPrice, effectiveInstant)
 }
 
@@ -33,7 +33,7 @@ fun Product.adjustPriceByPercentage(percentage: Number,
  * @return 指定商品在指定时刻的单价
  * @throws PricingException 当商品还没设定单价时抛出此异常
  */
-fun Product.priceOfProductAt(time: Instant): Money {
+fun Product.priceOfProductAt(time: Instant): BigDecimal {
   return pricingService.priceOfProductAt(this, time)
 }
 
@@ -41,7 +41,7 @@ fun Product.priceOfProductAt(time: Instant): Money {
  * 获取当前价格
  * @return 商品的当前价格
  */
-fun Product.currentPriceOf(): Money {
+fun Product.currentPriceOf(): BigDecimal {
   return priceOfProductAt(Instant.now())
 }
 

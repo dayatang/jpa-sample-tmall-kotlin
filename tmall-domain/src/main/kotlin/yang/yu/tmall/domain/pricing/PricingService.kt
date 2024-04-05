@@ -1,9 +1,9 @@
 package yang.yu.tmall.domain.pricing
 
 import yang.yu.tmall.domain.catalog.Product
-import yang.yu.tmall.domain.commons.Money
 import java.util.stream.Stream
 import jakarta.inject.Named
+import java.math.BigDecimal
 import java.time.Instant
 
 /**
@@ -20,7 +20,7 @@ class PricingService(private val pricings: Pricings) {
      * @param effectiveInstant 生效时间
      * @return 一个新的定价对象
      */
-    fun setPrice(product: Product, unitPrice: Money, effectiveInstant: Instant = Instant.now()): Pricing {
+    fun setPrice(product: Product, unitPrice: BigDecimal, effectiveInstant: Instant = Instant.now()): Pricing {
         return pricings.save(Pricing(product, unitPrice, effectiveInstant))
     }
 
@@ -32,7 +32,8 @@ class PricingService(private val pricings: Pricings) {
      * @return 一个新的定价对象
      */
     fun adjustPriceByPercentage(product: Product, percentage: Number, effectiveInstant: Instant = Instant.now()): Pricing {
-        val newPrice = currentPriceOf(product).times(percentage.toDouble() + 100).div(100)
+      val newRate = BigDecimal.valueOf(100).add(BigDecimal(percentage.toDouble()))
+      val newPrice = currentPriceOf(product).times(newRate).div(BigDecimal.valueOf(100))
         return setPrice(product, newPrice, effectiveInstant)
     }
 
@@ -54,7 +55,7 @@ class PricingService(private val pricings: Pricings) {
      * @return 指定商品在指定时刻的单价
      * @throws PricingException 当商品还没设定单价时抛出此异常
      */
-    fun priceOfProductAt(product: Product, time: Instant): Money {
+    fun priceOfProductAt(product: Product, time: Instant): BigDecimal {
         return pricings.getPricingAt(product, time)
                 .map { it.unitPrice }
                 .orElseThrow { PricingException(product.name + "'s price has not been set yet.") }!!
@@ -65,7 +66,7 @@ class PricingService(private val pricings: Pricings) {
      * @param product 要查询价格的商品
      * @return 商品的当前价格
      */
-    fun currentPriceOf(product: Product): Money {
+    fun currentPriceOf(product: Product): BigDecimal {
         return priceOfProductAt(product, Instant.now())
     }
 

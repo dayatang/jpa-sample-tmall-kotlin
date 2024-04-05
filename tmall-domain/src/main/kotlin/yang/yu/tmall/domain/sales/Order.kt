@@ -5,7 +5,7 @@ import yang.yu.tmall.domain.buyers.Buyer
 import yang.yu.tmall.domain.catalog.Product
 import yang.yu.tmall.domain.commons.Address
 import yang.yu.tmall.domain.commons.BaseEntity
-import yang.yu.tmall.domain.commons.Money
+import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -33,9 +33,8 @@ data class Order(
   @Embedded
   var shippingAddress: Address? = null
 
-  @Embedded
-  @AttributeOverride(name = "value", column = Column(name = "total_price", precision = 15, scale = 4))
-  var totalPrice: Money = Money.ZERO
+  @Column(name = "total_price", precision = 15, scale = 4)
+  var totalPrice: BigDecimal = BigDecimal.ZERO
 
   @Column(name = "created_time")
   val createdDateTime: ZonedDateTime = ZonedDateTime.ofInstant(created, ZoneId.systemDefault())
@@ -67,9 +66,9 @@ data class Order(
       .contains(product)
   }
 
-  private fun calculateTotalPrice(): Money {
+  private fun calculateTotalPrice(): BigDecimal {
     return lineItems
       .map(OrderLine::subTotal)
-      .reduceOrNull(Money::plus)?: Money.ZERO
+      .reduceOrNull(BigDecimal::plus)?: BigDecimal.ZERO
   }
 }

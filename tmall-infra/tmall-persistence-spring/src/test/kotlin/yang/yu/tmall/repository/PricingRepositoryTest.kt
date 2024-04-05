@@ -6,16 +6,15 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig
 import yang.yu.tmall.domain.catalog.Product
-import yang.yu.tmall.domain.commons.Money
 import yang.yu.tmall.domain.pricing.Pricing
 import yang.yu.tmall.domain.pricing.Pricings
 import yang.yu.tmall.domain.catalog.ProductCategory
 import yang.yu.tmall.spring.JpaSpringConfig
 import java.time.LocalDate
-import java.time.LocalDateTime
 import jakarta.inject.Inject
 import jakarta.persistence.EntityManager
 import jakarta.transaction.Transactional
+import java.math.BigDecimal
 import java.time.ZoneOffset
 
 @SpringJUnitConfig(classes = [JpaSpringConfig::class])
@@ -40,13 +39,13 @@ open class PricingRepositoryTest : WithAssertions {
         val category = entityManager.merge(ProductCategory("a"))
         product1 = entityManager.merge(Product("电冰箱", category))
         product2 = entityManager.merge(Product("电视机", category))
-        pricing1 = entityManager.merge(Pricing(product1, Money.valueOf(500),
+        pricing1 = entityManager.merge(Pricing(product1, BigDecimal.valueOf(500),
           LocalDate.of(2020, 10, 1).atStartOfDay().toInstant(ZoneOffset.UTC)))
-        pricing2 = entityManager.merge(Pricing(product1, Money.valueOf(600),
+        pricing2 = entityManager.merge(Pricing(product1, BigDecimal.valueOf(600),
           LocalDate.of(2020, 2, 15).atStartOfDay().toInstant(ZoneOffset.UTC)))
-        pricing3 = entityManager.merge(Pricing(product2, Money.valueOf(7000),
+        pricing3 = entityManager.merge(Pricing(product2, BigDecimal.valueOf(7000),
           LocalDate.of(2020, 7, 14).atStartOfDay().toInstant(ZoneOffset.UTC)))
-        pricing4 = entityManager.merge(Pricing(product2, Money.valueOf(7100),
+        pricing4 = entityManager.merge(Pricing(product2, BigDecimal.valueOf(7100),
           LocalDate.of(2020, 2, 15).atStartOfDay().toInstant(ZoneOffset.UTC)))
     }
 
@@ -66,12 +65,12 @@ open class PricingRepositoryTest : WithAssertions {
               .atStartOfDay().toInstant(ZoneOffset.UTC)
             assertThat(pricings.getPricingAt(product1, time2002_02_15))
                     .map(Pricing::unitPrice)
-                    .contains(Money.valueOf(600))
+                    .contains(BigDecimal.valueOf(600))
             assertThat(pricings.getPricingAt(product1, time2002_02_16))
                     .map(Pricing::unitPrice)
-                    .contains(Money.valueOf(600))
+                    .contains(BigDecimal.valueOf(600))
             assertThat(pricings.getPricingAt(product1, time2002_10_01))
                     .map(Pricing::unitPrice)
-                    .contains(Money.valueOf(500))
+                    .contains(BigDecimal.valueOf(500))
         }
 }

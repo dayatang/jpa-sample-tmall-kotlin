@@ -3,7 +3,7 @@ package yang.yu.tmall.domain.sales
 import yang.yu.tmall.domain.buyers.Buyer
 import yang.yu.tmall.domain.catalog.Product
 import yang.yu.tmall.domain.commons.BaseRepository
-import yang.yu.tmall.domain.commons.Money
+import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -62,17 +62,17 @@ interface Orders: BaseRepository<Order> {
      */
     fun findByOrgBuyers(): Stream<Order> = find(OrderQuery().isOrgBuyer())
 
-    fun sumOfSalesAmount(from: LocalDate, until: LocalDate): Money
+    fun sumOfSalesAmount(from: LocalDate, until: LocalDate): BigDecimal
 
     fun sumOfSalesByProduct(from: LocalDate, until: LocalDate): Stream<ProductSalesSummary>
 
-    fun sumOfSalesByYear(from: LocalDate, until: LocalDate): Stream<Pair<Int, Money>>
+    fun sumOfSalesByYear(): Stream<YearMonthSales>
 
-    fun sumOfSalesByMonth(from: LocalDate, until: LocalDate, year: Int): Stream<Pair<Int, Money>>
+    fun sumOfSalesByMonth(year: Int): Stream<YearMonthSales>
 
-    fun bestSellNByCount(from: LocalDate, until: LocalDate, limit: Int): Stream<ProductSalesSummary>
+    fun bestSellNByQuantity(from: LocalDate, until: LocalDate, limit: Int): Stream<ProductSalesSummary>
 
-    fun worstSellNByCount(from: LocalDate, until: LocalDate, limit: Int): Stream<ProductSalesSummary>
+    fun worstSellNByQuantity(from: LocalDate, until: LocalDate, limit: Int): Stream<ProductSalesSummary>
 
     fun bestSellNByAmount(from: LocalDate, until: LocalDate, limit: Int): Stream<ProductSalesSummary>
 

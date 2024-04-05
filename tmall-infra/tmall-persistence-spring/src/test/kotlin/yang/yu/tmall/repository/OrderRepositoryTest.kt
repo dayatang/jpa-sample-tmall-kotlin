@@ -9,7 +9,6 @@ import yang.yu.tmall.domain.buyers.Buyer
 import yang.yu.tmall.domain.buyers.OrgBuyer
 import yang.yu.tmall.domain.buyers.PersonalBuyer
 import yang.yu.tmall.domain.catalog.Product
-import yang.yu.tmall.domain.commons.Money
 import yang.yu.tmall.domain.catalog.ProductCategory
 import yang.yu.tmall.domain.sales.Order
 import yang.yu.tmall.domain.sales.OrderLine
@@ -50,10 +49,10 @@ open class OrderRepositoryTest : WithAssertions {
         product2 = entityManager.merge(Product("电视机", category))
         buyer1 = entityManager.merge(PersonalBuyer("张三"))
         buyer2 = entityManager.merge(OrgBuyer("华为公司"))
-        lineItem1 = OrderLine(product1, 3.0, Money.valueOf(3500))
-        lineItem2 = OrderLine(product1, 5.0, Money.valueOf(3500))
-        lineItem3 = OrderLine(product2, 3.0, Money.valueOf(8500))
-        lineItem4 = OrderLine(product2, 2.0, Money.valueOf(8500))
+        lineItem1 = OrderLine(product1, 3.0, BigDecimal.valueOf(3500))
+        lineItem2 = OrderLine(product1, 5.0, BigDecimal.valueOf(3500))
+        lineItem3 = OrderLine(product2, 3.0, BigDecimal.valueOf(8500))
+        lineItem4 = OrderLine(product2, 2.0, BigDecimal.valueOf(8500))
         order1 = createOrder("order1", buyer1, lineItem1, lineItem3)
         order2 = createOrder("order2", buyer1, lineItem2)
         order3 = createOrder("order3", buyer2, lineItem2, lineItem3)
@@ -116,7 +115,7 @@ open class OrderRepositoryTest : WithAssertions {
 
       val query = OrderQuery().isPersonalBuyer()
         .buyerName("张三")
-        .totalPriceNotLessThan(Money.valueOf(5000))
+        .totalPriceNotLessThan(BigDecimal.valueOf(5000))
 
       assertThat(orders.find(query))
         .contains(order1, order2)

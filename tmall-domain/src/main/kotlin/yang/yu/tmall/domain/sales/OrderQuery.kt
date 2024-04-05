@@ -2,7 +2,7 @@ package yang.yu.tmall.domain.sales
 
 import yang.yu.tmall.domain.buyers.Buyer
 import yang.yu.tmall.domain.catalog.Product
-import yang.yu.tmall.domain.commons.Money
+import java.math.BigDecimal
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
@@ -21,8 +21,8 @@ class OrderQuery {
   var shipToCity: String? = null
   var receiverName: String? = null
   var receiverPhone: String? = null
-  var totalPriceLessThan: Money? = null
-  var totalPriceNotLessThan: Money? = null
+  var totalPriceLessThan: BigDecimal? = null
+  var totalPriceNotLessThan: BigDecimal? = null
 
   fun id(id: Int): OrderQuery {
     this.id = id
@@ -95,12 +95,12 @@ class OrderQuery {
     return this
   }
 
-  fun totalPriceLessThan(value: Money): OrderQuery {
+  fun totalPriceLessThan(value: BigDecimal): OrderQuery {
     this.totalPriceLessThan = value
     return this
   }
 
-  fun totalPriceNotLessThan(value: Money): OrderQuery {
+  fun totalPriceNotLessThan(value: BigDecimal): OrderQuery {
     this.totalPriceNotLessThan = value
     return this
   }
