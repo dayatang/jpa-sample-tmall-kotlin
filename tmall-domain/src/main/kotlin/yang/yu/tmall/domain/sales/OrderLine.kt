@@ -13,19 +13,20 @@ data class OrderLine(
     @JoinColumn(name = "prod_id")
     val product: Product,
 
+    @Column(name = "unit_price", precision = 15, scale = 4)
     val quantity: BigDecimal = BigDecimal.ZERO,
 
-    @AttributeOverride(name = "value", column = Column(name = "unit_price"))
+    @Column(name = "unit_price", precision = 15, scale = 4)
     val unitPrice: Money = Money.ZERO,
 
-    @Column(name = "discount_rate")
+    @Column(name = "discount_rate", precision = 15, scale = 4)
     val discountRate: BigDecimal = BigDecimal.ZERO
 ) : BaseEntity() {
 
     @ManyToOne(optional = false)
     lateinit var order: Order
 
-    @AttributeOverride(name = "value", column = Column(name = "sub_total"))
+    @AttributeOverride(name = "value", column = Column(name = "sub_total", precision = 15, scale = 4))
     var subTotal: Money = Money.ZERO
         get() {
             if (isNew) {

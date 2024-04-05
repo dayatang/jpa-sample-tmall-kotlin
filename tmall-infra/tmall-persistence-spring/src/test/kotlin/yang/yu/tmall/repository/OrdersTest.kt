@@ -21,6 +21,7 @@ import jakarta.persistence.Query
 import jakarta.transaction.Transactional
 import yang.yu.tmall.domain.sales.OrderQuery
 import java.math.BigDecimal
+import java.time.LocalDate
 
 @SpringJUnitConfig(classes = [JpaSpringConfig::class])
 @Transactional
@@ -123,5 +124,11 @@ open class OrdersTest : WithAssertions {
         .contains(order1, order2)
         .doesNotContain(order3)
 
+    }
+
+    @Test
+    fun sumOfSalesAmount() {
+      val amount = orders.sumOfSalesAmount(LocalDate.now(), LocalDate.now().plusDays(1))
+      println(amount)
     }
 }

@@ -1,9 +1,13 @@
 package yang.yu.tmall.repository.jpa
 
 import jakarta.persistence.EntityManager
+import yang.yu.tmall.domain.commons.Money
 import yang.yu.tmall.domain.sales.Order
 import yang.yu.tmall.domain.sales.OrderQuery
 import yang.yu.tmall.domain.sales.Orders
+import yang.yu.tmall.domain.sales.ProductSalesSummary
+import java.time.LocalDate
+import java.time.ZoneId
 import java.util.stream.Stream
 
 class OrderRepository(private val entityManager: EntityManager) :
@@ -83,5 +87,42 @@ class OrderRepository(private val entityManager: EntityManager) :
     var typedQuery = entityManager.createQuery(jpql, Order::class.java)
     for (param in params) typedQuery = typedQuery.setParameter(param.key, param.value)
     return typedQuery.resultStream
+  }
+
+  override fun sumOfSalesAmount(from: LocalDate, until: LocalDate): Money {
+    val jpql = "select new yang.yu.tmall.domain.commons.Money(sum(o.totalPrice.value)) from Order o" +
+      " where o.created >= :from and o.created < :until"
+    return entityManager.createQuery(jpql, Money::class.java)
+      .setParameter("from", from.atStartOfDay(ZoneId.systemDefault()).toInstant())
+      .setParameter("until", until.atStartOfDay(ZoneId.systemDefault()).toInstant())
+      .singleResult?: Money.ZERO
+  }
+
+  override fun sumOfSalesByProduct(from: LocalDate, until: LocalDate): Stream<ProductSalesSummary> {
+    TODO("Not yet implemented")
+  }
+
+  override fun sumOfSalesByYear(from: LocalDate, until: LocalDate): Stream<Pair<Int, Money>> {
+    TODO("Not yet implemented")
+  }
+
+  override fun sumOfSalesByMonth(from: LocalDate, until: LocalDate, year: Int): Stream<Pair<Int, Money>> {
+    TODO("Not yet implemented")
+  }
+
+  override fun bestSellNByCount(from: LocalDate, until: LocalDate, limit: Int): Stream<ProductSalesSummary> {
+    TODO("Not yet implemented")
+  }
+
+  override fun worstSellNByCount(from: LocalDate, until: LocalDate, limit: Int): Stream<ProductSalesSummary> {
+    TODO("Not yet implemented")
+  }
+
+  override fun bestSellNByAmount(from: LocalDate, until: LocalDate, limit: Int): Stream<ProductSalesSummary> {
+    TODO("Not yet implemented")
+  }
+
+  override fun worstSellNBAmount(from: LocalDate, until: LocalDate, limit: Int): Stream<ProductSalesSummary> {
+    TODO("Not yet implemented")
   }
 }

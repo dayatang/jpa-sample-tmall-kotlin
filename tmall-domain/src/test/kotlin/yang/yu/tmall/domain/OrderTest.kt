@@ -23,6 +23,6 @@ internal class OrderTest : BaseUnitTest() {
         //System.out.println(subtotal1);
         val subtotal2 = valueOf(25.4 * 3.2)
         //System.out.println(subtotal2);
-        assertThat(order.totalPrice.scaledValue).isEqualTo(subtotal1.plus(subtotal2).scaledValue)
+        assertThat(order.totalPrice).isEqualTo(subtotal1.plus(subtotal2))
     }
 }

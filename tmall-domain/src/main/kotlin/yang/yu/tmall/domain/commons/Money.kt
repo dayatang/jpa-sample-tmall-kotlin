@@ -8,10 +8,7 @@ import jakarta.persistence.Embeddable
  * 金额值对象。只保留两位小数
  */
 @Embeddable
-data class Money(val value: BigDecimal = BigDecimal.ZERO) {
-
-  val scaledValue: BigDecimal
-    get() = value.setScale(SCALE, RoundingMode.HALF_UP)
+class Money(val value: BigDecimal = BigDecimal.ZERO) {
 
   operator fun plus(amount: Money): Money = Money(value.add(amount.value))
 
@@ -43,5 +40,18 @@ data class Money(val value: BigDecimal = BigDecimal.ZERO) {
     fun valueOf(amount: String): Money = Money(BigDecimal(amount))
 
     fun valueOf(amount: Number): Money = valueOf(amount.toString())
+  }
+
+  override fun equals(other: Any?): Boolean {
+    if (this === other) return true
+    if (javaClass != other?.javaClass) return false
+
+    other as Money
+
+    return value.setScale(SCALE, RoundingMode.HALF_UP) == other.value.setScale(SCALE, RoundingMode.HALF_UP)
+  }
+
+  override fun hashCode(): Int {
+    return value.setScale(SCALE, RoundingMode.HALF_UP).hashCode()
   }
 }

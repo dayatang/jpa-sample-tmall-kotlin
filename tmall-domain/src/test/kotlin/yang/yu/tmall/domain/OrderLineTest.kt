@@ -14,6 +14,6 @@ internal class OrderLineTest : BaseUnitTest() {
         val product = Product("pencil", category)
 
         val orderLine = OrderLine(product, 3.0, valueOf(150), BigDecimal(30))
-        assertThat(orderLine.subTotal.scaledValue).isEqualTo(valueOf(150 * 3 * (100 - 30) / 100).scaledValue)
+        assertThat(orderLine.subTotal).isEqualTo(valueOf(150 * 3 * (100 - 30) / 100))
     }
 }

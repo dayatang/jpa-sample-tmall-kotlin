@@ -3,6 +3,8 @@ package yang.yu.tmall.domain.sales
 import yang.yu.tmall.domain.buyers.Buyer
 import yang.yu.tmall.domain.catalog.Product
 import yang.yu.tmall.domain.commons.BaseRepository
+import yang.yu.tmall.domain.commons.Money
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.util.*
@@ -59,4 +61,21 @@ interface Orders: BaseRepository<Order> {
      * @return 订单流
      */
     fun findByOrgBuyers(): Stream<Order> = find(OrderQuery().isOrgBuyer())
+
+    fun sumOfSalesAmount(from: LocalDate, until: LocalDate): Money
+
+    fun sumOfSalesByProduct(from: LocalDate, until: LocalDate): Stream<ProductSalesSummary>
+
+    fun sumOfSalesByYear(from: LocalDate, until: LocalDate): Stream<Pair<Int, Money>>
+
+    fun sumOfSalesByMonth(from: LocalDate, until: LocalDate, year: Int): Stream<Pair<Int, Money>>
+
+    fun bestSellNByCount(from: LocalDate, until: LocalDate, limit: Int): Stream<ProductSalesSummary>
+
+    fun worstSellNByCount(from: LocalDate, until: LocalDate, limit: Int): Stream<ProductSalesSummary>
+
+    fun bestSellNByAmount(from: LocalDate, until: LocalDate, limit: Int): Stream<ProductSalesSummary>
+
+    fun worstSellNBAmount(from: LocalDate, until: LocalDate, limit: Int): Stream<ProductSalesSummary>
+
 }
