@@ -31,6 +31,13 @@ data class Order(
     }
 
   @Embedded
+  @AttributeOverrides(
+    AttributeOverride(name = "province", column = Column(name = "shipping_addr_province")),
+    AttributeOverride(name = "city", column = Column(name = "shipping_addr_city")),
+    AttributeOverride(name = "detail", column = Column(name = "shipping_addr_detail")),
+    AttributeOverride(name = "receiverName", column = Column(name = "shipping_addr_receiver_name")),
+    AttributeOverride(name = "receiverPhone", column = Column(name = "shipping_addr_receiver_phone"))
+  )
   var shippingAddress: Address? = null
 
   @Column(name = "total_price", precision = 15, scale = 4)

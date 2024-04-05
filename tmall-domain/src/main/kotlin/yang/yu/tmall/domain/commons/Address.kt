@@ -8,9 +8,14 @@ import jakarta.persistence.Embeddable
  */
 @Embeddable
 data class Address(
+
     val province: String,
+
     val city: String,
+
     val detail: String,
-    val receiver: String,
-    @Column(name = "receiver_phone")
-    val receiverPhone: String)
+
+    val receiverName: String,
+
+    val receiverPhone: String
+)

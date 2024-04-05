@@ -365,6 +365,9 @@
   <profiles>
     <profile>
       <id>h2</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
       <properties>
         <db.type>H2</db.type>
         <jdbc.groupId>com.h2database</jdbc.groupId>
@@ -395,9 +398,6 @@
     </profile>
     <profile>
       <id>hsqldb</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
       <properties>
         <db.type>HSQL</db.type>
         <jdbc.groupId>org.hsqldb</jdbc.groupId>

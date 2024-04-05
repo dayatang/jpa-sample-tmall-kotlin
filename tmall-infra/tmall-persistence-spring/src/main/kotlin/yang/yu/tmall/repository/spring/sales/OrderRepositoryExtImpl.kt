@@ -54,7 +54,7 @@ class OrderRepositoryExtImpl(private val entityManager: EntityManager): OrderRep
       params["shipToCity"] = query.shipToCity!!
     }
     if (query.receiverName != null) {
-      criteria.add("sa.receiver = :receiverName")
+      criteria.add("sa.receiverName = :receiverName")
       params["receiverName"] = query.receiverName!!
     }
     if (query.receiverPhone != null) {
