@@ -73,12 +73,16 @@ interface Orders: BaseRepository<Order> {
 
     fun sumOfSalesByMonth(year: Int): Stream<YearMonthSales>
 
-    fun bestSellNByQuantity(from: LocalDate, until: LocalDate, limit: Int): Stream<ProductSalesSummary>
+    fun bestSellProductByQuantity(from: LocalDate, until: LocalDate, limit: Int): Stream<ProductSalesSummary>
 
-    fun worstSellNByQuantity(from: LocalDate, until: LocalDate, limit: Int): Stream<ProductSalesSummary>
+    fun worstSellProductByQuantity(from: LocalDate, until: LocalDate, limit: Int): Stream<ProductSalesSummary>
 
-    fun bestSellNByAmount(from: LocalDate, until: LocalDate, limit: Int): Stream<ProductSalesSummary>
+    fun bestSellProductByAmount(from: LocalDate, until: LocalDate, limit: Int): Stream<ProductSalesSummary>
 
-    fun worstSellNBAmount(from: LocalDate, until: LocalDate, limit: Int): Stream<ProductSalesSummary>
+    fun worstSellProductBAmount(from: LocalDate, until: LocalDate, limit: Int): Stream<ProductSalesSummary>
+
+    fun topNBuyer(from: LocalDate, until: LocalDate, limit: Int): Stream<BuyerSales>
+
+    fun bottomNBuyer(from: LocalDate, until: LocalDate, limit: Int): Stream<BuyerSales>
 
 }

@@ -4,10 +4,7 @@ import org.springframework.data.domain.Limit
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
-import yang.yu.tmall.domain.sales.Order
-import yang.yu.tmall.domain.sales.Orders
-import yang.yu.tmall.domain.sales.ProductSalesSummary
-import yang.yu.tmall.domain.sales.YearMonthSales
+import yang.yu.tmall.domain.sales.*
 import yang.yu.tmall.repository.spring.AbstractRepository
 import java.math.BigDecimal
 import java.time.LocalDate
@@ -41,7 +38,7 @@ interface OrderRepository : Orders, AbstractRepository<Order>, OrderRepositoryEx
     " where o.createdDate >= :from and o.createdDate < :until group by ol.product order by quantity desc")
   fun bestSellNByQuantity(@Param("from") from: LocalDate, @Param("until") until: LocalDate, limit: Limit): Stream<ProductSalesSummary>
 
-  override fun bestSellNByQuantity(
+  override fun bestSellProductByQuantity(
     @Param("from") from: LocalDate,
     @Param("until") until: LocalDate,
     limit: Int,
@@ -53,7 +50,7 @@ interface OrderRepository : Orders, AbstractRepository<Order>, OrderRepositoryEx
     " where o.createdDate >= :from and o.createdDate < :until group by ol.product order by quantity")
   fun worstSellNByQuantity(@Param("from") from: LocalDate, @Param("until") until: LocalDate, limit: Limit): Stream<ProductSalesSummary>
 
-  override fun worstSellNByQuantity(
+  override fun worstSellProductByQuantity(
     @Param("from") from: LocalDate, @Param("until") until: LocalDate, limit: Int
   ): Stream<ProductSalesSummary> = worstSellNByQuantity(from, until, Limit.of(limit))
 
@@ -62,7 +59,7 @@ interface OrderRepository : Orders, AbstractRepository<Order>, OrderRepositoryEx
     " where o.createdDate >= :from and o.createdDate < :until group by ol.product order by amount desc")
   fun bestSellNByAmount(@Param("from") from: LocalDate, @Param("until") until: LocalDate, limit: Limit): Stream<ProductSalesSummary>
 
-  override fun bestSellNByAmount(
+  override fun bestSellProductByAmount(
     @Param("from") from: LocalDate, @Param("until") until: LocalDate, limit: Int
   ): Stream<ProductSalesSummary> = bestSellNByAmount(from, until, Limit.of(limit))
 
@@ -71,7 +68,21 @@ interface OrderRepository : Orders, AbstractRepository<Order>, OrderRepositoryEx
     " where o.createdDate >= :from and o.createdDate < :until group by ol.product order by amount")
   fun worstSellNBAmount(@Param("from") from: LocalDate, @Param("until") until: LocalDate, limit: Limit): Stream<ProductSalesSummary>
 
-  override fun worstSellNBAmount(
+  override fun worstSellProductBAmount(
     @Param("from") from: LocalDate, @Param("until") until: LocalDate, limit: Int
   ): Stream<ProductSalesSummary> = worstSellNBAmount(from, until, Limit.of(limit))
+
+  @Query("select new yang.yu.tmall.domain.sales.BuyerSales(o.buyer as buyer, sum(o.totalPrice) as amount)" +
+    " from Order o where o.createdDate >= :from and o.createdDate < :until group by o.buyer order by amount desc ")
+  fun topNBuyer(from: LocalDate, until: LocalDate, limit: Limit): Stream<BuyerSales>
+
+  override fun topNBuyer(from: LocalDate, until: LocalDate, limit: Int): Stream<BuyerSales> =
+    topNBuyer(from, until, Limit.of(limit))
+
+  @Query("select new yang.yu.tmall.domain.sales.BuyerSales(o.buyer as buyer, sum(o.totalPrice) as amount)" +
+    " from Order o where o.createdDate >= :from and o.createdDate < :until group by o.buyer order by amount ")
+  fun bottomNBuyer(from: LocalDate, until: LocalDate, limit: Limit): Stream<BuyerSales>
+
+  override fun bottomNBuyer(from: LocalDate, until: LocalDate, limit: Int): Stream<BuyerSales> =
+    bottomNBuyer(from, until, Limit.of(limit))
 }

@@ -119,7 +119,7 @@ class OrderRepository(private val entityManager: EntityManager) :
       .resultStream
   }
 
-  override fun bestSellNByQuantity(from: LocalDate, until: LocalDate, limit: Int): Stream<ProductSalesSummary> {
+  override fun bestSellProductByQuantity(from: LocalDate, until: LocalDate, limit: Int): Stream<ProductSalesSummary> {
     val jpql = "select ol.product as product, sum(ol.quantity) as quantity, sum(ol.subTotal) as amount" +
       " from OrderLine ol join ol.order o" +
       " where o.createdDate >= :from and o.createdDate < :until group by ol.product" +
@@ -130,7 +130,7 @@ class OrderRepository(private val entityManager: EntityManager) :
       .resultStream
   }
 
-  override fun worstSellNByQuantity(from: LocalDate, until: LocalDate, limit: Int): Stream<ProductSalesSummary> {
+  override fun worstSellProductByQuantity(from: LocalDate, until: LocalDate, limit: Int): Stream<ProductSalesSummary> {
     val jpql = "select ol.product as product, sum(ol.quantity) as quantity, sum(ol.subTotal) as amount" +
       " from OrderLine ol join ol.order o" +
       " where o.createdDate >= :from and o.createdDate < :until group by ol.product" +
@@ -141,7 +141,7 @@ class OrderRepository(private val entityManager: EntityManager) :
       .resultStream
   }
 
-  override fun bestSellNByAmount(from: LocalDate, until: LocalDate, limit: Int): Stream<ProductSalesSummary> {
+  override fun bestSellProductByAmount(from: LocalDate, until: LocalDate, limit: Int): Stream<ProductSalesSummary> {
     val jpql = "select ol.product as product, sum(ol.quantity) as quantity, sum(ol.subTotal) as amount" +
       " from OrderLine ol join ol.order o" +
       " where o.createdDate >= :from and o.createdDate < :until group by ol.product" +
@@ -152,12 +152,32 @@ class OrderRepository(private val entityManager: EntityManager) :
       .resultStream
   }
 
-  override fun worstSellNBAmount(from: LocalDate, until: LocalDate, limit: Int): Stream<ProductSalesSummary> {
+  override fun worstSellProductBAmount(from: LocalDate, until: LocalDate, limit: Int): Stream<ProductSalesSummary> {
     val jpql = "select ol.product as product, sum(ol.quantity) as quantity, sum(ol.subTotal) as amount" +
       " from OrderLine ol join ol.order o" +
       " where o.createdDate >= :from and o.createdDate < :until group by ol.product" +
       " order by amount limit " + limit
     return entityManager.createQuery(jpql, ProductSalesSummary::class.java)
+      .setParameter("from", from)
+      .setParameter("until", until)
+      .resultStream
+  }
+
+  override fun topNBuyer(from: LocalDate, until: LocalDate, limit: Int): Stream<BuyerSales> {
+    val jpql = "select o.buyer as buyer, sum(o.totalPrice) as amount from Order o" +
+      " where o.createdDate >= :from and o.createdDate < :until group by o.buyer" +
+      " order by amount desc limit " + limit
+    return entityManager.createQuery(jpql, BuyerSales::class.java)
+      .setParameter("from", from)
+      .setParameter("until", until)
+      .resultStream
+  }
+
+  override fun bottomNBuyer(from: LocalDate, until: LocalDate, limit: Int): Stream<BuyerSales> {
+    val jpql = "select o.buyer as buyer, sum(o.totalPrice) as amount from Order o" +
+      " where o.createdDate >= :from and o.createdDate < :until group by o.buyer" +
+      " order by amount limit " + limit
+    return entityManager.createQuery(jpql, BuyerSales::class.java)
       .setParameter("from", from)
       .setParameter("until", until)
       .resultStream
