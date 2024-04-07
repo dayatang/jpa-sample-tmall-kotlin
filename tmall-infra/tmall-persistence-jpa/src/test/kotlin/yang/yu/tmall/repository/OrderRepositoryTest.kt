@@ -154,28 +154,33 @@ class OrderRepositoryTest : BaseIntegrationTest() {
 
   @Test
   fun bestSellNByQuantity() {
-    val results = orders.bestSellProductByQuantity(LocalDate.now().minusYears(1), LocalDate.now().plusDays(1), 10)
+    val results = orders.bestSellProductByQuantity(LocalDate.now().minusYears(1),
+      LocalDate.now().plusDays(1), 10)
     println("============bestSellNByQuantity:")
     results.forEach { println( "${it.product} amount = ${it.amount}, quantity = ${it.quantity}") }
   }
 
   @Test
   fun worstSellNByQuantity() {
-    val results = orders.worstSellProductByQuantity(LocalDate.now().minusYears(1), LocalDate.now().plusDays(1), 10)
+    val results = orders.worstSellProductByQuantity(
+      LocalDate.now().minusYears(1),
+      LocalDate.now().plusDays(1), 10)
     println("============worstSellNByQuantity:")
     results.forEach { println( "${it.product} amount = ${it.amount}, quantity = ${it.quantity}") }
   }
 
   @Test
   fun bestSellNByAmount() {
-    val results = orders.bestSellProductByAmount(LocalDate.now().minusYears(1), LocalDate.now().plusDays(1), 10)
+    val results = orders.bestSellProductByAmount(LocalDate.now().minusYears(1),
+      LocalDate.now().plusDays(1), 10)
     println("============bestSellNByAmount:")
     results.forEach { println( "${it.product} amount = ${it.amount}, quantity = ${it.quantity}") }
   }
 
   @Test
   fun worstSellNBAmount() {
-    val results = orders.worstSellProductBAmount(LocalDate.now().minusYears(1), LocalDate.now().plusDays(1), 10)
+    val results = orders.worstSellProductBAmount(LocalDate.now().minusYears(1),
+      LocalDate.now().plusDays(1), 10)
     println("============worstSellNBAmount:")
     results.forEach { println( "${it.product} amount = ${it.amount}, quantity = ${it.quantity}") }
   }
@@ -183,14 +188,16 @@ class OrderRepositoryTest : BaseIntegrationTest() {
 
   @Test
   fun topNBuyer() {
-    val results = orders.topNBuyer(LocalDate.now().minusYears(1), LocalDate.now().plusDays(1), 10)
+    val results = orders.topNBuyer(LocalDate.now().minusYears(1),
+      LocalDate.now().plusDays(1), 10)
     println("============topNBuyer:")
     results.forEach { println( "${it.buyer} amount = ${it.amount}") }
   }
 
   @Test
   fun bottomNBuyer() {
-    val results = orders.bottomNBuyer(LocalDate.now().minusYears(1), LocalDate.now().plusDays(1), 10)
+    val results = orders.bottomNBuyer(LocalDate.now().minusYears(1),
+      LocalDate.now().plusDays(1), 10)
     println("============bottomNBuyer:")
     results.forEach { println( "${it.buyer} amount = ${it.amount}") }
   }

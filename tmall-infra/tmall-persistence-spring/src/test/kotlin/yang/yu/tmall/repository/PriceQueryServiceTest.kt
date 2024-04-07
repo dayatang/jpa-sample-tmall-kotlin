@@ -23,13 +23,14 @@ import java.time.ZoneOffset
 @SpringJUnitConfig(classes = [JpaSpringConfig::class])
 
 @Transactional
-open class PricingServiceTest : WithAssertions {
+open class PriceQueryServiceTest : WithAssertions {
 
   @Inject
   private lateinit var pricingService: PricingService
 
   @Inject
   private lateinit var priceQueryService: PriceQueryService
+
 
   @Inject
   private lateinit var entityManager: EntityManager
@@ -70,21 +71,28 @@ open class PricingServiceTest : WithAssertions {
       .forEach(entityManager::remove)
   }
 
-
   @Test
-  fun adjustPriceByPercentage() {
-    val time2002_11_01 = LocalDate.of(2020, 11, 1).atStartOfDay().toInstant(ZoneOffset.UTC)
-    val time2002_10_31 = time2002_11_01.minusSeconds(10)
-    val productSet: Set<Product> = Sets.newLinkedHashSet(product1, product2)
-    pricingService.adjustPriceByPercentage(productSet, 10.0, time2002_11_01)
-    println("=======================")
-    priceQueryService.pricingHistoryOf(product1).forEach(System.out::println)
-    priceQueryService.pricingHistoryOf(product2).forEach(System.out::println)
-    println("=======================")
-    assertThat(priceQueryService.priceOfProduct(product1, time2002_11_01)).isEqualTo(BigDecimal.valueOf(550))
-    assertThat(priceQueryService.priceOfProduct(product2, time2002_11_01)).isEqualTo(BigDecimal.valueOf(7700))
-    assertThat(priceQueryService.priceOfProduct(product1, time2002_10_31)).isEqualTo(BigDecimal.valueOf(500))
-    assertThat(priceQueryService.priceOfProduct(product2, time2002_10_31)).isEqualTo(BigDecimal.valueOf(7000))
+  fun currentPrice() {
+    assertThat(priceQueryService.priceOfProduct(product1)).isEqualTo(BigDecimal.valueOf(500))
   }
 
+  @Test
+  fun priceAt() {
+    val time2002_02_15 = LocalDate.of(2020, 2, 15).atStartOfDay().toInstant(ZoneOffset.UTC)
+    val time2002_02_16 = LocalDate.of(2020, 2, 16).atStartOfDay().toInstant(ZoneOffset.UTC)
+    val time2002_10_01 = LocalDate.of(2020, 10, 1).atStartOfDay().toInstant(ZoneOffset.UTC)
+    assertThat(priceQueryService.priceOfProduct(product1, time2002_02_15)).isEqualTo(BigDecimal.valueOf(600))
+    assertThat(priceQueryService.priceOfProduct(product1, time2002_02_16)).isEqualTo(BigDecimal.valueOf(600))
+    assertThat(priceQueryService.priceOfProduct(product1, time2002_10_01)).isEqualTo(BigDecimal.valueOf(500))
+  }
+
+  @Test
+  fun priceNotSetYet() {
+    assertThatThrownBy {
+      val time2002_02_14 = LocalDate.of(2020, 2, 14)
+        .atStartOfDay().toInstant(ZoneOffset.UTC)
+      priceQueryService.priceOfProduct(product1, time2002_02_14)
+    }.isInstanceOf(PricingException::class.java)
+      .hasMessage("电冰箱's price has not been set yet.")
+  }
 }

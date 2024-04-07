@@ -5,6 +5,13 @@ import yang.yu.tmall.domain.catalog.Product
 import java.math.BigDecimal
 import java.time.Instant
 
+private val pricingService: PricingService
+  get() = IoC.getInstance(PricingService::class.java)
+
+
+private val priceQueryService
+  get() = IoC.getInstance(PriceQueryService::class.java)
+
 
 /**
  * 设定价格，在指定时间生效
@@ -33,8 +40,8 @@ fun Product.adjustPriceByPercentage(percentage: Number,
  * @return 指定商品在指定时刻的单价
  * @throws PricingException 当商品还没设定单价时抛出此异常
  */
-fun Product.priceOfProductAt(time: Instant): BigDecimal {
-  return pricingService.priceOfProductAt(this, time)
+fun Product.priceOfProduct(time: Instant): BigDecimal {
+  return priceQueryService.priceOfProduct(this, time)
 }
 
 /**
@@ -42,8 +49,5 @@ fun Product.priceOfProductAt(time: Instant): BigDecimal {
  * @return 商品的当前价格
  */
 fun Product.currentPriceOf(): BigDecimal {
-  return priceOfProductAt(Instant.now())
+  return priceOfProduct(Instant.now())
 }
-
-private val pricingService: PricingService
-  get() = IoC.getInstance(PricingService::class.java)
