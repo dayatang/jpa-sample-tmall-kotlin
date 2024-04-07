@@ -78,4 +78,8 @@ data class Order(
       .map(OrderLine::subTotal)
       .reduceOrNull(BigDecimal::plus) ?: BigDecimal.ZERO
   }
+
+  override fun executeBeforeSave() {
+    this.totalPrice = calculateTotalPrice()
+  }
 }
