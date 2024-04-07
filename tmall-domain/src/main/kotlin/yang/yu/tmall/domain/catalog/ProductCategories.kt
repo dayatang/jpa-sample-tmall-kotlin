@@ -8,8 +8,6 @@ interface ProductCategories: BaseRepository<ProductCategory> {
 
   fun listChildrenOf(categoryId: Int): List<ProductCategory>
 
-  fun listProductOf(categoryId: Int): List<Product>
-
   fun createRootCategory(name: String): ProductCategory
 
   fun createChildCategoryUnderParent(name: String, parentId: Int): ProductCategory
