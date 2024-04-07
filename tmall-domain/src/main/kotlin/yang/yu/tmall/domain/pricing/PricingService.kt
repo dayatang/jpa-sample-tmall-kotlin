@@ -38,8 +38,8 @@ class PricingService(
     percentage: Number,
     effectiveInstant: Instant = Instant.now()
   ): Pricing {
-    val newRate = BigDecimal.valueOf(100).add(BigDecimal(percentage.toDouble()))
-    val newPrice = priceQueryService.priceOfProduct(product).times(newRate).div(BigDecimal.valueOf(100))
+    val origPrice = priceQueryService.priceOfProduct(product)
+    val newPrice = origPrice * (BigDecimal.valueOf(100) + percentage) / 100
     return setPrice(product, newPrice, effectiveInstant)
   }
 
