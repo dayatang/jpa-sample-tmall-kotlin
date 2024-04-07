@@ -6,7 +6,7 @@ import yang.yu.tmall.domain.catalog.ProductCategory
 import yang.yu.tmall.repository.spring.AbstractRepository
 
 @Repository
-interface ProductCategoryRepository: ProductCategories, AbstractRepository<ProductCategory> {
+interface ProductCategoryRepository : ProductCategories, AbstractRepository<ProductCategory> {
 
   fun findByParentIsNull(): List<ProductCategory>
 

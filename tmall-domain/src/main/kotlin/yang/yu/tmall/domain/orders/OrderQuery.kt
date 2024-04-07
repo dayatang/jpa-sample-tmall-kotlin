@@ -1,4 +1,4 @@
-package yang.yu.tmall.domain.sales
+package yang.yu.tmall.domain.orders
 
 import yang.yu.tmall.domain.buyers.Buyer
 import yang.yu.tmall.domain.catalog.Product

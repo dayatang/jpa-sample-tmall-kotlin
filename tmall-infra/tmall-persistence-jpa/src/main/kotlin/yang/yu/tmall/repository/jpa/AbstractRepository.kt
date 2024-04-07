@@ -5,10 +5,10 @@ import yang.yu.tmall.domain.commons.BaseEntity
 import yang.yu.tmall.domain.commons.BaseRepository
 import java.util.*
 
-abstract class AbstractRepository<T: BaseEntity>(
+abstract class AbstractRepository<T : BaseEntity>(
   private val entityManager: EntityManager,
   private val clazz: Class<T>
-): BaseRepository<T> {
+) : BaseRepository<T> {
   override fun <S : T> save(entity: S): S = entityManager.merge(entity)
 
   override fun <S : T> saveAll(entities: Iterable<S>): List<S> = entities.map(entityManager::merge)

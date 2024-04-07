@@ -6,12 +6,12 @@ import jakarta.persistence.Enumerated
 
 @Embeddable
 data class ContactInfo(
-    val name: String,
+  val name: String,
 
-    @Enumerated(EnumType.STRING)
-    val gender: Gender = Gender.MALE,
+  @Enumerated(EnumType.STRING)
+  val gender: Gender = Gender.MALE,
 
-    val mobileNo: String? = null,
+  val mobileNo: String? = null,
 
-    val email: String? = null
+  val email: String? = null
 )

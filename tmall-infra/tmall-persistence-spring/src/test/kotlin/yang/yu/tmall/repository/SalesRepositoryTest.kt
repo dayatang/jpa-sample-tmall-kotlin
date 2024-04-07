@@ -13,9 +13,9 @@ import yang.yu.tmall.domain.buyers.OrgBuyer
 import yang.yu.tmall.domain.buyers.PersonalBuyer
 import yang.yu.tmall.domain.catalog.Product
 import yang.yu.tmall.domain.catalog.ProductCategory
+import yang.yu.tmall.domain.sales.Sales
 import yang.yu.tmall.domain.orders.Order
 import yang.yu.tmall.domain.orders.OrderLine
-import yang.yu.tmall.domain.orders.OrderQuery
 import yang.yu.tmall.domain.orders.Orders
 import yang.yu.tmall.spring.JpaSpringConfig
 import java.math.BigDecimal
@@ -23,10 +23,13 @@ import java.time.LocalDate
 
 @SpringJUnitConfig(classes = [JpaSpringConfig::class])
 @Transactional
-open class OrderRepositoryTest : WithAssertions {
+open class SalesRepositoryTest : WithAssertions {
 
   @Inject
   private lateinit var orders: Orders
+
+  @Inject
+  private lateinit var sales: Sales
 
   @Inject
   private lateinit var entityManager: EntityManager
@@ -74,67 +77,68 @@ open class OrderRepositoryTest : WithAssertions {
   }
 
   @Test
-  fun findById() {
-    listOf(order1, order2).forEach {
-      assertThat(orders.findById(it.id)).containsSame(it)
-    }
+  fun sumOfSalesAmount() {
+    val amount = sales.sumOfSalesAmount(LocalDate.now(), LocalDate.now().plusDays(1))
+    println(amount)
   }
 
   @Test
-  fun getByOrderNo() {
-    listOf(order1, order2).forEach {
-      assertThat(orders.getByOrderNo(it.orderNo)).containsSame(it)
-    }
+  fun sumOfSalesByProduct() {
+    val results = sales.sumOfSalesByProduct(LocalDate.now(), LocalDate.now().plusDays(1))
+    results.forEach { println("${it.product} amount = ${it.amount}, quantity = ${it.quantity}") }
   }
 
   @Test
-  fun findByBuyer() {
-    assertThat(orders.findByBuyer(buyer1))
-      .hasSize(2)
-      .allMatch { it.buyer == buyer1 }
+  fun sumOfSalesByYear() {
+    val amount = sales.sumOfSalesByYear()
+    amount.forEach { println("${it.yearOrMonth} = ${it.amount}") }
   }
 
   @Test
-  fun findByProduct() {
-    assertThat(orders.findByProduct(product2))
-      .contains(order1)
-      .doesNotContain(order2)
+  fun sumOfSalesByMonth() {
+    val amount = sales.sumOfSalesByMonth(LocalDate.now().year)
+    amount.forEach { println("${it.yearOrMonth} = ${it.amount}") }
   }
 
   @Test
-  fun findByProductBetween() {
-    assertThat(
-      orders.findByProduct(
-        product2,
-        LocalDate.now().atStartOfDay(),
-        LocalDate.now().plusDays(1).atStartOfDay()
-      )
-    )
-      .contains(order1)
-      .doesNotContain(order2)
+  fun bestSellNByQuantity() {
+    val results = sales.bestSellProductByQuantity(LocalDate.now().minusYears(1), LocalDate.now().plusDays(1), 10)
+    println("============bestSellNByQuantity:")
+    results.forEach { println("${it.product} amount = ${it.amount}, quantity = ${it.quantity}") }
   }
 
   @Test
-  fun findByOrgBuyers() {
-    assertThat(orders.findByOrgBuyers())
-      .contains(order3)
-      .doesNotContain(order1, order2)
+  fun worstSellNByQuantity() {
+    val results = sales.worstSellProductByQuantity(LocalDate.now().minusYears(1), LocalDate.now().plusDays(1), 10)
+    println("============worstSellNByQuantity:")
+    results.forEach { println("${it.product} amount = ${it.amount}, quantity = ${it.quantity}") }
   }
 
   @Test
-  fun findByQuery() {
-    assertThat(orders.find(OrderQuery().isOrgBuyer()))
-      .contains(order3)
-      .doesNotContain(order1, order2)
-
-    val query = OrderQuery().isPersonalBuyer()
-      .buyerName("张三")
-      .totalPriceNotLessThan(BigDecimal.valueOf(5000))
-
-    assertThat(orders.find(query))
-      .contains(order1, order2)
-      .doesNotContain(order3)
-
+  fun bestSellNByAmount() {
+    val results = sales.bestSellProductByAmount(LocalDate.now().minusYears(1), LocalDate.now().plusDays(1), 10)
+    println("============bestSellNByAmount:")
+    results.forEach { println("${it.product} amount = ${it.amount}, quantity = ${it.quantity}") }
   }
 
+  @Test
+  fun worstSellNBAmount() {
+    val results = sales.worstSellProductBAmount(LocalDate.now().minusYears(1), LocalDate.now().plusDays(1), 10)
+    println("============worstSellNBAmount:")
+    results.forEach { println("${it.product} amount = ${it.amount}, quantity = ${it.quantity}") }
+  }
+
+  @Test
+  fun topNBuyer() {
+    val results = sales.topNBuyer(LocalDate.now().minusYears(1), LocalDate.now().plusDays(1), 10)
+    println("============topNBuyer:")
+    results.forEach { println("${it.buyer} amount = ${it.amount}") }
+  }
+
+  @Test
+  fun bottomNBuyer() {
+    val results = sales.bottomNBuyer(LocalDate.now().minusYears(1), LocalDate.now().plusDays(1), 10)
+    println("============bottomNBuyer:")
+    results.forEach { println("${it.buyer} amount = ${it.amount}") }
+  }
 }

@@ -1,8 +1,6 @@
 package yang.yu.lang
 
 import java.util.concurrent.TimeUnit
-import java.util.function.Consumer
-import java.util.function.Supplier
 
 /**
  * 分布式锁接口

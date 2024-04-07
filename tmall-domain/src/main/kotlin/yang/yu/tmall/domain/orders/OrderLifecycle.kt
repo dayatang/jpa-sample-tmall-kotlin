@@ -1,7 +1,6 @@
-package yang.yu.tmall.domain.sales
+package yang.yu.tmall.domain.orders
 
 import yang.yu.lang.IoC
-import java.util.*
 import java.util.stream.Collectors
 
 class OrderLifecycle private constructor(private val order: Order) {
@@ -10,7 +9,7 @@ class OrderLifecycle private constructor(private val order: Order) {
 
   private val currentTransition: OrderStatusTransition? = transitionList.lastOrNull()
 
-  val currentStatus: OrderStatus = currentTransition?.status?: OrderStatus.PENDING
+  val currentStatus: OrderStatus = currentTransition?.status ?: OrderStatus.PENDING
 
   private val transitionList: List<OrderStatusTransition>
     get() = transitions!!.findByOrder(order)

@@ -1,6 +1,5 @@
 package yang.yu.tmall.domain.commons
 
-import jakarta.persistence.Column
 import jakarta.persistence.Embeddable
 
 /**
@@ -9,13 +8,13 @@ import jakarta.persistence.Embeddable
 @Embeddable
 data class Address(
 
-    val province: String,
+  val province: String,
 
-    val city: String,
+  val city: String,
 
-    val detail: String,
+  val detail: String,
 
-    val receiverName: String,
+  val receiverName: String,
 
-    val receiverPhone: String
+  val receiverPhone: String
 )

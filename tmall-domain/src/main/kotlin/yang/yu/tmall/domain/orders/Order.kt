@@ -1,4 +1,4 @@
-package yang.yu.tmall.domain.sales
+package yang.yu.tmall.domain.orders
 
 import jakarta.persistence.*
 import yang.yu.tmall.domain.buyers.Buyer
@@ -19,7 +19,7 @@ data class Order(
   @ManyToOne
   val buyer: Buyer,
 
-) : BaseEntity() {
+  ) : BaseEntity() {
 
   @OneToMany(mappedBy = "order", cascade = [CascadeType.ALL], orphanRemoval = true)
   @OrderColumn(name = "seq_no")
@@ -76,6 +76,6 @@ data class Order(
   private fun calculateTotalPrice(): BigDecimal {
     return lineItems
       .map(OrderLine::subTotal)
-      .reduceOrNull(BigDecimal::plus)?: BigDecimal.ZERO
+      .reduceOrNull(BigDecimal::plus) ?: BigDecimal.ZERO
   }
 }

@@ -29,8 +29,10 @@ fun Product.setPrice(unitPrice: BigDecimal, effectiveInstant: Instant = Instant.
  * @param effectiveInstant 生效时间
  * @return 一个新的定价对象
  */
-fun Product.adjustPriceByPercentage(percentage: Number,
-                                    effectiveInstant: Instant = Instant.now()): Pricing {
+fun Product.adjustPriceByPercentage(
+  percentage: Number,
+  effectiveInstant: Instant = Instant.now()
+): Pricing {
   return pricingService.adjustPriceByPercentage(this, percentage, effectiveInstant)
 }
 

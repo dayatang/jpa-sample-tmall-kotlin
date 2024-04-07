@@ -1,7 +1,7 @@
 package yang.yu.tmall.domain.pricing
 
-import yang.yu.tmall.domain.catalog.Product
 import jakarta.inject.Named
+import yang.yu.tmall.domain.catalog.Product
 import java.math.BigDecimal
 import java.time.Instant
 
@@ -29,5 +29,5 @@ class PriceQueryService(private val pricings: Pricings) {
    * @param product 要查询的商品
    * @return 该商品的定价历史，按定价时间排序
    */
-  fun pricingHistoryOf(product: Product):List<Pricing> = pricings.findPricingHistoryOfProduct(product).toList()
+  fun pricingHistoryOf(product: Product): List<Pricing> = pricings.findPricingHistoryOfProduct(product).toList()
 }

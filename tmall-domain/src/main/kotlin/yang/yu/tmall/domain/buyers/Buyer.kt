@@ -1,11 +1,10 @@
 package yang.yu.tmall.domain.buyers
 
-import yang.yu.lang.IoC
 import jakarta.persistence.*
+import yang.yu.lang.IoC
 import yang.yu.tmall.domain.commons.Address
 import yang.yu.tmall.domain.commons.BaseEntity
 import java.util.*
-import kotlin.collections.HashSet
 
 @Entity
 @Table(name = "buyers")

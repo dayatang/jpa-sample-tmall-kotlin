@@ -14,11 +14,11 @@ import java.util.stream.Stream
 @Repository
 interface ProductRepository : Products, AbstractRepository<Product> {
 
-    override fun getByName(name: String): Optional<Product>
+  override fun getByName(name: String): Optional<Product>
 
-    override fun findByCategory(category: ProductCategory): Stream<Product>
+  override fun findByCategory(category: ProductCategory): Stream<Product>
 
-    fun findByCategory_Id(categoryId: Int): Stream<Product>
+  fun findByCategory_Id(categoryId: Int): Stream<Product>
 
-    override fun findByCategory(categoryId: Int): Stream<Product> = findByCategory_Id(categoryId)
+  override fun findByCategory(categoryId: Int): Stream<Product> = findByCategory_Id(categoryId)
 }

@@ -1,6 +1,7 @@
 package yang.yu.tmall.spring
 
 import com.mchange.v2.c3p0.ComboPooledDataSource
+import jakarta.persistence.EntityManagerFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
@@ -14,7 +15,6 @@ import org.springframework.orm.jpa.vendor.Database
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
 import org.springframework.transaction.annotation.EnableTransactionManagement
 import java.util.*
-import jakarta.persistence.EntityManagerFactory
 import javax.sql.DataSource
 
 @Configuration
@@ -23,42 +23,42 @@ import javax.sql.DataSource
 @EnableTransactionManagement
 @PropertySource("/jdbc.properties")
 class JpaSpringConfig(private val env: Environment) {
-    @Bean(destroyMethod = "close")
-    @Throws(Exception::class)
-    fun dataSource(): ComboPooledDataSource {
-        val result = ComboPooledDataSource()
-        result.driverClass = env.getProperty("jdbc.driverClassName")
-        result.jdbcUrl = env.getProperty("jdbc.url")
-        result.user = env.getProperty("jdbc.username")
-        result.password = env.getProperty("jdbc.password", "")
-        return result
-    }
+  @Bean(destroyMethod = "close")
+  @Throws(Exception::class)
+  fun dataSource(): ComboPooledDataSource {
+    val result = ComboPooledDataSource()
+    result.driverClass = env.getProperty("jdbc.driverClassName")
+    result.jdbcUrl = env.getProperty("jdbc.url")
+    result.user = env.getProperty("jdbc.username")
+    result.password = env.getProperty("jdbc.password", "")
+    return result
+  }
 
-    @Bean
-    fun jpaVendorAdapter(): JpaVendorAdapter {
-        val result = HibernateJpaVendorAdapter()
-        result.setDatabase(Database.valueOf(env.getProperty("db.type", "H2")))
-        result.setDatabasePlatform(env.getProperty("hibernate.dialect"))
-        result.setGenerateDdl(true)
-        result.setShowSql(true)
-        return result
-    }
+  @Bean
+  fun jpaVendorAdapter(): JpaVendorAdapter {
+    val result = HibernateJpaVendorAdapter()
+    result.setDatabase(Database.valueOf(env.getProperty("db.type", "H2")))
+    result.setDatabasePlatform(env.getProperty("hibernate.dialect"))
+    result.setGenerateDdl(true)
+    result.setShowSql(true)
+    return result
+  }
 
-    @Bean
-    fun entityManagerFactory(dataSource: DataSource, adapter: JpaVendorAdapter): LocalContainerEntityManagerFactoryBean {
-        val result = LocalContainerEntityManagerFactoryBean()
-        result.dataSource = dataSource
-        result.jpaVendorAdapter = adapter
-        result.setPackagesToScan("yang.yu.tmall.domain")
-        result.jpaPropertyMap = hibernateProperties()
-        return result
-    }
+  @Bean
+  fun entityManagerFactory(dataSource: DataSource, adapter: JpaVendorAdapter): LocalContainerEntityManagerFactoryBean {
+    val result = LocalContainerEntityManagerFactoryBean()
+    result.dataSource = dataSource
+    result.jpaVendorAdapter = adapter
+    result.setPackagesToScan("yang.yu.tmall.domain")
+    result.jpaPropertyMap = hibernateProperties()
+    return result
+  }
 
-    private fun hibernateProperties(): Map<String, String> =
-      mapOf(Pair("hibernate.implicit_naming_strategy", "jpa"))
+  private fun hibernateProperties(): Map<String, String> =
+    mapOf(Pair("hibernate.implicit_naming_strategy", "jpa"))
 
-    @Bean
-    fun transactionManager(entityManagerFactory: EntityManagerFactory): JpaTransactionManager {
-        return JpaTransactionManager(entityManagerFactory)
-    }
+  @Bean
+  fun transactionManager(entityManagerFactory: EntityManagerFactory): JpaTransactionManager {
+    return JpaTransactionManager(entityManagerFactory)
+  }
 }

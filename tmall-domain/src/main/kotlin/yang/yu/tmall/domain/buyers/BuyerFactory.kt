@@ -2,7 +2,6 @@ package yang.yu.tmall.domain.buyers
 
 import jakarta.inject.Named
 import java.util.*
-import kotlin.collections.HashMap
 
 @Named
 class BuyerFactory {
