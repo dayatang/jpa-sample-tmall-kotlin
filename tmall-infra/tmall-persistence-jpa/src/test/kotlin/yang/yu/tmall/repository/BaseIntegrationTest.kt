@@ -17,7 +17,7 @@ abstract class BaseIntegrationTest : WithAssertions {
 
   @BeforeEach
   fun beforeEachTest() {
-    entityManager = emf!!.createEntityManager()
+    entityManager = emf.createEntityManager()
     transaction = entityManager.transaction
     transaction.begin()
     println("parent beforeEach")
@@ -30,7 +30,7 @@ abstract class BaseIntegrationTest : WithAssertions {
   }
 
   companion object {
-    var emf: EntityManagerFactory? = null
+    lateinit var emf: EntityManagerFactory
 
     @JvmStatic
     @BeforeAll
