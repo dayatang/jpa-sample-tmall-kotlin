@@ -24,11 +24,6 @@ data class Order(
   @OneToMany(mappedBy = "order", cascade = [CascadeType.ALL], orphanRemoval = true)
   @OrderColumn(name = "seq_no")
   var lineItems: MutableList<OrderLine> = ArrayList()
-    //get() = ArrayList(field)
-    set(value) {
-      field = value
-      this.totalPrice = calculateTotalPrice()
-    }
 
   @Embedded
   @AttributeOverrides(
