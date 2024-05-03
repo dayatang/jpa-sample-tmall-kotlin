@@ -1,4 +1,4 @@
-package yang.yu.tmall.domain.sales
+package yang.yu.tmall.domain.statistics
 
 import yang.yu.tmall.domain.buyers.Buyer
 import java.math.BigDecimal

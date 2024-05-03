@@ -9,7 +9,7 @@ import yang.yu.tmall.domain.buyers.OrgBuyer
 import yang.yu.tmall.domain.buyers.PersonalBuyer
 import yang.yu.tmall.domain.catalog.Product
 import yang.yu.tmall.domain.catalog.ProductCategory
-import yang.yu.tmall.domain.sales.Sales
+import yang.yu.tmall.domain.statistics.Sales
 import yang.yu.tmall.domain.orders.Order
 import yang.yu.tmall.domain.orders.OrderLine
 import yang.yu.tmall.domain.orders.Orders

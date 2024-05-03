@@ -1,4 +1,4 @@
-package yang.yu.tmall.domain.sales
+package yang.yu.tmall.domain.statistics
 
 import yang.yu.tmall.domain.commons.BaseRepository
 import yang.yu.tmall.domain.orders.Order

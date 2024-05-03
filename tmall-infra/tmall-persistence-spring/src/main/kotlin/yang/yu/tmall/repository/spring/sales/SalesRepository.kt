@@ -4,10 +4,10 @@ import org.springframework.data.domain.Limit
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
-import yang.yu.tmall.domain.sales.BuyerSales
-import yang.yu.tmall.domain.sales.ProductSalesSummary
-import yang.yu.tmall.domain.sales.Sales
-import yang.yu.tmall.domain.sales.YearMonthSales
+import yang.yu.tmall.domain.statistics.BuyerSales
+import yang.yu.tmall.domain.statistics.ProductSalesSummary
+import yang.yu.tmall.domain.statistics.Sales
+import yang.yu.tmall.domain.statistics.YearMonthSales
 import yang.yu.tmall.domain.orders.*
 import yang.yu.tmall.repository.spring.AbstractRepository
 import java.math.BigDecimal
@@ -27,7 +27,7 @@ interface SalesRepository : Sales, AbstractRepository<Order> {
   override fun sumOfSalesAmount(@Param("from") from: LocalDate, @Param("until") until: LocalDate): BigDecimal
 
   @Query(
-    "select new yang.yu.tmall.domain.sales.ProductSalesSummary(ol.product, " +
+    "select new yang.yu.tmall.domain.statistics.ProductSalesSummary(ol.product, " +
       " sum(ol.quantity), sum(ol.subTotal))" +
       " from Order o join o.lineItems ol where o.createdDate >= :from and o.createdDate < :until group by ol.product"
   )
@@ -37,19 +37,19 @@ interface SalesRepository : Sales, AbstractRepository<Order> {
   ): Stream<ProductSalesSummary>
 
   @Query(
-    "select new yang.yu.tmall.domain.sales.YearMonthSales(o.year, sum(o.totalPrice))" +
+    "select new yang.yu.tmall.domain.statistics.YearMonthSales(o.year, sum(o.totalPrice))" +
       " from Order o group by o.year"
   )
   override fun sumOfSalesByYear(): Stream<YearMonthSales>
 
   @Query(
-    "select new yang.yu.tmall.domain.sales.YearMonthSales(o.month, sum(o.totalPrice))" +
+    "select new yang.yu.tmall.domain.statistics.YearMonthSales(o.month, sum(o.totalPrice))" +
       " from Order o where o.year = :year group by o.month"
   )
   override fun sumOfSalesByMonth(@Param("year") year: Int): Stream<YearMonthSales>
 
   @Query(
-    "select new yang.yu.tmall.domain.sales.ProductSalesSummary(ol.product as product, sum(ol.quantity) as quantity, " +
+    "select new yang.yu.tmall.domain.statistics.ProductSalesSummary(ol.product as product, sum(ol.quantity) as quantity, " +
       "sum(ol.subTotal) as amount) from Order o join o.lineItems ol" +
       " where o.createdDate >= :from and o.createdDate < :until group by ol.product order by quantity desc"
   )
@@ -66,7 +66,7 @@ interface SalesRepository : Sales, AbstractRepository<Order> {
   ): Stream<ProductSalesSummary> = bestSellNByQuantity(from, until, Limit.of(limit))
 
   @Query(
-    "select new yang.yu.tmall.domain.sales.ProductSalesSummary(ol.product as product, " +
+    "select new yang.yu.tmall.domain.statistics.ProductSalesSummary(ol.product as product, " +
       "sum(ol.quantity) as quantity, sum(ol.subTotal) as amount)" +
       " from Order o join o.lineItems ol" +
       " where o.createdDate >= :from and o.createdDate < :until group by ol.product order by quantity"
@@ -82,7 +82,7 @@ interface SalesRepository : Sales, AbstractRepository<Order> {
   ): Stream<ProductSalesSummary> = worstSellNByQuantity(from, until, Limit.of(limit))
 
   @Query(
-    "select new yang.yu.tmall.domain.sales.ProductSalesSummary(ol.product as product, sum(ol.quantity) as quantity, " +
+    "select new yang.yu.tmall.domain.statistics.ProductSalesSummary(ol.product as product, sum(ol.quantity) as quantity, " +
       "sum(ol.subTotal) as amount) from Order o join o.lineItems ol" +
       " where o.createdDate >= :from and o.createdDate < :until group by ol.product order by amount desc"
   )
@@ -97,7 +97,7 @@ interface SalesRepository : Sales, AbstractRepository<Order> {
   ): Stream<ProductSalesSummary> = bestSellNByAmount(from, until, Limit.of(limit))
 
   @Query(
-    "select new yang.yu.tmall.domain.sales.ProductSalesSummary(ol.product as product, sum(ol.quantity) as quantity, " +
+    "select new yang.yu.tmall.domain.statistics.ProductSalesSummary(ol.product as product, sum(ol.quantity) as quantity, " +
       "sum(ol.subTotal) as amount) from Order o join o.lineItems ol" +
       " where o.createdDate >= :from and o.createdDate < :until group by ol.product order by amount"
   )
@@ -112,7 +112,7 @@ interface SalesRepository : Sales, AbstractRepository<Order> {
   ): Stream<ProductSalesSummary> = worstSellNByAmount(from, until, Limit.of(limit))
 
   @Query(
-    "select new yang.yu.tmall.domain.sales.BuyerSales(o.buyer as buyer, sum(o.totalPrice) as amount)" +
+    "select new yang.yu.tmall.domain.statistics.BuyerSales(o.buyer as buyer, sum(o.totalPrice) as amount)" +
       " from Order o where o.createdDate >= :from and o.createdDate < :until group by o.buyer order by amount desc "
   )
   fun topNBuyer(from: LocalDate, until: LocalDate, limit: Limit): Stream<BuyerSales>
@@ -121,7 +121,7 @@ interface SalesRepository : Sales, AbstractRepository<Order> {
     topNBuyer(from, until, Limit.of(limit))
 
   @Query(
-    "select new yang.yu.tmall.domain.sales.BuyerSales(o.buyer as buyer, sum(o.totalPrice) as amount)" +
+    "select new yang.yu.tmall.domain.statistics.BuyerSales(o.buyer as buyer, sum(o.totalPrice) as amount)" +
       " from Order o where o.createdDate >= :from and o.createdDate < :until group by o.buyer order by amount "
   )
   fun bottomNBuyer(from: LocalDate, until: LocalDate, limit: Limit): Stream<BuyerSales>

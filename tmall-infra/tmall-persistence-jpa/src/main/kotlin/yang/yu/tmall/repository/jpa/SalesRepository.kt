@@ -1,10 +1,10 @@
 package yang.yu.tmall.repository.jpa
 
 import jakarta.persistence.EntityManager
-import yang.yu.tmall.domain.sales.BuyerSales
-import yang.yu.tmall.domain.sales.ProductSalesSummary
-import yang.yu.tmall.domain.sales.Sales
-import yang.yu.tmall.domain.sales.YearMonthSales
+import yang.yu.tmall.domain.statistics.BuyerSales
+import yang.yu.tmall.domain.statistics.ProductSalesSummary
+import yang.yu.tmall.domain.statistics.Sales
+import yang.yu.tmall.domain.statistics.YearMonthSales
 import yang.yu.tmall.domain.orders.*
 import java.math.BigDecimal
 import java.time.LocalDate
@@ -35,13 +35,13 @@ class SalesRepository(private val entityManager: EntityManager) :
   }
 
   override fun sumOfSalesByYear(): Stream<YearMonthSales> {
-    val jpql = "select new yang.yu.tmall.domain.sales.YearMonthSales(o.year, sum(o.totalPrice))" +
+    val jpql = "select new yang.yu.tmall.domain.statistics.YearMonthSales(o.year, sum(o.totalPrice))" +
       " from Order o group by o.year"
     return entityManager.createQuery(jpql, YearMonthSales::class.java).resultStream
   }
 
   override fun sumOfSalesByMonth(year: Int): Stream<YearMonthSales> {
-    val jpql = "select new yang.yu.tmall.domain.sales.YearMonthSales(o.month, sum(o.totalPrice))" +
+    val jpql = "select new yang.yu.tmall.domain.statistics.YearMonthSales(o.month, sum(o.totalPrice))" +
       " from Order o where o.year = :year group by o.month"
     return entityManager.createQuery(jpql, YearMonthSales::class.java)
       .setParameter("year", year)
