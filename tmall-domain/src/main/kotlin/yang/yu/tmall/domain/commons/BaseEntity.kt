@@ -1,6 +1,7 @@
 package yang.yu.tmall.domain.commons
 
 import jakarta.persistence.*
+import org.slf4j.LoggerFactory
 import java.io.Serializable
 import java.time.Instant
 
@@ -10,6 +11,7 @@ import java.time.Instant
 @MappedSuperclass
 @Access(AccessType.FIELD)
 abstract class BaseEntity : Serializable {
+
   /**
    * 获取ID
    * @return
@@ -61,7 +63,6 @@ abstract class BaseEntity : Serializable {
     isNew = false
     created = Instant.now()
     executeBeforeCreate()
-    executeBeforeSave()
   }
 
   /**
@@ -72,7 +73,6 @@ abstract class BaseEntity : Serializable {
     isNew = false
     lastUpdated = Instant.now()
     executeBeforeUpdate()
-    executeBeforeSave()
   }
 
   /**
@@ -84,12 +84,18 @@ abstract class BaseEntity : Serializable {
     executeAfterLoad()
   }
 
-  protected fun executeBeforeCreate() {}
+  protected fun executeBeforeCreate() {
+  }
 
-  protected fun executeBeforeUpdate() {}
+  protected fun executeBeforeUpdate() {
+  }
 
-  protected fun executeAfterLoad() {}
+  protected fun executeAfterLoad() {
+  }
 
-  protected fun executeBeforeSave() {}
-
+  companion object {
+    @JvmStatic
+    @kotlin.jvm.Transient
+    private val logger = LoggerFactory.getLogger(this::class.java)
+  }
 }

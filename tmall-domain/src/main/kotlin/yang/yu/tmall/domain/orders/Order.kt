@@ -1,6 +1,7 @@
 package yang.yu.tmall.domain.orders
 
 import jakarta.persistence.*
+import org.slf4j.LoggerFactory
 import yang.yu.tmall.domain.buyers.Buyer
 import yang.yu.tmall.domain.catalog.Product
 import yang.yu.tmall.domain.commons.Address
@@ -9,6 +10,7 @@ import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZonedDateTime
+import kotlin.jvm.Transient
 
 @Entity
 @Table(name = "orders")
@@ -21,9 +23,14 @@ data class Order(
 
   ) : BaseEntity() {
 
-  @OneToMany(mappedBy = "order", cascade = [CascadeType.ALL], orphanRemoval = true)
+  @ElementCollection
+  @CollectionTable(name = "order_lines", joinColumns = [JoinColumn(name = "order_id")])
   @OrderColumn(name = "seq_no")
   var lineItems: MutableList<OrderLine> = ArrayList()
+    set(value) {
+      field = value
+      totalPrice = calculateTotalPrice()
+    }
 
   @Embedded
   @AttributeOverrides(
@@ -57,7 +64,6 @@ data class Order(
     if (containsProduct(lineItem.product)) {
       throw DuplicateOrderLineException()
     }
-    lineItem.order = this
     lineItems.add(lineItem)
     this.totalPrice = calculateTotalPrice()
   }
@@ -69,12 +75,17 @@ data class Order(
   }
 
   private fun calculateTotalPrice(): BigDecimal {
+    logger.debug("=======calculateTotalPrice of $id")
     return lineItems
       .map(OrderLine::subTotal)
       .reduceOrNull(BigDecimal::plus) ?: BigDecimal.ZERO
   }
 
-  override fun executeBeforeSave() {
-    this.totalPrice = calculateTotalPrice()
+  companion object {
+
+    @JvmStatic
+    @Transient
+    private val logger = LoggerFactory.getLogger(this::class.java)
   }
+
 }

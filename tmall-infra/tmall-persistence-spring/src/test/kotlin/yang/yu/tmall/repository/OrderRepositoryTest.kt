@@ -7,6 +7,7 @@ import org.assertj.core.api.WithAssertions
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.slf4j.LoggerFactory
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig
 import yang.yu.tmall.domain.buyers.Buyer
 import yang.yu.tmall.domain.buyers.OrgBuyer
@@ -24,6 +25,8 @@ import java.time.LocalDate
 @SpringJUnitConfig(classes = [JpaSpringConfig::class])
 @Transactional
 open class OrderRepositoryTest : WithAssertions {
+
+  private val logger = LoggerFactory.getLogger(this::class.java)
 
   @Inject
   private lateinit var orders: Orders
@@ -61,7 +64,8 @@ open class OrderRepositoryTest : WithAssertions {
 
   private fun createOrder(orderNo: String, buyer: Buyer, vararg orderLines: OrderLine): Order {
     val order = Order(orderNo, buyer)
-    orderLines.forEach(order::addLineItem)
+    order.lineItems = orderLines.toMutableList()
+    logger.debug("-------order lines: ${orderLines.joinToString { it.toString() }}")
     return entityManager.merge(order)
   }
 

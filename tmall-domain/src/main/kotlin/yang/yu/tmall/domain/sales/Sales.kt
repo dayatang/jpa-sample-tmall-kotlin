@@ -25,7 +25,7 @@ interface Sales : BaseRepository<Order> {
 
   fun bestSellProductByAmount(from: LocalDate, until: LocalDate, limit: Int): Stream<ProductSalesSummary>
 
-  fun worstSellProductBAmount(from: LocalDate, until: LocalDate, limit: Int): Stream<ProductSalesSummary>
+  fun worstSellProductByAmount(from: LocalDate, until: LocalDate, limit: Int): Stream<ProductSalesSummary>
 
   fun topNBuyer(from: LocalDate, until: LocalDate, limit: Int): Stream<BuyerSales>
 

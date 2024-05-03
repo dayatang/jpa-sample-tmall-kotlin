@@ -28,8 +28,8 @@ interface SalesRepository : Sales, AbstractRepository<Order> {
 
   @Query(
     "select new yang.yu.tmall.domain.sales.ProductSalesSummary(ol.product, " +
-      "sum(ol.quantity), sum(ol.subTotal))" +
-      " from OrderLine ol join ol.order o where o.createdDate >= :from and o.createdDate < :until group by ol.product"
+      " sum(ol.quantity), sum(ol.subTotal))" +
+      " from Order o join o.lineItems ol where o.createdDate >= :from and o.createdDate < :until group by ol.product"
   )
   override fun sumOfSalesByProduct(
     @Param("from") from: LocalDate,
@@ -50,7 +50,7 @@ interface SalesRepository : Sales, AbstractRepository<Order> {
 
   @Query(
     "select new yang.yu.tmall.domain.sales.ProductSalesSummary(ol.product as product, sum(ol.quantity) as quantity, " +
-      "sum(ol.subTotal) as amount) from OrderLine ol join ol.order o" +
+      "sum(ol.subTotal) as amount) from Order o join o.lineItems ol" +
       " where o.createdDate >= :from and o.createdDate < :until group by ol.product order by quantity desc"
   )
   fun bestSellNByQuantity(
@@ -68,7 +68,7 @@ interface SalesRepository : Sales, AbstractRepository<Order> {
   @Query(
     "select new yang.yu.tmall.domain.sales.ProductSalesSummary(ol.product as product, " +
       "sum(ol.quantity) as quantity, sum(ol.subTotal) as amount)" +
-      " from OrderLine ol join ol.order o" +
+      " from Order o join o.lineItems ol" +
       " where o.createdDate >= :from and o.createdDate < :until group by ol.product order by quantity"
   )
   fun worstSellNByQuantity(
@@ -83,7 +83,7 @@ interface SalesRepository : Sales, AbstractRepository<Order> {
 
   @Query(
     "select new yang.yu.tmall.domain.sales.ProductSalesSummary(ol.product as product, sum(ol.quantity) as quantity, " +
-      "sum(ol.subTotal) as amount) from OrderLine ol join ol.order o" +
+      "sum(ol.subTotal) as amount) from Order o join o.lineItems ol" +
       " where o.createdDate >= :from and o.createdDate < :until group by ol.product order by amount desc"
   )
   fun bestSellNByAmount(
@@ -98,18 +98,18 @@ interface SalesRepository : Sales, AbstractRepository<Order> {
 
   @Query(
     "select new yang.yu.tmall.domain.sales.ProductSalesSummary(ol.product as product, sum(ol.quantity) as quantity, " +
-      "sum(ol.subTotal) as amount) from OrderLine ol join ol.order o" +
+      "sum(ol.subTotal) as amount) from Order o join o.lineItems ol" +
       " where o.createdDate >= :from and o.createdDate < :until group by ol.product order by amount"
   )
-  fun worstSellNBAmount(
+  fun worstSellNByAmount(
     @Param("from") from: LocalDate,
     @Param("until") until: LocalDate,
     limit: Limit
   ): Stream<ProductSalesSummary>
 
-  override fun worstSellProductBAmount(
+  override fun worstSellProductByAmount(
     @Param("from") from: LocalDate, @Param("until") until: LocalDate, limit: Int
-  ): Stream<ProductSalesSummary> = worstSellNBAmount(from, until, Limit.of(limit))
+  ): Stream<ProductSalesSummary> = worstSellNByAmount(from, until, Limit.of(limit))
 
   @Query(
     "select new yang.yu.tmall.domain.sales.BuyerSales(o.buyer as buyer, sum(o.totalPrice) as amount)" +

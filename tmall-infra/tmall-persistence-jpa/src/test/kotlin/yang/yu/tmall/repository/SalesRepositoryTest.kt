@@ -124,7 +124,7 @@ class SalesRepositoryTest : BaseIntegrationTest() {
 
   @Test
   fun worstSellNBAmount() {
-    val results = sales.worstSellProductBAmount(
+    val results = sales.worstSellProductByAmount(
       LocalDate.now().minusYears(1),
       LocalDate.now().plusDays(1), 10
     )

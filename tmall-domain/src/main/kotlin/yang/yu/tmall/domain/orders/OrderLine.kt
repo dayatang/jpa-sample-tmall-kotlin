@@ -1,11 +1,14 @@
 package yang.yu.tmall.domain.orders
 
 import jakarta.persistence.*
+import org.slf4j.LoggerFactory
 import yang.yu.tmall.domain.catalog.Product
 import yang.yu.tmall.domain.commons.BaseEntity
+import yang.yu.tmall.domain.orders.Order.Companion
 import java.math.BigDecimal
+import kotlin.jvm.Transient
 
-@Entity
+@Embeddable
 @Table(name = "order_lines")
 data class OrderLine(
   @ManyToOne(optional = false)
@@ -20,19 +23,10 @@ data class OrderLine(
 
   @Column(name = "discount_rate", precision = 15, scale = 4)
   val discountRate: BigDecimal = BigDecimal.ZERO
-) : BaseEntity() {
-
-  @ManyToOne(optional = false)
-  lateinit var order: Order
+) {
 
   @Column(name = "sub_total", precision = 15, scale = 4)
-  var subTotal: BigDecimal = BigDecimal.ZERO
-    get() {
-      if (isNew) {
-        executeBeforeSave()
-      }
-      return field
-    }
+  var subTotal: BigDecimal = calcSubTotal()
 
   constructor(
     product: Product,
@@ -46,10 +40,18 @@ data class OrderLine(
     discountRate
   )
 
-  override fun executeBeforeSave() {
+  private fun calcSubTotal(): BigDecimal {
+    logger.debug("=======calcSubTotal")
     val base = unitPrice.times(quantity)
     val discountBigDecimal = base.times(discountRate).div(BigDecimal(100))
-    subTotal = base.minus(discountBigDecimal)
+    return base.minus(discountBigDecimal)
+  }
+
+  companion object {
+
+    @JvmStatic
+    @Transient
+    private val logger = LoggerFactory.getLogger(this::class.java)
   }
 
 }

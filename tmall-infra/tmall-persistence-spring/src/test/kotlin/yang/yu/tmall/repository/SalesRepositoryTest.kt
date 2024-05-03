@@ -122,8 +122,8 @@ open class SalesRepositoryTest : WithAssertions {
   }
 
   @Test
-  fun worstSellNBAmount() {
-    val results = sales.worstSellProductBAmount(LocalDate.now().minusYears(1), LocalDate.now().plusDays(1), 10)
+  fun worstSellNByAmount() {
+    val results = sales.worstSellProductByAmount(LocalDate.now().minusYears(1), LocalDate.now().plusDays(1), 10)
     println("============worstSellNBAmount:")
     results.forEach { println("${it.product} amount = ${it.amount}, quantity = ${it.quantity}") }
   }
