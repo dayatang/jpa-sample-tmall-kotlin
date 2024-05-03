@@ -18,10 +18,10 @@ interface DistributedLock {
    * @param <T> 出参数据类型
   </T> */
   fun <T> callInLock(
-    key: String,
-    supplier: () -> T,
-    time: Long = DEFAULT_WAIT_TIME,
-    timeUnit: TimeUnit = TimeUnit.SECONDS
+      key: String,
+      supplier: () -> T,
+      time: Long = DEFAULT_WAIT_TIME,
+      timeUnit: TimeUnit = TimeUnit.SECONDS
   ): T
 
   /**
@@ -33,10 +33,10 @@ interface DistributedLock {
    * @param timeUnit 时间类型
    */
   fun runInLock(
-    key: String,
-    consumer: () -> Unit,
-    time: Long = DEFAULT_WAIT_TIME,
-    timeUnit: TimeUnit = TimeUnit.SECONDS
+      key: String,
+      consumer: () -> Unit,
+      time: Long = DEFAULT_WAIT_TIME,
+      timeUnit: TimeUnit = TimeUnit.SECONDS
   )
 
   companion object {
