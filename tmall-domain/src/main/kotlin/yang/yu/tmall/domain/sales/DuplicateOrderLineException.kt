@@ -1,6 +1,6 @@
-package yang.yu.tmall.domain.orders
+package yang.yu.tmall.domain.sales
 
-class DuplicateOrderNoException : RuntimeException {
+class DuplicateOrderLineException : RuntimeException {
   constructor() {}
   constructor(message: String?) : super(message) {}
   constructor(message: String?, cause: Throwable?) : super(message, cause) {}
@@ -10,5 +10,6 @@ class DuplicateOrderNoException : RuntimeException {
     cause,
     enableSuppression,
     writableStackTrace
-  )
+  ) {
+  }
 }

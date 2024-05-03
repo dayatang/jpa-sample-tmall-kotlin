@@ -1,9 +1,9 @@
-package yang.yu.tmall.repository.spring.orders
+package yang.yu.tmall.repository.spring.sales
 
 import jakarta.inject.Named
 import jakarta.persistence.EntityManager
-import yang.yu.tmall.domain.orders.Order
-import yang.yu.tmall.domain.orders.OrderQuery
+import yang.yu.tmall.domain.sales.Order
+import yang.yu.tmall.domain.sales.OrderQuery
 import java.util.stream.Stream
 
 @Named

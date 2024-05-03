@@ -3,7 +3,7 @@ package yang.yu.tmall.domain
 import org.junit.jupiter.api.Test
 import yang.yu.tmall.domain.catalog.Product
 import yang.yu.tmall.domain.catalog.ProductCategory
-import yang.yu.tmall.domain.orders.OrderLine
+import yang.yu.tmall.domain.sales.OrderLine
 import java.math.BigDecimal
 import java.math.BigDecimal.valueOf
 import java.math.RoundingMode

@@ -1,4 +1,4 @@
-package yang.yu.tmall.domain.orders
+package yang.yu.tmall.domain.sales
 
 import yang.yu.lang.IoC
 import java.util.stream.Collectors

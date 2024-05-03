@@ -5,7 +5,7 @@ import yang.yu.tmall.domain.statistics.BuyerSales
 import yang.yu.tmall.domain.statistics.ProductSalesSummary
 import yang.yu.tmall.domain.statistics.Sales
 import yang.yu.tmall.domain.statistics.YearMonthSales
-import yang.yu.tmall.domain.orders.*
+import yang.yu.tmall.domain.sales.*
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.ZoneId

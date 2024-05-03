@@ -42,7 +42,7 @@ fun Product.adjustPriceByPercentage(
  * @return 指定商品在指定时刻的单价
  * @throws PricingException 当商品还没设定单价时抛出此异常
  */
-fun Product.priceOfProduct(time: Instant): BigDecimal {
+fun Product.priceAt(time: Instant = Instant.now()): BigDecimal {
   return priceQueryService.priceOfProduct(this, time)
 }
 
@@ -50,6 +50,4 @@ fun Product.priceOfProduct(time: Instant): BigDecimal {
  * 获取当前价格
  * @return 商品的当前价格
  */
-fun Product.currentPriceOf(): BigDecimal {
-  return priceOfProduct(Instant.now())
-}
+fun Product.currentPrice(): BigDecimal = priceAt()

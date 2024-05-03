@@ -1,4 +1,4 @@
-package yang.yu.tmall.repository.spring.sales
+package yang.yu.tmall.repository.spring.statistics
 
 import org.springframework.data.domain.Limit
 import org.springframework.data.jpa.repository.Query
@@ -8,7 +8,7 @@ import yang.yu.tmall.domain.statistics.BuyerSales
 import yang.yu.tmall.domain.statistics.ProductSalesSummary
 import yang.yu.tmall.domain.statistics.Sales
 import yang.yu.tmall.domain.statistics.YearMonthSales
-import yang.yu.tmall.domain.orders.*
+import yang.yu.tmall.domain.sales.*
 import yang.yu.tmall.repository.spring.AbstractRepository
 import java.math.BigDecimal
 import java.time.LocalDate

@@ -1,8 +1,8 @@
-package yang.yu.tmall.repository.spring.orders
+package yang.yu.tmall.repository.spring.sales
 
 import org.springframework.stereotype.Repository
-import yang.yu.tmall.domain.orders.Order
-import yang.yu.tmall.domain.orders.Orders
+import yang.yu.tmall.domain.sales.Order
+import yang.yu.tmall.domain.sales.Orders
 import yang.yu.tmall.repository.spring.AbstractRepository
 
 /**

@@ -1,7 +1,7 @@
 package yang.yu.tmall.domain.statistics
 
 import yang.yu.tmall.domain.commons.BaseRepository
-import yang.yu.tmall.domain.orders.Order
+import yang.yu.tmall.domain.sales.Order
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.util.stream.Stream

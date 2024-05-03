@@ -1,7 +1,7 @@
 package yang.yu.tmall.repository.jpa
 
 import jakarta.persistence.EntityManager
-import yang.yu.tmall.domain.orders.*
+import yang.yu.tmall.domain.sales.*
 import java.util.stream.Stream
 
 class OrderRepository(private val entityManager: EntityManager) :

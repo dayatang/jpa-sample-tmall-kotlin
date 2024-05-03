@@ -1,10 +1,8 @@
-package yang.yu.tmall.domain.orders
+package yang.yu.tmall.domain.sales
 
 import jakarta.persistence.*
 import org.slf4j.LoggerFactory
 import yang.yu.tmall.domain.catalog.Product
-import yang.yu.tmall.domain.commons.BaseEntity
-import yang.yu.tmall.domain.orders.Order.Companion
 import java.math.BigDecimal
 import kotlin.jvm.Transient
 

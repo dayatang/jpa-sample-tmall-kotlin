@@ -1,4 +1,4 @@
-package yang.yu.tmall.domain.orders
+package yang.yu.tmall.domain.sales
 
 import jakarta.persistence.*
 import org.slf4j.LoggerFactory

@@ -10,9 +10,9 @@ import yang.yu.tmall.domain.buyers.PersonalBuyer
 import yang.yu.tmall.domain.catalog.Product
 import yang.yu.tmall.domain.catalog.ProductCategory
 import yang.yu.tmall.domain.statistics.Sales
-import yang.yu.tmall.domain.orders.Order
-import yang.yu.tmall.domain.orders.OrderLine
-import yang.yu.tmall.domain.orders.Orders
+import yang.yu.tmall.domain.sales.Order
+import yang.yu.tmall.domain.sales.OrderLine
+import yang.yu.tmall.domain.sales.Orders
 import yang.yu.tmall.repository.jpa.OrderRepository
 import yang.yu.tmall.repository.jpa.SalesRepository
 import java.math.BigDecimal
