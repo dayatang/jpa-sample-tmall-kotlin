@@ -5,7 +5,7 @@ package yang.yu.lang
  */
 object IoC {
 
-  private lateinit var provider: InstanceProvider
+  lateinit var provider: InstanceProvider
 
   /**
    * 根据类型获取对象实例。返回的对象实例所属的类是T或它的实现类或子类。如果找不到该类型的实例则抛出异常。
@@ -56,4 +56,5 @@ object IoC {
   fun <T> getInstances(beanType: Class<T>): Set<T> {
     return provider.getInstances(beanType)
   }
+
 }

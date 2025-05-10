@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory
 import yang.yu.tmall.domain.catalog.Product
 import java.math.BigDecimal
 import kotlin.jvm.Transient
+import yang.yu.lang.*
+
 
 @Embeddable
 @Table(name = "order_lines")
@@ -40,9 +42,9 @@ data class OrderLine(
 
   private fun calcSubTotal(): BigDecimal {
     logger.debug("=======calcSubTotal")
-    val base = unitPrice.times(quantity)
-    val discountBigDecimal = base.times(discountRate).div(BigDecimal(100))
-    return base.minus(discountBigDecimal)
+    val base = unitPrice * quantity
+    val discountBigDecimal = base * discountRate / 100
+    return base - discountBigDecimal
   }
 
   companion object {

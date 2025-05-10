@@ -1,4 +1,4 @@
-package yang.yu.tmall.domain.pricing
+package yang.yu.lang
 
 import java.math.BigDecimal
 
